@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "lib": ["ES2023"], "types": ["bun"] },
+  "include": ["src/shared", "scripts", "vite.config.ts"],
+  "exclude": []
+}

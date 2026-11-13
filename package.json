@@ -1,0 +1,27 @@
+{
+  "name": "grand-theft-cosmos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && wrangler deploy",
+    "test": "bun test",
+    "check": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json && tsc -p tsconfig.bun.json",
+    "bots": "bun scripts/bots.ts"
+  },
+  "dependencies": {
+    "three": "^0.187.0",
+    "uqr": "^0.1.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.69.1",
+    "@cloudflare/workers-types": "^5.20261113.1",
+    "@types/bun": "^1.4.4",
+    "@types/three": "^0.187.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "wrangler": "^4.162.0"
+  }
+}
