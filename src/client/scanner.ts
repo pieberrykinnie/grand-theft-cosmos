@@ -111,7 +111,7 @@ export function start(app: HTMLElement, code: string) {
     startBtn.disabled = !p.players.length;
     const status = ["", "OFFLINE", "STASIS", "DEAD"];
     race.replaceChildren(...[...p.players].sort((a, b) => b[3] - a[3]).map(([id, name, c, score, level, st]) =>
-      el("div", { className: "row" }, chip(c), el("span", { textContent: name }), el("span", { textContent: `${score} · L${level} ${status[st]}`, style: { color: st ? "var(--dim)" : "var(--fg)" } }),
+      el("div", { className: "row" }, chip(c), el("span", { textContent: name }), el("span", { textContent: `${score} · Level ${level} ${status[st]}`, style: { color: st ? "var(--dim)" : "var(--fg)" } }),
         kickBtn(id),
         el("div", { className: "bar" }, el("i", { style: { width: `${Math.min(100, (100 * score) / p.target)}%`, background: COLORS[c] } })))));
     players.replaceChildren(...p.players.map(([id, name, c]) => el("div", { className: "row" }, chip(c), el("span", { textContent: name }), el("span"), kickBtn(id))));
