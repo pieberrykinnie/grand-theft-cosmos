@@ -1,20 +1,27 @@
 ---
 name: Grand Theft Cosmos
-description: Couch-party space heist — a public Scanner on the laptop, a private cockpit on every phone.
+description: Late-night live coverage of a couch-party space heist; the laptop is the broadcast, each phone is a pilot's onboard feed.
 colors:
-  radar-cyan: "#2ee6e6"
-  bank-gold: "#ffd23f"
+  studio-black: "#151515"
+  studio-raised: "#202020"
+  plate-grey: "#2b2b2b"
+  map-plate: "#262626"
+  broadcast-slab: "#f4f4f0"
+  slab-hot: "#ffffff"
+  ink: "#151515"
+  pure-black: "#000000"
+  mute: "#949494"
+  mute-ink: "#5c5c5c"
+  rule: "#c9cac4"
+  slab-track: "#dcdcd6"
+  hud-block: "rgba(21, 21, 21, 0.9)"
+  veil: "rgba(21, 21, 21, 0.94)"
+  news-red: "#d7261e"
+  news-red-pressed: "#a81a14"
+  error-text: "#ff8a80"
+  crawl-yellow: "#ffcb05"
   loot-aquamarine: "#7fffd4"
-  alarm-red: "#ff4d6d"
-  hull-green: "#3ddc97"
-  deep-space-navy: "#060b1a"
-  panel-navy: "#0a1430"
-  field-navy: "#0d1730"
-  track-navy: "#12284a"
-  field-stroke: "#23406a"
-  unclaimed-steel: "#3a5a88"
-  starlight: "#d8f3ff"
-  dim-steel: "#6c88a8"
+  home-gold: "#ffd23f"
   player-a: "#ff4d6d"
   player-b: "#4dabff"
   player-c: "#ffd23f"
@@ -29,252 +36,329 @@ colors:
   player-n: "#d4a373"
 typography:
   display:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "64px"
-    fontWeight: 400
-    letterSpacing: "0.2em"
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "clamp(64px, 8.4vw, 132px)"
+    fontWeight: 800
+    lineHeight: 0.86
+    letterSpacing: "0.01em"
   headline:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "36px"
-    fontWeight: 700
-    letterSpacing: "0.05em"
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "50px"
+    fontWeight: 800
+    lineHeight: 1.05
+    letterSpacing: "0.01em"
   title:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "26px"
-    fontWeight: 400
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "34px"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "0.01em"
   body:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "18px"
-    fontWeight: 400
-    lineHeight: 1.35
-  hud:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "14px"
-    fontWeight: 400
-    fontFeature: "\"tnum\""
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "20px"
+    fontWeight: 600
+    lineHeight: 1.3
+  body-large:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "24px"
+    fontWeight: 600
+    lineHeight: 1.2
+  button:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "22px"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "0.04em"
   label:
-    fontFamily: "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace"
-    fontSize: "10px"
-    fontWeight: 700
-    letterSpacing: "0.1em"
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "16px"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "0.12em"
+  numeral:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "36px"
+    fontWeight: 800
+    lineHeight: 1
+    fontFeature: "\"tnum\" 1"
+  crawl:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "26px"
+    fontWeight: 800
+    lineHeight: "56px"
+    letterSpacing: "0.02em"
+  hud:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "16px"
+    fontWeight: 800
+    lineHeight: 1
 rounded:
-  hairline: "3px"
-  chip: "8px"
-  control: "10px"
-  panel: "12px"
-  card: "14px"
-  round: "50%"
+  none: "0"
+  full: "50%"
 spacing:
-  xs: "6px"
-  sm: "10px"
+  xs: "8px"
+  sm: "14px"
   md: "16px"
   lg: "24px"
-  xl: "40px"
+  xl: "56px"
 components:
   button-primary:
-    backgroundColor: "{colors.radar-cyan}"
-    textColor: "{colors.deep-space-navy}"
-    typography: "{typography.body}"
-    rounded: "{rounded.control}"
-    padding: "12px 20px"
+    backgroundColor: "{colors.broadcast-slab}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button}"
+    rounded: "{rounded.none}"
+    padding: "0 24px"
     height: "64px"
-  button-ghost:
+  button-primary-hover:
+    backgroundColor: "{colors.slab-hot}"
+  button-alt:
     backgroundColor: "transparent"
-    textColor: "{colors.radar-cyan}"
-    typography: "{typography.body}"
-    rounded: "{rounded.control}"
-    padding: "12px 20px"
+    textColor: "{colors.broadcast-slab}"
+    rounded: "{rounded.none}"
+    padding: "0 24px"
     height: "64px"
-  input:
-    backgroundColor: "{colors.field-navy}"
-    textColor: "{colors.starlight}"
-    typography: "{typography.body}"
-    rounded: "{rounded.control}"
-    padding: "12px"
-    height: "56px"
-  rules-card:
-    backgroundColor: "{colors.panel-navy}"
-    textColor: "{colors.starlight}"
-    rounded: "{rounded.card}"
-    padding: "16px 20px"
-  thumb-button:
-    backgroundColor: "rgba(18,40,74,0.85)"
-    textColor: "#ffffff"
-    rounded: "{rounded.round}"
-    size: "76px"
-  thumb-fire:
-    backgroundColor: "{colors.alarm-red}"
-    textColor: "#ffffff"
-    rounded: "{rounded.round}"
-    size: "112px"
-  perk-card:
-    backgroundColor: "{colors.panel-navy}"
-    textColor: "{colors.starlight}"
-    rounded: "{rounded.control}"
-    width: "150px"
-    height: "92px"
+  button-danger:
+    backgroundColor: "{colors.news-red}"
+    textColor: "{colors.slab-hot}"
+    rounded: "{rounded.none}"
+    height: "64px"
+  button-disabled:
+    backgroundColor: "transparent"
+    textColor: "{colors.mute}"
+  button-on-slab:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.broadcast-slab}"
+    rounded: "{rounded.none}"
+    height: "48px"
+    padding: "0 16px"
+  input-field:
+    backgroundColor: "{colors.studio-raised}"
+    textColor: "{colors.broadcast-slab}"
+    rounded: "{rounded.none}"
+    padding: "0 16px"
+    height: "64px"
   player-chip:
-    textColor: "{colors.deep-space-navy}"
-    rounded: "{rounded.chip}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
     size: "36px"
+  rules-card:
+    backgroundColor: "{colors.broadcast-slab}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-large}"
+    rounded: "{rounded.none}"
+    padding: "18px 22px"
+  crawl:
+    backgroundColor: "{colors.pure-black}"
+    textColor: "{colors.crawl-yellow}"
+    typography: "{typography.crawl}"
+    height: "56px"
+  crawl-tag:
+    backgroundColor: "{colors.crawl-yellow}"
+    textColor: "{colors.pure-black}"
+    padding: "0 16px"
+  live-bug:
+    backgroundColor: "{colors.news-red}"
+    textColor: "{colors.slab-hot}"
+    padding: "9px 14px"
+  breaking-tag:
+    backgroundColor: "{colors.news-red}"
+    textColor: "{colors.slab-hot}"
+    padding: "8px 14px"
+  hud-block:
+    backgroundColor: "{colors.hud-block}"
+    textColor: "{colors.broadcast-slab}"
+    typography: "{typography.hud}"
+    rounded: "{rounded.none}"
+  thumb-fire:
+    backgroundColor: "{colors.news-red}"
+    textColor: "{colors.slab-hot}"
+    rounded: "{rounded.full}"
+    size: "112px"
+  thumb-button:
+    backgroundColor: "{colors.studio-black}"
+    textColor: "{colors.broadcast-slab}"
+    rounded: "{rounded.full}"
+    size: "76px"
 ---
 
 # Design System: Grand Theft Cosmos
 
 ## Overview
 
-**Creative North Star: "Neon Heist Noir"**
+**Creative North Star: "Late-Night Live Coverage"**
 
-Dark navy space where the only light comes from things worth stealing. Loot crystals, player trim, bolts and objectives glow; everything else sits back in the dark. The look is low-poly and flat-shaded on the phone, and a flat vector radar on the Scanner, held together by one monospace typeface and one cyan instrument line that runs through both.
+The laptop is a live late-night news broadcast of a heist it can only hear through loud acts: a red LIVE bug, an aerial sky-cam map, an election-night race board, a red BREAKING lower third and a yellow-on-black crawl. Each phone is that pilot's onboard feed: a few hard black HUD blocks over the 3D view, one instruction at a time. The whole 2D layer is studio black, white broadcast slabs with square edges, and condensed capitals, read from about three metres away by a couch of 3 to 12 people.
 
-Every colour has a job. Gold means home and score, aquamarine means loot, cyan is the instrument itself, red is danger, and the twelve player colours mean ownership. The interface reads like glowing instruments on a cockpit console: translucent navy panels with thin cyan strokes, light emitted rather than cast, no drop shadows. Density is low on the Scanner (it must read from across a room) and tight on the phone HUD, which hugs the corners so the 3D view stays clear.
+The system refuses the category's neon sci-fi cockpit: no glow, no bevels, no translucent glass panels, no monospace terminal. Depth comes from a white slab sitting on studio black, never from light. Colour is rationed by role, so a colour on screen always means one thing: red is the news or danger, yellow is the crawl, a player colour is a player and always carries that player's letter.
 
-Everything is drawn in code. 3D models are Three.js primitives, icons are inline SVG, the QR is generated, the Scanner is Canvas 2D.
+Mode differs by surface. The Scanner and the phone in play are Experience surfaces, built for spectacle and glanceability. The landing form is an Operate surface in the same world: dark wells for fields, white slabs for actions, and plain sentences. The phone HUD sits over a Three.js scene that still uses the earlier neon palette and is outside this system; the phone's loot aquamarine and HOME gold exist to match that scene.
 
 **Key Characteristics:**
-- Deep navy ground (#060b1a) everywhere: page, scene background, Scanner canvas.
-- Glow instead of shadow: coloured `box-shadow` halos, `drop-shadow` on icons, additive 3D sprites.
-- One monospace family for every surface and size.
-- Fixed colour roles shared by HTML, Canvas and 3D.
-- Every player colour travels with its letter glyph.
+- Studio black ground, white square slabs, news red, crawl yellow and twelve lettered player colours, with nothing else.
+- Barlow Condensed in two weights (600, 800), uppercase headings, tabular numerals for every score and count.
+- Hard square edges on all chrome; circles only for thumb buttons, map pins and the radar, plus the map's own geometry.
+- No glow, no smooth gradients, no rounding on chrome.
+- Unavailable, offline or unclaimed reads as an outline, never as a faded fill.
+- Timers are 10-step strips; the phone gives one instruction at a time.
 
 ## Colors
 
-A near-black navy field lit by a few saturated, emissive signal colours.
+A broadcast palette: near-black studio and off-white slabs carry the structure, and every chromatic colour is locked to one role.
 
 ### Primary
-- **Radar Cyan** (#2ee6e6): the instrument colour. Primary buttons, headings, the rules-card border, HUD panel strokes, the joystick ring, the Scanner grid and map rim, sector-rule text and hints. It frames information; it is never the information's subject.
+- **Broadcast Slab** (`broadcast-slab`): the white of every card, primary button, rules card, race board, vault and map rim. Text on it is ink. Hovered slab buttons go to pure white (`slab-hot`).
+- **News Red** (`news-red`): the LIVE bug, the BREAKING tag, the FIRE thumb button, danger states (low hull, hit arc, damage vignette, contested ring dashes, armed kick, danger buttons) and the race target line with its "600 TO WIN" label. Pressed FIRE darkens to `news-red-pressed`.
 
 ### Secondary
-- **Bank Gold** (#ffd23f): home, score and objective. The HOME arrow and marker, the target number, level and XP bar, "PICK A PERK", perk-card borders, the Vault and the Crown, room codes, and emphasis inside the rules card.
+- **Crawl Yellow** (`crawl-yellow`): the crawl only, as text on pure black and as the crawl's tag block.
 
 ### Tertiary
-- **Loot Aquamarine** (#7fffd4): loot and nothing else. Crystals, field nebulae and rims, the hold bar, the loot objective chip, pickup numbers and the cargo glow under a loaded ship.
-- **Alarm Red** (#ff4d6d): danger and damage. FIRE, low hull, the damage vignette, the directional hit arc, "Destroyed".
-- **Hull Green** (#3ddc97): hull health and the lit BUILD button.
+- **Player colours** (`player-a` to `player-n`, glyphs A B C D E F G H J K M N): the twelve player identities. They mark HQs, stations, pins, ring ownership and claim arcs, race bars, chips and table rows. On the phone, the player's own colour fills their chip, their level number and their XP bar.
+- **Loot Aquamarine** (`loot-aquamarine`): loot. Loot fields on the map, the HOLD meter, the carried amount on the HOME marker, loot damage numbers and the LOOT objective on the phone.
+- **Home Gold** (`home-gold`): on the phone only, and only for the HOME objective, the HOME marker and the "+N BANKED" payoff.
 
 ### Neutral
-- **Deep Space Navy** (#060b1a): page and scene background, Scanner canvas, and the text colour on cyan or gold fills.
-- **Panel Navy** (#0a1430): the rules card and the dark end of panel gradients.
-- **Field Navy** (#0d1730) with **Field Stroke** (#23406a): input fills and borders.
-- **Track Navy** (#12284a): bar tracks, the Scanner sidebar divider, and (at 85% opacity) the thumb-button fill.
-- **Unclaimed Steel** (#3a5a88): rings and structures nobody owns yet.
-- **Starlight** (#d8f3ff): body text.
-- **Dim Steel** (#6c88a8): secondary text, HUD row labels, ticker history.
-
-### Player palette
-Twelve fixed colours, each tied to a glyph from `ABCDEFGHJKMN` (no I or L): A #ff4d6d, B #4dabff, C #ffd23f, D #3ddc97, E #c77dff, F #ff9f1c, G #2ee6e6, H #ff70d4, J #a3e635, K #f5f5f5, M #8d99ff, N #d4a373. They colour ships, HQs, stations, ring arcs, pings, score bars, chips and end-table rows.
+- **Studio Black** (`studio-black`): page ground, canvas clear, map glyph ink. **Ink** (`ink`) is the same value used as text on slabs.
+- **Studio Raised** (`studio-raised`): form field wells and select options.
+- **Plate Grey** (`plate-grey`): dividers between landing sections. **Map Plate** (`map-plate`): the sky-cam sector disc.
+- **Pure Black** (`pure-black`): crawl ground, BREAKING sub-strap, map name tags.
+- **Mute** (`mute`): secondary text on black, labels, legend, disabled outlines. **Mute Ink** (`mute-ink`): secondary text on slabs.
+- **Rule** (`rule`): 2px dividers inside slabs and table rows. **Slab Track** (`slab-track`): empty race bar track.
+- **HUD Block** (`hud-block`) and **Veil** (`veil`): near-opaque studio black behind phone HUD blocks and full-screen overlays. They are dark scrims, not glass: no blur.
+- **Error Text** (`error-text`): inline form errors on black.
 
 ### Named Rules
-**The Colour Has a Job Rule.** Gold is home and score, aquamarine is loot, cyan is the instrument, red is danger, and player colours are ownership. A role colour is never used as decoration.
+**The Broadcast Red Rule.** News red appears only on LIVE, BREAKING, FIRE, danger states and the race target line. Never as decoration, never as a player marker.
 
-**The Glyph Partner Rule.** A player colour never appears alone: every HQ, station, ping, chip and score row carries the owner's letter glyph. Players A, C, D and G share hues with Alarm Red, Bank Gold, Hull Green and Radar Cyan, so the glyph is what tells ownership apart from a system cue.
+**The Crawl-Only Yellow Rule.** Crawl yellow lives on the crawl and nowhere else.
+
+**The Letter-With-Colour Rule.** A player colour never appears alone on chrome: chips, HQs, stations, pins and owned rings carry the player's letter. A player's chip looks identical on the phone and the Scanner.
+
+**The Gold Means Home Rule.** On the phone, gold is limited to the HOME objective, the HOME marker and "+N BANKED". Level and XP take the player's own colour, never gold.
 
 ## Typography
 
-**Display Font:** ui-monospace (with "SF Mono", Menlo, Consolas, monospace)
-**Body Font:** the same stack
-**Label/Mono Font:** the same stack
+**Display Font:** Barlow Condensed 800 (with Arial Narrow, sans-serif)
+**Body Font:** Barlow Condensed 600 (with Arial Narrow, sans-serif)
 
-**Character:** A single system monospace everywhere, like a terminal readout or radar console. Hierarchy comes from size, weight, colour and letter-spacing, never from a second family.
+**Character:** One condensed grotesque in two weights, self-hosted (Latin-subset woff2, OFL, registered with `FontFace` so the CSS and the Scanner canvas share it). Heavy caps read like on-air graphics; the 600 weight keeps sentences readable at TV distance.
 
 ### Hierarchy
-- **Display** (400, 64px, 0.2em tracking): the room code in the lobby, in Bank Gold. Smaller code repeats in the Scanner footer (34px, 0.15em).
-- **Headline** (700, 36px, 0.05em tracking): "GRAND THEFT COSMOS" in Radar Cyan, set in caps. Shrinks on phones with `clamp(18px, 4.5vh, 26px)`.
-- **Title** (400, 26px): Scanner sidebar headline ("FIRST TO 600"); the lobby rules card runs at 24px.
-- **Body** (400, 18px, 1.35): landing page and forms. The Scanner sidebar runs larger (20px, ticker 17px) to read from about 3 metres.
-- **HUD** (400, 14px, tabular figures): phone HUD base; values 12–13px, level 15px bold, toasts 18px, pops 26px bold.
-- **Label** (700, 10px, 0.1em tracking, caps): HUD row labels (HULL, HOLD, XP) in Dim Steel.
+- **Display** (800, clamp 64–132px, 0.86): the landing title; the Scanner result headline at 96px and the room code at 96px.
+- **Headline** (800, 50px, 1.05): the BREAKING headline; race board heading at 38px.
+- **Title** (800, 34px, 1): Most Wanted name, card titles at 24–30px.
+- **Body** (600, 20px, 1.3): base text. **Body large** (600, 24px, 1.2): rules card lines and on-screen sentences at couch distance.
+- **Button** (800, 22px, 0.04em, uppercase): every button.
+- **Label** (800, 16px, 0.12em, uppercase, mute): form labels and table headers (18px, 0.1em).
+- **Numeral** (800, 36px, tabular): race scores; every score, count and meter value uses tabular numerals.
+- **Crawl** (800, 26px on a 56px line, 0.02em, uppercase).
+- **HUD** (800, 16px, uppercase): phone HUD base; meter names at 14px with 0.08em tracking. The ticker on the phone drops to 600 15px sentence case.
 
 ### Named Rules
-**The One Typeface Rule.** Every surface uses the system monospace stack. Never add a second family.
+**The One Family Rule.** Barlow Condensed 600 and 800 only, including on the canvas. Headings, buttons, labels and tags are uppercase; sentences are not.
 
-**The Tabular Numbers Rule.** Any number that changes during play (hull, hold, distance, score race) uses `font-variant-numeric: tabular-nums` so it doesn't jitter.
+**The Tabular Numbers Rule.** Any number that changes in play (scores, HP, hold, timers, table cells) is set with tabular numerals so columns do not jitter.
 
 ## Layout
 
-- **Landing:** a single centred column, max 640px, 24px/16px padding, stacked form controls with 10px gaps.
-- **Scanner:** a two-column grid: the map canvas fills the left at full viewport height; a sidebar of `minmax(340px, 30vw)` sits right, separated by a 2px Track Navy rule, padded 18px with 14px gaps. The QR and host controls pin to the sidebar's foot. The lobby is a centred two-column grid (QR left, rules right) with a 40px gap.
-- **Phone (landscape only):** the 3D view fills the screen. The HUD hugs the edges inside safe-area insets: status panel top-left (196px), objective chip and race bar top-centre (236px), radar top-right (140px circle), thumb buttons bottom-right on a 76px + 112px grid with 10px gaps, ticker and sector line bottom-centre. The left half is the joystick zone and stays empty. Perk cards sit beside the thumb buttons so the joystick stays visible.
-- **Portrait phones** get a full-screen "Rotate your phone" overlay.
-- **Wait and join screens** scale with viewport height (`clamp(…vh…)`) so the rules card fits a short landscape phone without scrolling.
+**Scanner** (16:9 laptop on a TV): a two-column grid, map left (`minmax(0, 1fr)`) and a sidebar right (`minmax(400px, 30vw)`), with the crawl spanning the full width along the bottom. The map canvas holds the LIVE bug and caption top-left, the legend top-right and the BREAKING lower third bottom-left; the sector disc is sized to stay above a 175px band reserved for the lower third. The sidebar stacks the race board, the Most Wanted card and the JOIN THE CHASE tile (pushed to the bottom) with 16px gaps and 24px outer padding.
+
+**Dense mode (9–12 players).** The sidebar switches to a dense variant: race rows drop from 48px to 29px with 25px chips, Most Wanted collapses to one line, the join tile's QR shrinks from 136px to 104px. Nobody drops off the board.
+
+**Phone in play** (landscape): telemetry block top-left (220px), one instruction strap top-centre, radar top-right (140px), thumb buttons bottom-right, left half kept clear for the floating joystick, broadcast ticker bottom-centre. Everything respects `env(safe-area-inset-*)`. Under 760px wide the telemetry block narrows to 180px and the radar to 116px. Portrait shows a full-screen "Turn your phone sideways" card.
+
+**Landing** (Operate): a centred two-column grid (max 1360px, 56px side padding): title, pitch and rules card left; host form and join form right; crawl along the bottom. At 900px and below it becomes a single column ordered title, join, rules, host, because a phone visitor almost always came to join.
+
+**Overlays** fill the viewport, centre their content, and pad by at least 16px or the safe-area inset.
+
+**Rhythm:** 8px within groups, 14–16px between controls, 24px around blocks, 40–64px between landing columns. Minimum touch target 64px for form actions; thumb buttons 76px and 112px.
 
 ## Elevation & Depth
 
-The system is flat and lit, not lifted. Nothing uses a drop shadow to sit above anything else. Depth comes from translucent navy panels over the 3D scene, thin cyan strokes, and coloured glow: soft `box-shadow` halos in the element's own colour, `drop-shadow` on SVG icons, and additive sprites in 3D. The only dark shadow is a text lift that keeps HUD text legible over the moving scene.
+Flat. Depth comes from contrast, a white slab on studio black, or a near-opaque black block over the 3D scene. There are no drop shadows on chrome. The few shadows in the build are hard and functional: a 2px inset outline (hint and perk prompts on the phone, the radar rim, the ring around the near-white player K chip on a slab) and a 3px dark edge closing each race bar fill.
 
-### Shadow Vocabulary
-- **HUD text lift** (`text-shadow: 0 1px 3px #000`): all HUD text over the 3D view.
-- **Control glow** (`box-shadow: 0 0 10px rgba(46,230,230,.25)`): thumb buttons.
-- **Fire glow** (`box-shadow: 0 0 18px rgba(255,77,109,.45)`): the FIRE button.
-- **Perk glow** (`box-shadow: 0 0 16px rgba(255,210,63,.35)`): perk cards.
-- **Bar glow** (`box-shadow: 0 0 6px <bar colour>`): hold and XP fills.
-- **Radar well** (`box-shadow: inset 0 0 14px rgba(46,230,230,.18)`): the radar disc.
-- **Damage vignette** (`box-shadow: inset 0 0 90px 30px rgba(255,40,60,.75)`): full-screen hit flash.
+The over-scene layer on the phone is the only place soft shadows appear, and only for legibility or danger: floating damage numbers and the BANKED pop carry a dark text shadow so they read over the moving 3D view, and taking damage shows a red inset vignette. These belong to the over-scene layer and do not carry over to chrome.
 
 ### Named Rules
-**The Glow Not Shadow Rule.** Things emit light in their own colour; they do not cast shadows. Add a halo, never a drop shadow.
+**The Flat Studio Rule.** No glow, no smooth gradients and no blur on chrome. Hard-stop gradients that draw segmented meters (the BOOST cooldown dial, the HOLD slot dividers) are drawings of steps, not shading, and are allowed.
 
 ## Shapes
 
-Small, precise radii for instruments; full circles for things the thumb presses. Bars and badges use a 3px hairline radius. HUD panels have one notched corner (`3px 12px 3px 3px`), giving them a console-bezel silhouette. Buttons and inputs use 10px, chips and toasts 8px, the rules card 14px. Thumb buttons, the joystick and the radar are perfect circles. The hold bar is segmented, one notch per crystal. The 3D world is low-poly and flat-shaded, and fields are dashed rims around a nebula so they never read as solid obstacles.
+Square. Every slab, button, field, chip, tag, HUD block, map tag and HQ marker has a 0 radius. Borders are 2px (fields, outline buttons, dividers) or 3px (thumb buttons, focus rings).
+
+Circles are reserved. On chrome they appear only for the thumb buttons (BUILD, BOOST, FIRE), map pins and the radar. The map's own geometry is circular because the world is: the sector disc, range rings, loot fields, territory rings, claim arcs and ping ripples, and the joystick ring. The vault is a white diamond; the Crown and the pin are fixed paths.
+
+Unavailable, offline, stunned and unclaimed states turn a filled shape into its outline: outline chips for offline players, a dashed ring when unclaimed, a dashed diamond when the vault is cracked, an outlined HQ square when stunned, an outlined BUILD button when building is unavailable, outline buttons when disabled.
 
 ## Components
 
 ### Buttons
-Glowing instrument keys: solid cyan to act, outlined cyan for the alternative.
-- **Shape:** gently rounded (10px), at least 64px tall and wide.
-- **Primary:** Radar Cyan fill, Deep Space Navy text, 12px 20px padding.
-- **Ghost:** transparent with a 2px Radar Cyan border and cyan text ("Join", "Pause", "End").
-- **Disabled:** 35% opacity.
-
-### Thumb buttons (phone)
-- **Shape:** circles. BOOST and BUILD are 76px; FIRE is 112px and spans both rows.
-- **Default:** Track Navy at 85% with a 2px cyan ring, white bold 13px label, control glow.
-- **FIRE:** radial red gradient (#ff7a93 → #c22c4b), pale pink ring (#ffb3c1), fire glow, 18px label.
-- **BOOST cooldown:** the fill becomes a cyan conic sweep that refills as the cooldown ends.
-- **BUILD:** 30% opacity until a station is allowed, then Hull Green.
-- **Pressed:** `brightness(1.5)` and `scale(.95)`.
-
-### Cards / Containers
-- **Rules card:** Panel Navy, 2px Radar Cyan border, 14px radius, 16px 20px padding; bold phrases in Bank Gold; a dim controls line underneath.
-- **HUD panel:** diagonal gradient from rgba(14,28,64,.86) to rgba(6,11,26,.62), 1px cyan stroke at 32%, notched corner.
-- **Perk card:** 150 × 92px minimum, navy gradient (#1d2f60 → #0b1430), 2px Bank Gold border, perk glow; perk name in 16px gold, effect in 13px.
-
-### Inputs / Fields
-- **Style:** Field Navy fill, 2px Field Stroke border, 10px radius, 12px padding, 56px tall, Starlight text. Room-code entry is uppercase.
+Hard white broadcast slabs: confident, square, uppercase.
+- **Shape:** square (0), 64px minimum height and width, 2px border.
+- **Primary:** slab fill, ink text, 0 24px padding. Hover goes to pure white.
+- **Alt:** transparent with a slab border and slab text; hover fills slab.
+- **Danger:** news red fill and border, white text.
+- **Disabled:** transparent with a mute outline and mute text; never a faded fill.
+- **On a slab:** inverted to ink fill and slab text (48px in the join tile); hover goes to pure black.
+- **Focus:** 3px solid slab outline offset 3px; ink on slabs.
 
 ### Chips
-- **Player chip (Scanner):** 36px square, 8px radius, filled with the player colour, glyph in bold Deep Space Navy.
-- **Objective chip (phone):** a HUD panel 30px tall with a glowing arrow icon and bold 15px label; gold for HOME, aquamarine for LOOT, with the distance in Starlight.
-- **PICK A PERK badge:** gold fill, navy 11px bold text, 3px radius, pulsing gold glow.
+- **Style:** a square block in the player's colour holding the player's letter in ink (36px base; 25–88px by context).
+- **State:** offline is the same chip as an outline in the player's colour with a transparent fill. On a slab, chips get a 2px inset ink ring so player K stays visible.
 
-### HUD bars
-Thin 10px tracks (7px for XP) in Track Navy with a 2px radius. Fills are gradients in the role colour: hull green (red when low), hold aquamarine segmented per crystal, XP gold. Width changes ease over 0.3s.
+### Cards / Containers
+- **Corner Style:** square (0).
+- **Background:** broadcast slab with ink text (rules card, race board, Most Wanted, join tile, result table, BREAKING headline); near-opaque studio black for phone HUD blocks.
+- **Shadow Strategy:** none; see Elevation & Depth.
+- **Border:** 2px rule dividers inside; no outer border.
+- **Internal Padding:** 14–22px.
 
-### Scanner map (signature)
-A Canvas 2D radar on Deep Space Navy: a faint cyan grid (8% alpha), a cyan map rim (50%), fields as aquamarine discs whose opacity shows what's left, rings as circles stroked in the owner's colour (Unclaimed Steel when free), HQs as tinted discs with the glyph and name, the Vault as a gold ring. Pings are expanding circles in the owner's colour that fade over 8s. The Crown is a pulsing gold ♛.
+### Inputs / Fields
+- **Style:** dark wells (studio raised) with a 2px mute border, 0 radius, 64px tall, 800-weight 26px text; selects at 22px with a slab chevron.
+- **Focus / Hover:** border brightens to slab; caret in news red.
+- **Error:** an error-text line under the field with `role="alert"`.
+- **Choice tiles** (game length): bordered rows that fill slab with ink text when checked.
 
-### Feedback motion
-- **Punch** (0.45s ease-out): scale 1.12 with brightness 2.2 settling to rest, on HUD values that just changed.
-- **Pop** (1.6s ease-out): "+N BANKED" and level-up text rise, overshoot, then fade.
-- **Hit cues:** a red arc on the side the shot came from (0.6s fade) and the damage vignette (0.35s fade).
-- `prefers-reduced-motion` turns off all CSS animation and transitions, plus screen shake and the boost FOV kick.
+### Navigation
+None. Each URL is one surface: landing, Scanner, phone.
+
+### The Crawl (signature)
+A pure black 56px band with a crawl-yellow tag block (LATEST, SECTORS) and uppercase yellow text scrolling right to left at a speed set by its length. Under reduced motion it stops and sits still, left-aligned.
+
+### Broadcast Bugs and the Lower Third (signature)
+LIVE is a red block joined to a slab block naming the sector. BREAKING is a red tag over a slab headline (player chip plus act and landmark, 50px) over a black sub-strap, wiping in from the left in 0.45s. Pausing drops a centred slab over a dark scrim.
+
+### Race Board (signature)
+A slab card titled THE RACE with the red target label, then one row per player: chip, a bar in the player's colour on a slab-track ground ending at a 4px red target line, the name inside the bar, and a tabular score. Offline players' bars are empty.
+
+### Sky-Cam Map (signature, Canvas 2D)
+Map plate disc with a faint grid, two range rings and a slab rim. Loot fields in translucent aquamarine (opacity shows what remains). Rings are dashed slab when unclaimed and solid in the owner's colour with their letter when held, with a claim arc in the claimer's colour and red dashes when contested. Loud acts drop a slab pin with a coloured head and letter, ripple and fade over 8s; deaths leave an X for 12s. HQs are 44px player squares with a black name tag; stations are 26px squares with three HP pips. Most Wanted gets slab reticle brackets and a WANTED tag matching its sidebar card.
+
+### Phone HUD (signature)
+- **Telemetry block:** chip, level and XP in the player's colour; HULL (slab, red when low), HOLD (aquamarine, slotted) and RACE meters with tabular values.
+- **Instruction strap:** one line at top-centre with a direction arrow and distance; gold for HOME, aquamarine for LOOT. First-time hints and the perk prompt take over the same strap with a 2px slab outline.
+- **Timer strip:** one status at a time as 10 square steps.
+- **Thumb buttons:** FIRE is a 112px red circle; BOOST is a 76px dial whose segmented ring shows cooldown; BUILD is an outline until building is possible, then fills slab. Pressed buttons scale to 0.94.
+- **Perk pick:** two slab cards above the thumb buttons, uppercase name over a sentence.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** pair every player colour with its letter glyph (The Glyph Partner Rule).
-- **Do** keep each role colour to its job: gold for home and score, aquamarine for loot, cyan for the instrument, red for danger.
-- **Do** lift all HUD text over the 3D view with `text-shadow: 0 1px 3px #000`.
-- **Do** keep thumb targets at least 64px (the shipped sizes are 76px and 112px).
-- **Do** use tabular figures for any number that changes during play.
-- **Do** keep the phone HUD in the corners and the left half clear for the joystick.
-- **Do** keep Scanner sidebar text at 17px or larger so it reads from across the room.
+- **Do** keep news red to LIVE, BREAKING, FIRE, danger and the race target line.
+- **Do** pair every player colour with its letter, and print a player's chip identically on phone and Scanner.
+- **Do** limit gold on the phone to the HOME objective, the HOME marker and "+N BANKED"; give level and XP the player's own colour.
+- **Do** show unavailable, offline, stunned or unclaimed things as outlines (solid or dashed).
+- **Do** show timers and cooldowns as 10-step strips or segmented dials.
+- **Do** give the phone one instruction at a time; hints and the perk prompt reuse the same strap.
+- **Do** switch the Scanner sidebar to dense mode at 9–12 players so every row stays on screen.
+- **Do** use tabular numerals for every changing number.
+- **Do** stop the crawl and drop ripples, pulses and camera shake under reduced motion.
 
 ### Don't:
-- **Don't** add drop shadows for elevation; use a glow in the element's own colour (The Glow Not Shadow Rule).
-- **Don't** introduce a second typeface.
-- **Don't** render the Scanner in 3D; it is a flat Canvas 2D radar.
-- **Don't** use gold, aquamarine or red decoratively; a player would read it as an objective, loot or damage.
-- **Don't** add animation that ignores `prefers-reduced-motion`.
+- **Don't** add glow, bevels, translucent blurred panels or a monospace terminal look; that is the neon cockpit this world replaced.
+- **Don't** round chrome corners or put smooth gradients on chrome.
+- **Don't** use circles on chrome beyond thumb buttons, pins and the radar.
+- **Don't** fade a control or player to show it is unavailable.
+- **Don't** use crawl yellow anywhere but the crawl.
+- **Don't** use a player colour as a decorative accent or without its letter.
+- **Don't** add a second typeface or weights beyond 600 and 800.
