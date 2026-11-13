@@ -1,491 +1,76 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-13T21:22:50.509Z",
+  "generatedAt": "2026-11-13T00:00:00Z",
   "title": "Design System: Grand Theft Cosmos",
   "extensions": {
     "colorMeta": {
-      "radar-cyan": {
-        "role": "primary",
-        "displayName": "Radar Cyan",
-        "canonical": "oklch(84.1% 0.136 194.9)",
-        "tonalRamp": [
-          "#001315",
-          "#003336",
-          "#005558",
-          "#007779",
-          "#009a9b",
-          "#14bcbc",
-          "#86dada",
-          "#daf5f4"
-        ]
-      },
-      "bank-gold": {
-        "role": "secondary",
-        "displayName": "Bank Gold",
-        "canonical": "oklch(87.9% 0.162 90.9)",
-        "tonalRamp": [
-          "#190600",
-          "#3e1c00",
-          "#623800",
-          "#835900",
-          "#a77c00",
-          "#c7a016",
-          "#e1c77d",
-          "#f7eed5"
-        ]
-      },
-      "loot-aquamarine": {
-        "role": "tertiary",
-        "displayName": "Loot Aquamarine",
-        "canonical": "oklch(91.5% 0.130 169.0)",
-        "tonalRamp": [
-          "#001306",
-          "#00341b",
-          "#005635",
-          "#007754",
-          "#009a75",
-          "#4cbc99",
-          "#95dac0",
-          "#def5eb"
-        ]
-      },
-      "alarm-red": {
-        "role": "tertiary",
-        "displayName": "Alarm Red",
-        "canonical": "oklch(67.9% 0.213 14.7)",
-        "tonalRamp": [
-          "#2d0000",
-          "#610004",
-          "#92001a",
-          "#bb0039",
-          "#e53158",
-          "#ff697f",
-          "#ffa5af",
-          "#ffe3e5"
-        ]
-      },
-      "hull-green": {
-        "role": "tertiary",
-        "displayName": "Hull Green",
-        "canonical": "oklch(79.7% 0.164 159.7)",
-        "tonalRamp": [
-          "#001400",
-          "#003606",
-          "#00591e",
-          "#007b3e",
-          "#009e5e",
-          "#3ac085",
-          "#8eddb3",
-          "#dcf6e7"
-        ]
-      },
-      "deep-space-navy": {
-        "role": "neutral",
-        "displayName": "Deep Space Navy",
-        "canonical": "oklch(15.3% 0.033 267.0)",
-        "tonalRamp": [
-          "#080b13",
-          "#1f2533",
-          "#3a4254",
-          "#596175",
-          "#798297",
-          "#9da5b8",
-          "#c3c9d7",
-          "#eceef3"
-        ]
-      },
-      "panel-navy": {
-        "role": "neutral",
-        "displayName": "Panel Navy",
-        "canonical": "oklch(20.1% 0.058 266.5)",
-        "tonalRamp": [
-          "#060a19",
-          "#1a243d",
-          "#344161",
-          "#526183",
-          "#7282a6",
-          "#96a5c6",
-          "#bfc9e1",
-          "#ebeef7"
-        ]
-      },
-      "field-navy": {
-        "role": "neutral",
-        "displayName": "Field Navy",
-        "canonical": "oklch(21.1% 0.052 265.7)",
-        "tonalRamp": [
-          "#060b17",
-          "#1b243b",
-          "#35415e",
-          "#53617f",
-          "#7482a2",
-          "#97a5c3",
-          "#c0c9de",
-          "#ebeef6"
-        ]
-      },
-      "track-navy": {
-        "role": "neutral",
-        "displayName": "Track Navy",
-        "canonical": "oklch(27.9% 0.069 258.9)",
-        "tonalRamp": [
-          "#030b1b",
-          "#122541",
-          "#2b4266",
-          "#496288",
-          "#6984ac",
-          "#8ea6cc",
-          "#b9cae5",
-          "#e9eff8"
-        ]
-      },
-      "field-stroke": {
-        "role": "neutral",
-        "displayName": "Field Stroke",
-        "canonical": "oklch(37.1% 0.081 257.7)",
-        "tonalRamp": [
-          "#010b1e",
-          "#0d2546",
-          "#25426c",
-          "#43628f",
-          "#6484b3",
-          "#89a7d2",
-          "#b6cbe9",
-          "#e8effa"
-        ]
-      },
-      "unclaimed-steel": {
-        "role": "neutral",
-        "displayName": "Unclaimed Steel",
-        "canonical": "oklch(46.5% 0.084 257.5)",
-        "tonalRamp": [
-          "#010a1f",
-          "#0b2447",
-          "#23426e",
-          "#426291",
-          "#6284b5",
-          "#88a7d4",
-          "#b5cbeb",
-          "#e7effb"
-        ]
-      },
-      "starlight": {
-        "role": "neutral",
-        "displayName": "Starlight",
-        "canonical": "oklch(94.8% 0.033 226.3)",
-        "tonalRamp": [
-          "#040d11",
-          "#162830",
-          "#2f464f",
-          "#4e6570",
-          "#6e8792",
-          "#93a9b3",
-          "#bcccd3",
-          "#eaeff2"
-        ]
-      },
-      "dim-steel": {
-        "role": "neutral",
-        "displayName": "Dim Steel",
-        "canonical": "oklch(61.7% 0.058 252.1)",
-        "tonalRamp": [
-          "#030c18",
-          "#12263d",
-          "#2a4460",
-          "#496382",
-          "#6985a5",
-          "#8ea8c5",
-          "#b9cbe0",
-          "#e9eff7"
-        ]
-      },
-      "player-a": {
-        "role": "player",
-        "displayName": "Player A",
-        "canonical": "oklch(67.9% 0.213 14.7)",
-        "tonalRamp": [
-          "#2d0000",
-          "#610004",
-          "#92001a",
-          "#bb0039",
-          "#e53158",
-          "#ff697f",
-          "#ffa5af",
-          "#ffe3e5"
-        ]
-      },
-      "player-b": {
-        "role": "player",
-        "displayName": "Player B",
-        "canonical": "oklch(72.2% 0.151 248.5)",
-        "tonalRamp": [
-          "#00082c",
-          "#00225f",
-          "#00418d",
-          "#0063b2",
-          "#2287d8",
-          "#5babf5",
-          "#9acfff",
-          "#dff1ff"
-        ]
-      },
-      "player-c": {
-        "role": "player",
-        "displayName": "Player C",
-        "canonical": "oklch(87.9% 0.162 90.9)",
-        "tonalRamp": [
-          "#190600",
-          "#3e1c00",
-          "#623800",
-          "#835900",
-          "#a77c00",
-          "#c7a016",
-          "#e1c77d",
-          "#f7eed5"
-        ]
-      },
-      "player-d": {
-        "role": "player",
-        "displayName": "Player D",
-        "canonical": "oklch(79.7% 0.164 159.7)",
-        "tonalRamp": [
-          "#001400",
-          "#003606",
-          "#00591e",
-          "#007b3e",
-          "#009e5e",
-          "#3ac085",
-          "#8eddb3",
-          "#dcf6e7"
-        ]
-      },
-      "player-e": {
-        "role": "player",
-        "displayName": "Player E",
-        "canonical": "oklch(72.0% 0.193 308.6)",
-        "tonalRamp": [
-          "#18002c",
-          "#3c005f",
-          "#5f008d",
-          "#8034b2",
-          "#a359d8",
-          "#c484f6",
-          "#dfb4ff",
-          "#f6e8ff"
-        ]
-      },
-      "player-f": {
-        "role": "player",
-        "displayName": "Player F",
-        "canonical": "oklch(78.3% 0.168 66.2)",
-        "tonalRamp": [
-          "#220000",
-          "#4e0200",
-          "#782000",
-          "#9d4500",
-          "#c36800",
-          "#e38f26",
-          "#f7bc81",
-          "#ffead6"
-        ]
-      },
-      "player-g": {
-        "role": "player",
-        "displayName": "Player G",
-        "canonical": "oklch(84.1% 0.136 194.9)",
-        "tonalRamp": [
-          "#001315",
-          "#003336",
-          "#005558",
-          "#007779",
-          "#009a9b",
-          "#14bcbc",
-          "#86dada",
-          "#daf5f4"
-        ]
-      },
-      "player-h": {
-        "role": "player",
-        "displayName": "Player H",
-        "canonical": "oklch(74.9% 0.205 340.7)",
-        "tonalRamp": [
-          "#250019",
-          "#53003d",
-          "#7f0061",
-          "#a60f83",
-          "#cd41a7",
-          "#ed71c7",
-          "#ffa9e2",
-          "#ffe4f7"
-        ]
-      },
-      "player-j": {
-        "role": "player",
-        "displayName": "Player J",
-        "canonical": "oklch(84.9% 0.207 128.8)",
-        "tonalRamp": [
-          "#001100",
-          "#033000",
-          "#1a5100",
-          "#3a7400",
-          "#5a9700",
-          "#81ba1b",
-          "#b0d97f",
-          "#e6f5d6"
-        ]
-      },
-      "player-k": {
-        "role": "player",
-        "displayName": "Player K",
-        "canonical": "oklch(97.0% 0.000 89.9)",
-        "tonalRamp": [
-          "#0b0b0b",
-          "#252525",
-          "#424242",
-          "#616161",
-          "#828282",
-          "#a5a5a5",
-          "#c9c9c9",
-          "#eeeeee"
-        ]
-      },
-      "player-m": {
-        "role": "player",
-        "displayName": "Player M",
-        "canonical": "oklch(71.7% 0.148 276.9)",
-        "tonalRamp": [
-          "#07022d",
-          "#1b1460",
-          "#32328e",
-          "#4e54b3",
-          "#6d77d9",
-          "#909cf6",
-          "#bac4ff",
-          "#e9edff"
-        ]
-      },
-      "player-n": {
-        "role": "player",
-        "displayName": "Player N",
-        "canonical": "oklch(75.0% 0.086 65.3)",
-        "tonalRamp": [
-          "#180600",
-          "#3c1b00",
-          "#603700",
-          "#825627",
-          "#a67748",
-          "#c79c72",
-          "#e1c3a6",
-          "#f7ece2"
-        ]
-      }
+      "studio-black": { "role": "neutral", "displayName": "Studio Black", "canonical": "#151515", "tonalRamp": ["#0a0a0a", "#151515", "#202020", "#2b2b2b", "#4a4a4a", "#949494", "#c9cac4", "#f4f4f0"] },
+      "studio-raised": { "role": "neutral", "displayName": "Studio Raised", "canonical": "#202020" },
+      "plate-grey": { "role": "neutral", "displayName": "Plate Grey", "canonical": "#2b2b2b" },
+      "map-plate": { "role": "neutral", "displayName": "Map Plate", "canonical": "#262626" },
+      "broadcast-slab": { "role": "primary", "displayName": "Broadcast Slab", "canonical": "#f4f4f0", "tonalRamp": ["#2b2b2a", "#4a4a47", "#5c5c5c", "#949494", "#c9cac4", "#dcdcd6", "#f4f4f0", "#ffffff"] },
+      "slab-hot": { "role": "primary", "displayName": "Slab Hover White", "canonical": "#ffffff" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#151515" },
+      "pure-black": { "role": "neutral", "displayName": "Crawl Black", "canonical": "#000000" },
+      "mute": { "role": "neutral", "displayName": "Mute on Black", "canonical": "#949494" },
+      "mute-ink": { "role": "neutral", "displayName": "Mute on Slab", "canonical": "#5c5c5c" },
+      "rule": { "role": "neutral", "displayName": "Slab Rule", "canonical": "#c9cac4" },
+      "slab-track": { "role": "neutral", "displayName": "Race Track", "canonical": "#dcdcd6" },
+      "hud-block": { "role": "neutral", "displayName": "HUD Block", "canonical": "rgba(21, 21, 21, 0.9)" },
+      "veil": { "role": "neutral", "displayName": "Overlay Veil", "canonical": "rgba(21, 21, 21, 0.94)" },
+      "news-red": { "role": "primary", "displayName": "News Red", "canonical": "#d7261e", "tonalRamp": ["#3d0806", "#6b100c", "#a81a14", "#d7261e", "#e8564f", "#f08680", "#f7b8b4", "#fce6e5"] },
+      "news-red-pressed": { "role": "primary", "displayName": "News Red Pressed", "canonical": "#a81a14" },
+      "error-text": { "role": "primary", "displayName": "Error Text on Black", "canonical": "#ff8a80" },
+      "crawl-yellow": { "role": "secondary", "displayName": "Crawl Yellow", "canonical": "#ffcb05", "tonalRamp": ["#3d3000", "#6b5500", "#a37f00", "#d6a800", "#ffcb05", "#ffd94d", "#ffe78f", "#fff6d1"] },
+      "loot-aquamarine": { "role": "tertiary", "displayName": "Loot Aquamarine", "canonical": "#7fffd4", "tonalRamp": ["#0f3d2f", "#1d6b52", "#2fa37c", "#4fd6a8", "#7fffd4", "#a6ffe1", "#ccffee", "#ebfff8"] },
+      "home-gold": { "role": "tertiary", "displayName": "Home Gold", "canonical": "#ffd23f", "tonalRamp": ["#3d3000", "#6b5500", "#a38200", "#d6ac1a", "#ffd23f", "#ffdd70", "#ffeaa6", "#fff7db"] },
+      "player-a": { "role": "tertiary", "displayName": "Player A" },
+      "player-b": { "role": "tertiary", "displayName": "Player B" },
+      "player-c": { "role": "tertiary", "displayName": "Player C" },
+      "player-d": { "role": "tertiary", "displayName": "Player D" },
+      "player-e": { "role": "tertiary", "displayName": "Player E" },
+      "player-f": { "role": "tertiary", "displayName": "Player F" },
+      "player-g": { "role": "tertiary", "displayName": "Player G" },
+      "player-h": { "role": "tertiary", "displayName": "Player H" },
+      "player-j": { "role": "tertiary", "displayName": "Player J" },
+      "player-k": { "role": "tertiary", "displayName": "Player K" },
+      "player-m": { "role": "tertiary", "displayName": "Player M" },
+      "player-n": { "role": "tertiary", "displayName": "Player N" }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "Room code in the lobby."
-      },
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "The game title in caps."
-      },
-      "title": {
-        "displayName": "Title",
-        "purpose": "Scanner sidebar headline."
-      },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Landing page, forms, Scanner sidebar (at 20px)."
-      },
-      "hud": {
-        "displayName": "HUD",
-        "purpose": "Phone HUD base size over the 3D view."
-      },
-      "label": {
-        "displayName": "Label",
-        "purpose": "HUD row labels: HULL, HOLD, XP."
-      }
+      "display": { "displayName": "Display", "purpose": "Landing title; result headline and room code at 96px." },
+      "headline": { "displayName": "Headline", "purpose": "BREAKING headline; race board heading at 38px." },
+      "title": { "displayName": "Title", "purpose": "Most Wanted name and card titles (24-30px)." },
+      "body": { "displayName": "Body", "purpose": "Base text." },
+      "body-large": { "displayName": "Body Large", "purpose": "Rules card and on-screen sentences at couch distance." },
+      "button": { "displayName": "Button", "purpose": "Every button, uppercase." },
+      "label": { "displayName": "Label", "purpose": "Form labels and table headers, uppercase, mute." },
+      "numeral": { "displayName": "Numeral", "purpose": "Scores, counts and meter values; always tabular." },
+      "crawl": { "displayName": "Crawl", "purpose": "The yellow-on-black ticker." },
+      "hud": { "displayName": "HUD", "purpose": "Phone HUD base over the 3D view." }
     },
     "shadows": [
-      {
-        "name": "hud-text-lift",
-        "value": "text-shadow: 0 1px 3px #000",
-        "purpose": "All HUD text over the 3D view."
-      },
-      {
-        "name": "control-glow",
-        "value": "0 0 10px rgba(46,230,230,.25)",
-        "purpose": "Thumb buttons."
-      },
-      {
-        "name": "fire-glow",
-        "value": "0 0 18px rgba(255,77,109,.45)",
-        "purpose": "The FIRE button."
-      },
-      {
-        "name": "perk-glow",
-        "value": "0 0 16px rgba(255,210,63,.35)",
-        "purpose": "Perk cards."
-      },
-      {
-        "name": "bar-glow",
-        "value": "0 0 6px <bar colour>",
-        "purpose": "Hold and XP fills."
-      },
-      {
-        "name": "radar-well",
-        "value": "inset 0 0 14px rgba(46,230,230,.18)",
-        "purpose": "The radar disc."
-      },
-      {
-        "name": "damage-vignette",
-        "value": "inset 0 0 90px 30px rgba(255,40,60,.75)",
-        "purpose": "Full-screen hit flash."
-      }
+      { "name": "chip-on-slab-ring", "value": "inset 0 0 0 2px rgba(21, 21, 21, 0.3)", "purpose": "Keeps the near-white player K chip visible on a slab." },
+      { "name": "race-fill-edge", "value": "inset -3px 0 0 rgba(21, 21, 21, 0.35)", "purpose": "Hard edge closing each race bar fill." },
+      { "name": "outline-prompt", "value": "inset 0 0 0 2px #f4f4f0", "purpose": "Phone hint and perk prompts in the instruction strap; the radar rim." },
+      { "name": "over-scene-text", "value": "0 1px 2px #000, 0 2px 8px rgba(0, 0, 0, 0.6)", "purpose": "Over-scene layer only: damage numbers and the BANKED pop over the moving 3D view. Never on chrome." },
+      { "name": "damage-vignette", "value": "inset 0 0 90px 30px rgba(215, 38, 30, 0.7)", "purpose": "Over-scene layer only: danger flash when the player takes damage." }
     ],
     "motion": [
-      {
-        "name": "punch",
-        "value": "0.45s ease-out; scale(1.12) brightness(2.2) → none",
-        "purpose": "A HUD value that just changed."
-      },
-      {
-        "name": "pop",
-        "value": "1.6s ease-out; rise, overshoot to 1.15, fade",
-        "purpose": "+N BANKED and level-up text."
-      },
-      {
-        "name": "glow-pulse",
-        "value": "0.8s ease-in-out infinite alternate",
-        "purpose": "PICK A PERK badge."
-      },
-      {
-        "name": "bar-fill",
-        "value": "width 0.3s ease-out",
-        "purpose": "HUD bar changes."
-      },
-      {
-        "name": "hit-fade",
-        "value": "opacity 0.6s (arc), 0.35s (vignette)",
-        "purpose": "Damage cues fade out after an instant on."
-      }
+      { "name": "ease-snap", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Lower-third wipe, meter fills, pops and punches." },
+      { "name": "lower-third-wipe", "value": "clip-path inset wipe from the left, 0.45s ease-snap", "purpose": "BREAKING lower third entering." },
+      { "name": "crawl-scroll", "value": "linear, 10s + 0.11s per character, infinite", "purpose": "The crawl; static under reduced motion." },
+      { "name": "meter-fill", "value": "width 0.3s ease-snap", "purpose": "Phone HUD meters." },
+      { "name": "pop", "value": "1.6s ease-snap", "purpose": "+N BANKED and level-up pops on the phone." },
+      { "name": "punch", "value": "0.45s ease-snap, scale 1.1 to 1", "purpose": "Meter emphasis on change." },
+      { "name": "ping-fade", "value": "8s linear opacity; ripple radius grows 9px/s", "purpose": "Loud-act pins on the Scanner map; ripples dropped under reduced motion." },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce", "purpose": "Kills animations and transitions, stills the crawl, drops ripples, blinking and camera shake." }
     ],
     "breakpoints": [
-      {
-        "name": "portrait",
-        "value": "(orientation: portrait)",
-        "purpose": "Phone shows the rotate overlay."
-      },
-      {
-        "name": "scanner-sidebar",
-        "value": "minmax(340px, 30vw)",
-        "purpose": "Scanner sidebar width."
-      },
-      {
-        "name": "landing-max",
-        "value": "640px",
-        "purpose": "Landing column width."
-      }
+      { "name": "landing-single-column", "value": "900px" },
+      { "name": "phone-narrow", "value": "760px" },
+      { "name": "phone-portrait", "value": "orientation: portrait" },
+      { "name": "scanner-dense", "value": "9+ players" }
     ]
   },
   "components": [
@@ -493,125 +78,113 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one main action on a screen: Create room, Join, Start.",
-      "html": "<button class=\"ds-btn-primary\">Create room</button>",
-      "css": ".ds-btn-primary { font: 18px/1.35 ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--bg, #060b1a); background: var(--cyan, #2ee6e6); border: 0; border-radius: 10px; padding: 12px 20px; min-height: 64px; min-width: 64px; cursor: pointer; transition: filter .15s, box-shadow .15s; } .ds-btn-primary:hover { box-shadow: 0 0 14px rgba(46,230,230,.45); } .ds-btn-primary:focus-visible { outline: 2px solid var(--gold, #ffd23f); outline-offset: 3px; } .ds-btn-primary:active { filter: brightness(1.2); } .ds-btn-primary:disabled { opacity: .35; }"
+      "description": "Hard white slab action; every main action on black.",
+      "html": "<button class=\"ds-btn\">Create room</button>",
+      "css": ".ds-btn { font: 800 22px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #151515; background: #f4f4f0; border: 2px solid #f4f4f0; border-radius: 0; padding: 0 24px; min-height: 64px; min-width: 64px; cursor: pointer; } .ds-btn:hover { background: #fff; border-color: #fff; } .ds-btn:focus-visible { outline: 3px solid #f4f4f0; outline-offset: 3px; }"
     },
     {
-      "name": "Ghost Button",
+      "name": "Alt Button",
       "kind": "button",
-      "refersTo": "button-ghost",
-      "description": "Secondary action beside a primary one: Join by code, Pause, End.",
-      "html": "<button class=\"ds-btn-ghost\">Pause</button>",
-      "css": ".ds-btn-ghost { font: 18px/1.35 ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--cyan, #2ee6e6); background: transparent; border: 2px solid var(--cyan, #2ee6e6); border-radius: 10px; padding: 12px 20px; min-height: 64px; min-width: 64px; cursor: pointer; transition: background .15s; } .ds-btn-ghost:hover { background: rgba(46,230,230,.12); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--gold, #ffd23f); outline-offset: 3px; }"
+      "refersTo": "button-alt",
+      "description": "Outline action beside a field or a primary.",
+      "html": "<button class=\"ds-btn-alt\">Join</button>",
+      "css": ".ds-btn-alt { font: 800 22px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #f4f4f0; background: transparent; border: 2px solid #f4f4f0; border-radius: 0; padding: 0 24px; min-height: 64px; cursor: pointer; } .ds-btn-alt:hover { background: #f4f4f0; color: #151515; } .ds-btn-alt:focus-visible { outline: 3px solid #f4f4f0; outline-offset: 3px; } .ds-btn-alt:disabled { color: #949494; border-color: #949494; background: transparent; cursor: default; }"
     },
     {
-      "name": "Input",
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "News red for destructive or danger actions only.",
+      "html": "<button class=\"ds-btn-danger\">End game</button>",
+      "css": ".ds-btn-danger { font: 800 22px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: #d7261e; border: 2px solid #d7261e; border-radius: 0; padding: 0 24px; min-height: 64px; cursor: pointer; } .ds-btn-danger:focus-visible { outline: 3px solid #f4f4f0; outline-offset: 3px; }"
+    },
+    {
+      "name": "Field",
       "kind": "input",
-      "refersTo": "input",
-      "description": "Name and room-code entry.",
-      "html": "<input class=\"ds-input\" placeholder=\"Your name\" />",
-      "css": ".ds-input { font: 18px/1.35 ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--fg, #d8f3ff); background: #0d1730; border: 2px solid #23406a; border-radius: 10px; padding: 12px; min-height: 56px; } .ds-input::placeholder { color: var(--dim, #6c88a8); } .ds-input:focus-visible { outline: none; border-color: var(--cyan, #2ee6e6); box-shadow: 0 0 10px rgba(46,230,230,.3); }"
+      "refersTo": "input-field",
+      "description": "Dark well with a rule; brightens on hover and focus.",
+      "html": "<label class=\"ds-lbl\" for=\"ds-code\">Room code</label><input id=\"ds-code\" class=\"ds-input\" placeholder=\"ABCDE\">",
+      "css": ".ds-lbl { display: block; font: 800 16px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: #949494; margin-bottom: 8px; } .ds-input { font: 800 26px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; color: #f4f4f0; background: #202020; border: 2px solid #949494; border-radius: 0; padding: 0 16px; min-height: 64px; width: 100%; caret-color: #d7261e; } .ds-input::placeholder { color: #949494; } .ds-input:hover, .ds-input:focus { border-color: #f4f4f0; outline: none; }"
     },
     {
-      "name": "Rules Card",
+      "name": "Player Chip",
+      "kind": "chip",
+      "refersTo": "player-chip",
+      "description": "Player colour square with its letter; outline when offline.",
+      "html": "<span class=\"ds-chip\" style=\"background:#4dabff\">B</span> <span class=\"ds-chip ds-chip-out\" style=\"color:#ff9f1c\">F</span>",
+      "css": ".ds-chip { display: inline-grid; place-items: center; width: 36px; height: 36px; font: 800 24px/1 \"Barlow Condensed\", \"Arial Narrow\", sans-serif; color: #151515; border: 2px solid transparent; } .ds-chip-out { background: transparent; border-color: currentColor; }"
+    },
+    {
+      "name": "Crawl",
+      "kind": "custom",
+      "refersTo": "crawl",
+      "description": "Yellow-on-black broadcast ticker; still under reduced motion.",
+      "html": "<div class=\"ds-crawl\"><b>Latest</b><div><span>Game on! First to 600 wins</span></div></div>",
+      "css": ".ds-crawl { display: flex; height: 56px; background: #000; color: #ffcb05; overflow: hidden; white-space: nowrap; font: 800 26px/56px \"Barlow Condensed\", \"Arial Narrow\", sans-serif; text-transform: uppercase; letter-spacing: 0.02em; } .ds-crawl > b { background: #ffcb05; color: #000; padding: 0 16px; } .ds-crawl > div { flex: 1; overflow: hidden; padding-left: 24px; }"
+    },
+    {
+      "name": "Breaking Lower Third",
+      "kind": "custom",
+      "refersTo": "breaking-tag",
+      "description": "Red BREAKING tag, slab headline with the actor's chip, black sub-strap.",
+      "html": "<div class=\"ds-l3\"><span class=\"ds-l3-tag\">Breaking</span><div class=\"ds-l3-head\"><span class=\"ds-l3-chip\">K</span><b>Shots fired in the north-east</b></div><span class=\"ds-l3-sub\">Scanner picks up K · just now</span></div>",
+      "css": ".ds-l3 { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; text-transform: uppercase; } .ds-l3-tag { display: inline-block; background: #d7261e; color: #fff; font: 800 26px/1 \"Barlow Condensed\", sans-serif; padding: 8px 14px; } .ds-l3-head { display: flex; align-items: center; gap: 14px; padding: 10px 22px 10px 12px; background: #f4f4f0; color: #151515; } .ds-l3-head b { font: 800 50px/1.05 \"Barlow Condensed\", sans-serif; } .ds-l3-chip { display: inline-grid; place-items: center; width: 54px; height: 54px; font: 800 36px/1 \"Barlow Condensed\", sans-serif; background: #f5f5f5; color: #151515; box-shadow: inset 0 0 0 2px rgba(21,21,21,.3); } .ds-l3-sub { display: inline-block; background: #000; color: #f4f4f0; font: 600 22px/1.3 \"Barlow Condensed\", sans-serif; padding: 8px 16px; letter-spacing: .04em; }"
+    },
+    {
+      "name": "Race Row",
       "kind": "card",
-      "refersTo": "rules-card",
-      "description": "The three-line rules shown on the landing page, the lobby and the phone wait screen.",
-      "html": "<div class=\"ds-rules\"><ol><li><b>Grab loot, bring it home.</b> First to <b>600</b> wins.</li><li><b>Shoot ships</b> to make them drop their loot.</li><li><b>Own rings and stations.</b> They pay you over time.</li></ol><div class=\"ds-rules-ctl\">◯ joystick (left thumb) · FIRE / BOOST / BUILD (right thumb)</div></div>",
-      "css": ".ds-rules { font: 18px/1.35 ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--fg, #d8f3ff); background: #0a1430; border: 2px solid var(--cyan, #2ee6e6); border-radius: 14px; padding: 16px 20px; max-width: 560px; } .ds-rules ol { margin: 0; padding-left: 1.4em; } .ds-rules li { margin: .35em 0; } .ds-rules b { color: var(--gold, #ffd23f); } .ds-rules-ctl { color: var(--dim, #6c88a8); margin-top: 10px; font-size: .85em; }"
+      "description": "One race board row: chip, player-colour bar to the red target line, tabular score.",
+      "html": "<div class=\"ds-race\"><div class=\"ds-rrow\"><span class=\"ds-rchip\" style=\"background:#3ddc97\">D</span><div class=\"ds-rbar\"><i style=\"width:62%;background:#3ddc97\"></i><em>Mira</em></div><b>372</b></div></div>",
+      "css": ".ds-race { background: #f4f4f0; color: #151515; padding: 16px 18px 12px; font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; } .ds-rrow { display: grid; grid-template-columns: 40px minmax(0, 1fr) 76px; align-items: center; gap: 10px; height: 48px; } .ds-rchip { display: grid; place-items: center; width: 40px; height: 40px; font: 800 26px/1 \"Barlow Condensed\", sans-serif; } .ds-rbar { position: relative; height: 40px; background: #dcdcd6; overflow: hidden; } .ds-rbar::after { content: \"\"; position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: #d7261e; } .ds-rbar i { position: absolute; inset: 0 auto 0 0; box-shadow: inset -3px 0 0 rgba(21,21,21,.35); } .ds-rbar em { position: absolute; left: 10px; top: 0; bottom: 0; display: flex; align-items: center; font: 800 26px/1 \"Barlow Condensed\", sans-serif; font-style: normal; text-transform: uppercase; } .ds-rrow > b { font: 800 36px/1 \"Barlow Condensed\", sans-serif; text-align: right; font-variant-numeric: tabular-nums; }"
     },
     {
       "name": "Thumb Buttons",
-      "kind": "custom",
-      "refersTo": "thumb-button",
-      "description": "Phone action cluster: BUILD and BOOST circles beside the big FIRE button.",
-      "html": "<div class=\"ds-thumbs\"><button class=\"ds-thumb ds-build\">BUILD</button><button class=\"ds-thumb ds-boost\">BOOST</button><button class=\"ds-thumb ds-fire\">FIRE</button></div>",
-      "css": ".ds-thumbs { display: grid; grid-template-columns: 76px 112px; grid-template-rows: 76px 76px; gap: 10px; padding: 12px; background: #0b1330; } .ds-thumb { font: bold 13px ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: #fff; width: 76px; height: 76px; border-radius: 50%; padding: 0; background: rgba(18,40,74,.85); border: 2px solid var(--cyan, #2ee6e6); box-shadow: 0 0 10px rgba(46,230,230,.25); text-shadow: 0 1px 2px #000; cursor: pointer; transition: transform .08s, filter .08s; } .ds-thumb:active { filter: brightness(1.5); transform: scale(.95); } .ds-thumb:focus-visible { outline: 2px solid var(--gold, #ffd23f); outline-offset: 3px; } .ds-build { grid-column: 1; grid-row: 1; background: rgba(61,220,151,.85); } .ds-boost { grid-column: 1; grid-row: 2; background: conic-gradient(rgba(46,230,230,.7) 65%, rgba(18,40,74,.85) 0); } .ds-fire { grid-column: 2; grid-row: 1 / 3; align-self: end; width: 112px; height: 112px; font-size: 18px; background: radial-gradient(circle at 50% 38%, #ff7a93, #c22c4b); border-color: #ffb3c1; box-shadow: 0 0 18px rgba(255,77,109,.45); }"
-    },
-    {
-      "name": "Perk Card",
-      "kind": "card",
-      "refersTo": "perk-card",
-      "description": "One of the two level-up choices on the phone.",
-      "html": "<button class=\"ds-perk\"><b>Heavy Bolts</b>+30% damage</button>",
-      "css": ".ds-perk { font: 13px/1.35 ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--fg, #d8f3ff); width: 150px; min-height: 92px; padding: 12px; text-align: left; background: linear-gradient(160deg, #1d2f60, #0b1430); border: 2px solid var(--gold, #ffd23f); border-radius: 10px; box-shadow: 0 0 16px rgba(255,210,63,.35); cursor: pointer; transition: box-shadow .15s; } .ds-perk b { display: block; font-size: 16px; color: var(--gold, #ffd23f); margin-bottom: 4px; } .ds-perk:hover { box-shadow: 0 0 22px rgba(255,210,63,.6); } .ds-perk:focus-visible { outline: 2px solid var(--cyan, #2ee6e6); outline-offset: 3px; }"
-    },
-    {
-      "name": "Player Row",
-      "kind": "chip",
-      "refersTo": "player-chip",
-      "description": "Scanner score row: colour chip with glyph, name, score and level, and a race bar in the player's colour.",
-      "html": "<div class=\"ds-prow\"><div class=\"ds-chip\">A</div><span>Tester</span><span class=\"ds-score\">420 · Level 7</span><div class=\"ds-bar\"><i></i></div></div>",
-      "css": ".ds-prow { font: 20px ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--fg, #d8f3ff); display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 8px; width: 340px; background: var(--bg, #060b1a); padding: 8px; } .ds-chip { width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; font-weight: bold; color: var(--bg, #060b1a); background: #ff4d6d; } .ds-score { font-variant-numeric: tabular-nums; } .ds-bar { grid-column: 2 / 4; height: 6px; background: #12284a; border-radius: 3px; } .ds-bar i { display: block; height: 100%; width: 70%; border-radius: 3px; background: #ff4d6d; }"
-    },
-    {
-      "name": "HUD Status Panel",
-      "kind": "custom",
-      "description": "Top-left phone panel: hull, segmented hold and XP bars on a translucent notched panel.",
-      "html": "<div class=\"ds-hud\"><div class=\"ds-mrow\"><b>HULL</b><div class=\"ds-trk ds-hull\"><i style=\"width:80%\"></i></div><span>80</span></div><div class=\"ds-mrow\"><b>HOLD</b><div class=\"ds-trk ds-hold\"><i style=\"width:40%\"></i></div><span>20/50</span></div><div class=\"ds-lv\">Level 3</div></div>",
-      "css": ".ds-hud { font: 14px ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--fg, #d8f3ff); width: 196px; display: grid; gap: 5px; padding: 7px 9px; background: linear-gradient(135deg, rgba(14,28,64,.86), rgba(6,11,26,.62)); border: 1px solid rgba(46,230,230,.32); border-radius: 3px 12px 3px 3px; text-shadow: 0 1px 3px #000; } .ds-mrow { display: grid; grid-template-columns: 30px 1fr 54px; align-items: center; gap: 6px; } .ds-mrow b { font-size: 10px; letter-spacing: .1em; color: var(--dim, #6c88a8); } .ds-mrow span { font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; } .ds-trk { position: relative; height: 10px; background: rgba(18,40,74,.95); border-radius: 2px; overflow: hidden; } .ds-trk i { position: absolute; inset: 0 auto 0 0; transition: width .3s ease-out; } .ds-hull i { background: linear-gradient(90deg, #22a872, #3ddc97); } .ds-hold i { background: linear-gradient(90deg, #2fb895, #7fffd4); box-shadow: 0 0 6px #7fffd4; } .ds-hold::after { content: \"\"; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(100% - 2px), rgba(6,11,26,.95) 0) 0 0 / 10% 100%; } .ds-lv { font-size: 15px; font-weight: bold; color: var(--gold, #ffd23f); }"
-    },
-    {
-      "name": "Objective Chip",
-      "kind": "chip",
-      "description": "Top-centre phone chip echoing the 3D arrow: gold for HOME, aquamarine for LOOT.",
-      "html": "<div class=\"ds-obj\"><svg viewBox=\"-16 -16 32 32\"><path d=\"M0-14 12 0H4.5v13h-9V0H-12z\"/></svg>HOME <span>312</span></div>",
-      "css": ".ds-obj { font: bold 15px ui-monospace, \"SF Mono\", Menlo, Consolas, monospace; color: var(--gold, #ffd23f); display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px 0 6px; background: linear-gradient(135deg, rgba(14,28,64,.86), rgba(6,11,26,.62)); border: 1px solid currentColor; border-radius: 3px 12px 3px 3px; text-shadow: 0 1px 3px #000; } .ds-obj svg { width: 24px; height: 24px; fill: currentColor; stroke: var(--bg, #060b1a); stroke-width: 1.5; filter: drop-shadow(0 0 3px currentColor); } .ds-obj span { color: var(--fg, #d8f3ff); font-weight: normal; font-size: 13px; font-variant-numeric: tabular-nums; }"
+      "kind": "button",
+      "refersTo": "thumb-fire",
+      "description": "Phone FIRE (red circle) and BUILD (outline until available).",
+      "html": "<div class=\"ds-thumbs\"><button class=\"ds-thumb\">Build</button><button class=\"ds-thumb ds-fire\">Fire</button></div>",
+      "css": ".ds-thumbs { display: flex; gap: 10px; align-items: flex-end; } .ds-thumb { width: 76px; height: 76px; border-radius: 50%; padding: 0; font: 800 18px/1 \"Barlow Condensed\", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #949494; background: rgba(21,21,21,.4); border: 3px solid #949494; cursor: pointer; } .ds-fire { width: 112px; height: 112px; font-size: 26px; color: #fff; background: #d7261e; border-color: #d7261e; } .ds-fire:active { background: #a81a14; border-color: #a81a14; transform: scale(.94); } .ds-thumb:focus-visible { outline: 3px solid #f4f4f0; outline-offset: 3px; }"
     }
   ],
   "narrative": {
-    "northStar": "Neon Heist Noir",
-    "overview": "Dark navy space where the only light comes from things worth stealing. Loot crystals, player trim, bolts and objectives glow; everything else sits back in the dark. The look is low-poly and flat-shaded on the phone, and a flat vector radar on the Scanner, held together by one monospace typeface and one cyan instrument line that runs through both.\n\nEvery colour has a job. Gold means home and score, aquamarine means loot, cyan is the instrument itself, red is danger, and the twelve player colours mean ownership. The interface reads like glowing instruments on a cockpit console: translucent navy panels with thin cyan strokes, light emitted rather than cast, no drop shadows. Density is low on the Scanner (it must read from across a room) and tight on the phone HUD, which hugs the corners so the 3D view stays clear.\n\nEverything is drawn in code. 3D models are Three.js primitives, icons are inline SVG, the QR is generated, the Scanner is Canvas 2D.",
+    "northStar": "Late-Night Live Coverage",
+    "overview": "The laptop is a live late-night news broadcast of a heist it can only hear through loud acts: a red LIVE bug, an aerial sky-cam map, an election-night race board, a red BREAKING lower third and a yellow-on-black crawl. Each phone is that pilot's onboard feed: a few hard black HUD blocks over the 3D view, one instruction at a time. The whole 2D layer is studio black, white broadcast slabs with square edges, and condensed capitals, read from about three metres away by a couch of 3 to 12 people.\n\nThe system refuses the category's neon sci-fi cockpit: no glow, no bevels, no translucent glass panels, no monospace terminal. Depth comes from a white slab sitting on studio black, never from light. Colour is rationed by role, so a colour on screen always means one thing: red is the news or danger, yellow is the crawl, a player colour is a player and always carries that player's letter.\n\nMode differs by surface. The Scanner and the phone in play are Experience surfaces, built for spectacle and glanceability. The landing form is an Operate surface in the same world: dark wells for fields, white slabs for actions, and plain sentences. The phone HUD sits over a Three.js scene that still uses the earlier neon palette and is outside this system; the phone's loot aquamarine and HOME gold exist to match that scene.",
     "keyCharacteristics": [
-      "Deep navy ground (#060b1a) everywhere: page, scene background, Scanner canvas.",
-      "Glow instead of shadow: coloured `box-shadow` halos, `drop-shadow` on icons, additive 3D sprites.",
-      "One monospace family for every surface and size.",
-      "Fixed colour roles shared by HTML, Canvas and 3D.",
-      "Every player colour travels with its letter glyph."
+      "Studio black ground, white square slabs, news red, crawl yellow and twelve lettered player colours, with nothing else.",
+      "Barlow Condensed in two weights (600, 800), uppercase headings, tabular numerals for every score and count.",
+      "Hard square edges on all chrome; circles only for thumb buttons, map pins and the radar, plus the map's own geometry.",
+      "No glow, no smooth gradients, no rounding on chrome.",
+      "Unavailable, offline or unclaimed reads as an outline, never as a faded fill.",
+      "Timers are 10-step strips; the phone gives one instruction at a time."
     ],
     "rules": [
-      {
-        "name": "The Colour Has a Job Rule",
-        "body": "Gold is home and score, aquamarine is loot, cyan is the instrument, red is danger, and player colours are ownership. A role colour is never used as decoration.",
-        "section": "colors"
-      },
-      {
-        "name": "The Glyph Partner Rule",
-        "body": "A player colour never appears alone: every HQ, station, ping, chip and score row carries the owner's letter glyph. Players A, C, D and G share hues with Alarm Red, Bank Gold, Hull Green and Radar Cyan, so the glyph is what tells ownership apart from a system cue.",
-        "section": "colors"
-      },
-      {
-        "name": "The One Typeface Rule",
-        "body": "Every surface uses the system monospace stack. Never add a second family.",
-        "section": "typography"
-      },
-      {
-        "name": "The Tabular Numbers Rule",
-        "body": "Any number that changes during play (hull, hold, distance, score race) uses `font-variant-numeric: tabular-nums` so it doesn't jitter.",
-        "section": "typography"
-      },
-      {
-        "name": "The Glow Not Shadow Rule",
-        "body": "Things emit light in their own colour; they do not cast shadows. Add a halo, never a drop shadow.",
-        "section": "elevation"
-      }
+      { "name": "The Broadcast Red Rule", "body": "News red appears only on LIVE, BREAKING, FIRE, danger states and the race target line. Never as decoration, never as a player marker.", "section": "colors" },
+      { "name": "The Crawl-Only Yellow Rule", "body": "Crawl yellow lives on the crawl and nowhere else.", "section": "colors" },
+      { "name": "The Letter-With-Colour Rule", "body": "A player colour never appears alone on chrome: chips, HQs, stations, pins and owned rings carry the player's letter. A player's chip looks identical on the phone and the Scanner.", "section": "colors" },
+      { "name": "The Gold Means Home Rule", "body": "On the phone, gold is limited to the HOME objective, the HOME marker and \"+N BANKED\". Level and XP take the player's own colour, never gold.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Barlow Condensed 600 and 800 only, including on the canvas. Headings, buttons, labels and tags are uppercase; sentences are not.", "section": "typography" },
+      { "name": "The Tabular Numbers Rule", "body": "Any number that changes in play (scores, HP, hold, timers, table cells) is set with tabular numerals so columns do not jitter.", "section": "typography" },
+      { "name": "The Flat Studio Rule", "body": "No glow, no smooth gradients and no blur on chrome. Hard-stop gradients that draw segmented meters (the BOOST cooldown dial, the HOLD slot dividers) are drawings of steps, not shading, and are allowed.", "section": "elevation" }
     ],
     "dos": [
-      "Do pair every player colour with its letter glyph (The Glyph Partner Rule).",
-      "Do keep each role colour to its job: gold for home and score, aquamarine for loot, cyan for the instrument, red for danger.",
-      "Do lift all HUD text over the 3D view with `text-shadow: 0 1px 3px #000`.",
-      "Do keep thumb targets at least 64px (the shipped sizes are 76px and 112px).",
-      "Do use tabular figures for any number that changes during play.",
-      "Do keep the phone HUD in the corners and the left half clear for the joystick.",
-      "Do keep Scanner sidebar text at 17px or larger so it reads from across the room."
+      "Do keep news red to LIVE, BREAKING, FIRE, danger and the race target line.",
+      "Do pair every player colour with its letter, and print a player's chip identically on phone and Scanner.",
+      "Do limit gold on the phone to the HOME objective, the HOME marker and \"+N BANKED\"; give level and XP the player's own colour.",
+      "Do show unavailable, offline, stunned or unclaimed things as outlines (solid or dashed).",
+      "Do show timers and cooldowns as 10-step strips or segmented dials.",
+      "Do give the phone one instruction at a time; hints and the perk prompt reuse the same strap.",
+      "Do switch the Scanner sidebar to dense mode at 9–12 players so every row stays on screen.",
+      "Do use tabular numerals for every changing number.",
+      "Do stop the crawl and drop ripples, pulses and camera shake under reduced motion."
     ],
     "donts": [
-      "Don't add drop shadows for elevation; use a glow in the element's own colour (The Glow Not Shadow Rule).",
-      "Don't introduce a second typeface.",
-      "Don't render the Scanner in 3D; it is a flat Canvas 2D radar.",
-      "Don't use gold, aquamarine or red decoratively; a player would read it as an objective, loot or damage.",
-      "Don't add animation that ignores `prefers-reduced-motion`."
+      "Don't add glow, bevels, translucent blurred panels or a monospace terminal look; that is the neon cockpit this world replaced.",
+      "Don't round chrome corners or put smooth gradients on chrome.",
+      "Don't use circles on chrome beyond thumb buttons, pins and the radar.",
+      "Don't fade a control or player to show it is unavailable.",
+      "Don't use crawl yellow anywhere but the crawl.",
+      "Don't use a player colour as a decorative accent or without its letter.",
+      "Don't add a second typeface or weights beyond 600 and 800."
     ]
   }
 }
