@@ -66,7 +66,7 @@ A judge scans the QR code, and 60 seconds later should have completed the whole 
 
 Below the card is a picture of the controls: the joystick on the left, FIRE / BOOST / BUILD on the right.
 
-**The arrow** is the tutorial. A single arrow always sits in the middle of the HUD:
+**The arrow** is the tutorial. A single thick 3D arrow hovers over your ship (gold for HOME, aquamarine for loot), echoed by an objective chip at the top of the HUD with the distance and a one-line instruction:
 - When your hold is less than half full, it points to the nearest loot or field.
 - When it's half full or more, or you're carrying the Crown, it points to your nearest bank, labelled HOME.
 
@@ -242,11 +242,14 @@ All filtering happens **on the server**. No client ever receives data it isn't a
 - **Left half of the screen:** a floating joystick that appears wherever your thumb lands. Left and right turn the ship; up is thrust and down is brake or reverse (−0.4). About 40 lines of pointer-event code.
 - **Right side:** **FIRE** (large, hold to fire), **BOOST** (tap), **BUILD** (lit only where a station is allowed).
 - **HUD:**
-  - the arrow (§3)
+  - the arrow (§3): 3D over the ship, plus the objective chip and a one-line instruction
   - hull bar
-  - hold bar
+  - hold bar, segmented one crystal per notch
+  - "Level N" and an XP bar (banked loot toward the next level), and a "PICK A PERK" badge while an offer is waiting
   - a score race bar showing you, the leader and the target
-  - level, and a "PICK A PERK" badge while an offer is waiting
+  - a HOME marker over your HQ, pinned to the screen edge and pointing at it when it's off screen; it shows the loot you'd bank
+  - hit markers: the damage you dealt floats up where your bolt landed; taking a hit flashes a red arc on the side it came from
+  - on banking, crystals fly from your ship into the bank, "+N BANKED" pops and the XP bar fills (phone only; the Scanner just pings)
   - boost cooldown ring
   - the latest ticker line
   - the sector rule
@@ -286,17 +289,17 @@ All filtering happens **on the server**. No client ever receives data it isn't a
 
 | Asset | Construction |
 |---|---|
-| Ship | A cone body plus 2 box wings. The wings grow with Thick Hull, and the emissive engine sprite gets brighter with the loot carried. Geometry is merged into 1 draw call. |
-| HQ / Station | A cylinder with a rotating torus / an octagonal cylinder with a small ring |
-| Ring | A large rotating torus in the owner's colour |
-| Field | An `InstancedMesh` of about 30 low-detail icosahedron rocks |
-| Loot | An `InstancedMesh` of emissive octahedrons that spin and bob |
-| Vault / Crown | A gold dodecahedron that cracks open (2 halves) / a gold icosahedron with a glow sprite |
-| Bolts | One `InstancedMesh` of stretched boxes, `MeshBasicMaterial` with additive blending |
-| Explosion | A burst of `Points` lasting 0.6 s |
-| Stars | One `Points` object with 1,500 vertices |
+| Ship | Extruded dart hull, swept wings, fin, twin nacelles, canopy and trim in one mesh (4 material groups). It rolls into turns, engine flames follow the throttle, and a loot-coloured glow under it grows with the loot carried. Wings widen with Thick Hull. |
+| HQ / Station | A dock below the flight plane, a halo ring above the camera, a bank zone with inward chevrons, and a sky beam that ignores fog (yours is the brightest) / the same idea, smaller, with a turret |
+| Ring | A ticked rim in the owner's colour and a progress arc that fills while someone claims it |
+| Field | A glowing loot-coloured nebula (one `Points` draw) inside a dashed rim. Nothing solid, so it never reads as an obstacle |
+| Loot | An `InstancedMesh` of emissive crystal shards that spin and bob, each with a halo (one `Points` draw) |
+| Vault / Crown | A gold dodecahedron in a wire cage with an orbit ring; it cracks open (2 halves) and turns see-through when you fly into it / a gold crown with a glow sprite |
+| Bolts | Two `InstancedMesh`es: a bright core and a coloured additive sleeve |
+| Effects | One pooled `Points` system for sparks (hits, pickups, explosions) plus pooled shockwave rings, flashes and bank crystals |
+| Backdrop | A canvas-gradient nebula sky, 1,560 tinted stars, a ringed planet, and space dust that wraps around the camera to show speed |
 
-- **Materials:** `MeshLambertMaterial` with `flatShading` and an emissive colour. **Lighting:** 1 hemisphere light and 1 directional light.
+- **Materials:** `MeshLambertMaterial` with `flatShading` and an emissive colour. **Lighting:** 1 hemisphere light, 1 directional key light and 1 cool directional rim light (no shadows).
 - **Budget:** at most 250 KB of JavaScript gzipped in total (Three.js is about 170 KB of that). First load under 2 s on 4G.
 - **Code splitting:** the Scanner never downloads Three.js, because the phone view is loaded with a dynamic `import()`.
 
@@ -402,7 +405,7 @@ Perks and sector rules are both **tables of tuning overrides**. `sim.ts` reads s
 | `welcome` | `{pid, sec, map, sector, target}` | After `hello` |
 | `s` | `{k, ms, me:{x,z,h,vx,vz,hp,hpMax,held,hold,score,level,offer,perks,boostCd,shield,state,respawnIn,crown}, ents:[[id,kind,x,z,h,owner,aux]], blips:[[x,z,owner]]}` | 10 Hz, to each phone, already fog-filtered |
 | `pub` | `scannerView`: scores, rings, stations, fields, pings, the leader, Vault HP, Crown, ticker | 2 Hz to the host and 1 Hz to phones (it is public by definition) |
-| `ev` | `{text, kind, x?, z?}` | Ticker and personal events, as they happen |
+| `ev` | `{text, kind, x?, z?, n?}` | Ticker and personal events, as they happen. `dealt` (your bolt hit something: where, `n` damage) and `hit` (you were hit; x/z is a point the shot came from) carry positions |
 | `end` | `{winner, reason:"target"\|"host", table}` | Once |
 | `err` / `reload` | `room_full`, `bad_code`, `bad_secret`, `kicked` / a protocol version mismatch | — |
 

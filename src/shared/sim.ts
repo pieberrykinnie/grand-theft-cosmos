@@ -24,9 +24,9 @@ export interface Ring { id: number; x: number; z: number; owner: number; prog: n
 export interface Field { id: number; x: number; z: number; home: boolean; made: number; t: number }
 export interface Station { id: number; x: number; z: number; owner: number; hp: number; payT: number; cd: number }
 export interface Loot { id: number; x: number; z: number; v: number; exp: number; f: number; from: number }
-export interface Bolt { id: number; x: number; z: number; vx: number; vz: number; o: number; d: number; life: number }
+export interface Bolt { id: number; x: number; z: number; vx: number; vz: number; o: number; d: number; life: number; s?: 1 } // s: fired by a ship (not a turret)
 export interface Ping { x: number; z: number; o: number; k: string; t: number }
-export interface Out { to: number; kind: string; text: string }
+export interface Out { to: number; kind: string; text: string; x?: number; z?: number; n?: number }
 export interface Game {
   code: string; rs: number; target: number; sector: SectorId;
   state: "lobby" | "play" | "paused" | "over";
@@ -76,7 +76,7 @@ export function stat(g: Game, p: Player | null, k: StatKey): number {
 
 export const byId = (g: Game, id: number) => g.players.find((p) => p.id === id);
 const ticker = (g: Game, s: string) => { g.ticker.push(s); if (g.ticker.length > 8) g.ticker.shift(); };
-const out = (g: Game, to: number, kind: string, text = "") => g.out.push({ to, kind, text });
+const out = (g: Game, to: number, kind: string, text = "", at?: { x: number; z: number; n?: number }) => g.out.push({ to, kind, text, ...at });
 
 export function createGame(code: string, target: number, sector: SectorId | "random", hostTok: string): Game {
   const g: Game = {
@@ -285,13 +285,14 @@ function dropCrown(g: Game, p: Player): void {
   ticker(g, `${p.name} dropped the Crown`);
 }
 
-function damageShip(g: Game, q: Player, dmg: number, by: number): void {
+/** (fx, fz): a point the shot came from, so the victim's phone can show which side it was hit on. */
+function damageShip(g: Game, q: Player, dmg: number, by: number, fx = q.x, fz = q.z): void {
   if (!hittable(g, q)) return;
   q.hp -= dmg;
   q.lastDmg = g.t;
   if (by && by !== q.id) [q.hitBy, q.hitAt] = [by, g.t];
   ping(g, q, "hit");
-  out(g, q.id, "hit");
+  out(g, q.id, "hit", "", { x: r1(fx), z: r1(fz) });
   if (q.hp > 0) return;
   Object.assign(q, { dead: true, hp: 0, respawnAt: g.t + T.RESPAWN_S, build: -1, boostT: 0, vx: 0, vz: 0 });
   const drop = Math.round(q.held * stat(g, q, "dropFrac"));
@@ -351,9 +352,9 @@ export function segHit(sx: number, sz: number, dx: number, dz: number, cx: numbe
   return s >= 0 && s <= 1 ? s : -1;
 }
 
-function shoot(g: Game, x: number, z: number, dir: number, d: number, range: number, o: number): void {
+function shoot(g: Game, x: number, z: number, dir: number, d: number, range: number, o: number, ship = false): void {
   const v = BASE.boltSpeed;
-  g.bolts.push({ id: g.nextId++, x, z, vx: Math.cos(dir) * v, vz: Math.sin(dir) * v, o, d, life: range / v });
+  g.bolts.push({ id: g.nextId++, x, z, vx: Math.cos(dir) * v, vz: Math.sin(dir) * v, o, d, life: range / v, ...(ship ? { s: 1 as const } : {}) });
 }
 
 function nearestEnemy(g: Game, owner: number, x: number, z: number, r: number): Player | undefined {
@@ -451,7 +452,7 @@ export function step(g: Game, dt: number): void {
     const dir = aimDir(g, p), guns = stat(g, p, "guns"), c = Math.cos(p.h), s = Math.sin(p.h);
     for (let i = 0; i < guns; i++) {
       const off = (i - (guns - 1) / 2) * 8;
-      shoot(g, p.x + c * 12 - s * off, p.z + s * 12 + c * off, dir, stat(g, p, "dmg"), stat(g, p, "range"), p.id);
+      shoot(g, p.x + c * 12 - s * off, p.z + s * 12 + c * off, dir, stat(g, p, "dmg"), stat(g, p, "range"), p.id, true);
     }
   }
 
@@ -469,15 +470,21 @@ export function step(g: Game, dt: number): void {
   const flying: Bolt[] = [];
   for (const b of g.bolts) {
     const dx = b.vx * dt, dz = b.vz * dt;
-    let best = 2, hit: (() => void) | null = null;
-    const test = (x: number, z: number, r: number, fn: () => void) => {
+    let best = 2, hit: (() => void) | null = null, what = "";
+    const test = (x: number, z: number, r: number, kind: string, fn: () => void) => {
       const s = segHit(b.x, b.z, dx, dz, x, z, r);
-      if (s >= 0 && s < best) [best, hit] = [s, fn];
+      if (s >= 0 && s < best) [best, hit, what] = [s, fn, kind];
     };
-    for (const q of P) if (q.id !== b.o && hittable(g, q)) test(q.x, q.z, T.SHIP_R, () => damageShip(g, q, b.d, b.o));
-    for (const s of g.stations) if (s.owner !== b.o) test(s.x, s.z, T.STATION_R, () => damageStation(g, s, b.d, b.o));
-    if (!g.crown) test(0, 0, T.VAULT_R, () => damageVault(g, b.d, b.o));
-    if (hit) { (hit as () => void)(); continue; }
+    const fx = b.x - b.vx * 0.2, fz = b.z - b.vz * 0.2;
+    for (const q of P) if (q.id !== b.o && hittable(g, q)) test(q.x, q.z, T.SHIP_R, "ship", () => damageShip(g, q, b.d, b.o, fx, fz));
+    for (const s of g.stations) if (s.owner !== b.o) test(s.x, s.z, T.STATION_R, "station", () => damageStation(g, s, b.d, b.o));
+    if (!g.crown) test(0, 0, T.VAULT_R, "vault", () => damageVault(g, b.d, b.o));
+    if (hit) {
+      (hit as () => void)();
+      // Hit marker for the shooter's phone only: where it landed and for how much.
+      if (b.s) out(g, b.o, "dealt", what, { x: r1(b.x + dx * best), z: r1(b.z + dz * best), n: Math.round(b.d) });
+      continue;
+    }
     b.x += dx;
     b.z += dz;
     if ((b.life -= dt) > 0) flying.push(b);

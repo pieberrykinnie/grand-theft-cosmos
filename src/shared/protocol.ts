@@ -1,6 +1,6 @@
 import { T } from "./tuning";
 
-export const PROTOCOL_VERSION = 1;
+export const PROTOCOL_VERSION = 2; // 2: `ev` carries x/z/n (hit markers, hit direction)
 
 // Entity kinds in `s.ents`: [id, kind, x, z, h, owner, aux]
 export const K = { SHIP: 0, BOLT: 1, LOOT: 2, STATION: 3, VAULT: 4 } as const;

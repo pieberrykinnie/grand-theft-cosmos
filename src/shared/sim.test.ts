@@ -81,6 +81,29 @@ describe("death (§13.2)", () => {
     expect(Math.hypot(b.x - b.hx, b.z - b.hz)).toBeLessThan(1);
     expect(b.shieldUntil).toBeGreaterThan(g.t);
   });
+  test("the shooter gets a hit marker; the victim learns which side it came from; turrets give no marker", () => {
+    const { g, ps: [a, b] } = setup(2);
+    at(a, 0, 400);
+    at(b, 0, 500);
+    aim(g, a, b.x, b.z);
+    const evs: typeof g.out = [];
+    run(g, 0.6, () => { at(b, 0, 500); evs.push(...g.out); g.out = []; });
+    const dealt = evs.find((e) => e.kind === "dealt");
+    expect(dealt).toMatchObject({ to: a.id, text: "ship", n: BASE.dmg });
+    expect(Math.hypot(dealt!.x! - b.x, dealt!.z! - b.z)).toBeLessThanOrEqual(T.SHIP_R + 0.1);
+    const hit = evs.find((e) => e.kind === "hit")!;
+    expect(hit.to).toBe(b.id);
+    expect(hit.z!).toBeLessThan(b.z); // came from a, who is at smaller z
+    // b parks inside a's HQ zone: a's turret hurts b, but a gets no marker for it
+    input(g, a, a.h, 0, 0);
+    run(g, 0.5);
+    g.out = [];
+    const hp = b.hp, later: typeof g.out = [];
+    const park = () => { at(b, a.hx * 0.95, a.hz * 0.95); later.push(...g.out); g.out = []; };
+    run(g, 1, park);
+    expect(b.hp).toBeLessThan(hp);
+    expect(later.some((e) => e.kind === "dealt")).toBe(false);
+  });
   test("Insurance drops only half; Pirate Code spills ×1.5", () => {
     const { g, ps: [a, b] } = setup(2, "pirate");
     b.perks.insurance = 1;

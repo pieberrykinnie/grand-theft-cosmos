@@ -239,7 +239,7 @@ export class Room extends DurableObject<Env> {
       if (!sim.byId(g, a.pid)) continue;
       players++;
       send(ws, JSON.stringify(sim.playerView(g, a.pid)));
-      for (const o of g.out) if (o.to === a.pid) send(ws, { t: "ev", kind: o.kind, text: o.text });
+      for (const o of g.out) if (o.to === a.pid) send(ws, { t: "ev", kind: o.kind, text: o.text, x: o.x, z: o.z, n: o.n });
       if (pub && this.tick % T.PUB_PHONE_EVERY === 0) send(ws, pub);
     }
     g.out = [];
