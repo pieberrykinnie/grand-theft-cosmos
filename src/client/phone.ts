@@ -78,6 +78,18 @@ const CSS = `
 .over { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--red); text-align: center; pointer-events: none; }
 #rotate { display: none; } @media (orientation: portrait) { #rotate.want { display: flex; } }
 .endscr table { border-collapse: collapse; font-size: 15px; } .endscr td, .endscr th { padding: 3px 10px; text-align: right; } .endscr td:nth-child(2) { text-align: left; }
+.waitscr { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding: max(10px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); justify-content: safe center; box-sizing: border-box; }
+.waitcard { margin: auto; display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.8vh, 12px); text-align: center; max-width: min(560px, 94vw); width: 100%; }
+.waitscr h1 { font-size: clamp(18px, 4.5vh, 26px); margin: 0; letter-spacing: 0.05em; color: var(--cyan); }
+.waitscr .rules { padding: clamp(8px, 2vh, 14px) clamp(12px, 3vw, 20px); border-radius: 12px; font-size: clamp(12px, 3.2vh, 15px); line-height: 1.35; width: 100%; box-sizing: border-box; }
+.waitscr .rules ol { margin: 0; padding-left: 1.3em; }
+.waitscr .rules li { margin: clamp(2px, 0.5vh, 4px) 0; }
+.waitscr .ctlpic { margin-top: clamp(4px, 1vh, 8px); font-size: 0.85em; color: var(--dim); }
+.waitscr p { margin: 0; font-size: clamp(11px, 2.8vh, 14px); line-height: 1.3; }
+.waitscr p.sec { color: var(--cyan); }
+.waitscr p.muted { color: var(--dim); }
+.joinscr { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding: max(10px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); justify-content: safe center; box-sizing: border-box; }
+.joinscr h1 { font-size: clamp(20px, 5vh, 32px); margin: 0; }
 `;
 // Objective arrow (shaft + head, pointing up = straight ahead) and the HOME house.
 const ARROW_SVG = `<svg viewBox="-16 -16 32 32"><path d="M0-14 12 0H4.5v13h-9V0H-12z"/></svg>`;
@@ -108,9 +120,9 @@ export function start(app: HTMLElement, code: string) {
   // ---------- Screens ----------
   const nameIn = el("input", { value: id?.name ?? store.get("gtc:name") ?? "", maxLength: 12, placeholder: "Your name", autocomplete: "nickname" as AutoFill });
   const joinBtn = el("button", { textContent: "Join", style: { width: "100%" } });
-  const joinScr = el("div", { className: "full" }, el("h1", { textContent: "GRAND THEFT COSMOS" }), el("div", { className: "code", textContent: `Room ${code}`, style: { color: "var(--gold)" } }),
+  const joinScr = el("div", { className: "full joinscr" }, el("h1", { textContent: "GRAND THEFT COSMOS" }), el("div", { className: "code", textContent: `Room ${code}`, style: { color: "var(--gold)" } }),
     el("div", { style: { display: "grid", gap: "10px", width: "min(360px, 90vw)" } }, nameIn, joinBtn));
-  const waitScr = el("div", { className: "full veil hidden" });
+  const waitScr = el("div", { className: "full veil waitscr hidden" });
   const msgScr = el("div", { className: "full veil hidden" });
   const endScr = el("div", { className: "full veil endscr hidden", style: { overflow: "auto", justifyContent: "flex-start" } });
   const down = el("div", { className: "full veil hidden", innerHTML: "<h1>Reconnecting…</h1>" });
@@ -300,7 +312,7 @@ export function start(app: HTMLElement, code: string) {
     sector.textContent = SECTORS[p.sector].name;
     paused.classList.toggle("hidden", p.st !== "paused");
     if (p.st === "lobby") {
-      waitScr.innerHTML = `<h1>GRAND THEFT COSMOS</h1>${rulesCard(p.target)}<p class="sec">Sector: ${SECTORS[p.sector].name} — ${SECTORS[p.sector].desc}</p><p class="muted">${p.players.length} in the room · waiting for the host to start…</p>`;
+      waitScr.innerHTML = `<div class="waitcard"><h1>GRAND THEFT COSMOS</h1>${rulesCard(p.target)}<p class="sec">Sector: ${SECTORS[p.sector].name} — ${SECTORS[p.sector].desc}</p><p class="muted">${p.players.length} in the room · waiting for the host to start…</p></div>`;
       waitScr.classList.remove("hidden");
     } else waitScr.classList.add("hidden");
     if (p.st === "play" || p.st === "paused") startPlaying();
@@ -312,6 +324,7 @@ export function start(app: HTMLElement, code: string) {
   function startPlaying() {
     if (playing) return;
     playing = true;
+    waitScr.classList.add("hidden");
     game.classList.remove("hidden");
     wakeLock();
   }
