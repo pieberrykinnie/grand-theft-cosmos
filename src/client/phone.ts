@@ -669,6 +669,9 @@ export function start(app: HTMLElement, code: string) {
     b.onpointerup = b.onpointercancel = () => { b.classList.remove("down"); up?.(); };
     b.oncontextmenu = (e) => e.preventDefault();
   };
+  // iOS Safari double-tap-zooms despite touch-action: none, and the game then blocks the pinch back out.
+  // Cancelling touchend stops it; the perk cards are the only clicks in the game layer.
+  game.addEventListener("touchend", (e) => (e.target as Element).closest(".perks") || e.preventDefault(), { passive: false });
   press(fireB, () => { firing = true; showHint("fire"); }, () => (firing = false));
   press(boostB, () => send({ t: "act", a: "boost" }));
   press(buildB, () => send({ t: "act", a: "build" }));
@@ -743,14 +746,14 @@ export function start(app: HTMLElement, code: string) {
       backdrop.position.copy(camera.position);
       return void renderer.render(scene, camera);
     }
-    // Interpolate 100 ms in the past between the two snapshots around render time.
+    // Interpolate 100 ms in the past between the two snapshots around render time. Half of all snapshots land
+    // later than average, so past the newest one keep extrapolating (up to a tick) instead of freezing then jumping.
     const rms = now + clockOff - 100;
-    let a = frames[0], b = frames[frames.length - 1];
-    for (const f of frames) if (f.ms <= rms) a = f;
-    b = frames.find((f) => f.ms > rms) ?? a;
-    const u = b === a ? 0 : Math.min(1, Math.max(0, (rms - a.ms) / (b.ms - a.ms)));
+    const b = frames.find((f) => f.ms > rms) ?? frames[frames.length - 1], a = frames[Math.max(0, frames.indexOf(b) - 1)];
+    const u = b === a ? 0 : Math.min(2, Math.max(0, (rms - a.ms) / (b.ms - a.ms)));
     const L = (p: number, q: number) => p + (q - p) * u;
-    const px = L(a.me.x, b.me.x), pz = L(a.me.z, b.me.z);
+    const um = a.me.state === b.me.state ? u : Math.min(u, 1); // a respawn teleports: never extrapolate past it
+    const px = a.me.x + (b.me.x - a.me.x) * um, pz = a.me.z + (b.me.z - a.me.z) * um;
     const t = now / 1000, ease = Math.min(1, dt * 7);
 
     // Own ship: rolls into turns, flames follow the throttle, cargo glows with the hold.
