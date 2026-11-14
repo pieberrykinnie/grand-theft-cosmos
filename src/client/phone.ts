@@ -24,10 +24,13 @@ const CSS = `
 .trk { position: relative; height: 10px; background: rgba(244,244,240,.18); overflow: hidden; }
 .trk i, .trk u { position: absolute; inset: 0 auto 0 0; width: 0; transition: width .3s cubic-bezier(.16,1,.3,1); }
 .hull i { background: var(--slab); }
-.hull.low i { background: var(--red); } .hull.low b, .hull.low .v { color: #ff6b5e; }
 .hold i { background: var(--loot); }
-.hold .trk::after, .lvrow .trk::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(100% - 2px), #151515 0) 0 0 / calc(100% / var(--n, 10)) 100%; }
-.hold.full b, .hold.full .v { color: var(--loot); }
+.hull.low i, .hold.max i { background: var(--red); } .hull.low b, .hull.low .v, .hold.max b, .hold.max .v { color: #ff6b5e; }
+/* A full hold flashes red three times (2 Hz), then stays red until you bank. */
+.hold.max i { animation: maxblink .5s step-end 3; }
+@keyframes maxblink { 50% { background: var(--loot); } }
+/* Slot dividers as one repeating gradient (tiled backgrounds round to whole pixels and leave a sliver at the end); the extra 2px pushes the last divider off the edge. */
+.hold .trk::after, .lvrow .trk::after { content: ""; position: absolute; inset: 0 -2px 0 0; background: repeating-linear-gradient(90deg, transparent 0 calc(100% / var(--n, 10) - 2px), #151515 0 calc(100% / var(--n, 10))); }
 .lvrow .trk u { z-index: 1; width: 3px; background: var(--slab); transition: left .3s; }
 .punch { animation: punch .45s cubic-bezier(.16,1,.3,1); }
 @keyframes punch { 0% { transform: scale(1.1); filter: brightness(1.8); } 100% { transform: none; filter: none; } }
@@ -112,7 +115,7 @@ type Me = Snap["me"];
 interface Frame { ms: number; me: Me; ents: Map<number, number[]> }
 interface Ev { kind: string; text: string; x?: number; z?: number; n?: number }
 const HINTS = {
-  full: "Hold full — go home", bank: "Banked! Pick a perk", ring: "Stay inside to claim it",
+  bank: "Banked! Pick a perk", ring: "Stay inside to claim it",
   fire: "Shooting shows you on the big screen", hull: "Run home — you'll drop your loot", build: "BUILD: plant a station here",
   gap: "Build outside the dashed line",
 };
@@ -460,7 +463,7 @@ export function start(app: HTMLElement, code: string) {
     holdM.fill.style.width = `${(100 * me.held) / me.hold}%`;
     holdM.v.textContent = `${me.held}/${me.hold}`;
     holdM.row.style.setProperty("--n", String(Math.round(me.hold / T.CRYSTAL)));
-    holdM.row.classList.toggle("full", me.held >= me.hold);
+    holdM.row.classList.toggle("max", me.held >= me.hold); // not "full": that's the global full-screen overlay class
     // Level and race share one bar: banked score toward the target, one step per level (the first bank is Level 1).
     const target = pub?.target ?? T.TARGETS[0], lead = Math.max(0, ...(pub?.players.map((r) => r[3]) ?? []));
     lvl.textContent = `Level ${me.level}`;
@@ -519,7 +522,6 @@ export function start(app: HTMLElement, code: string) {
       perks.classList.toggle("hidden", !me.offer);
     }
     // Hints
-    if (me.held >= me.hold) showHint("full");
     if (me.ring) showHint("ring");
     if (me.state === "alive" && me.hp < me.hpMax * 0.3) showHint("hull");
     if (me.canBuild) showHint("build");
