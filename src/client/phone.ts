@@ -192,7 +192,8 @@ export function start(app: HTMLElement, code: string) {
   // ---------- State ----------
   let pub: Pub | null = null, me: Me | null = null, frames: Frame[] = [], clockOff = NaN;
   let localH = 0, syncH = true, wasDead = false, playing = false;
-  const joy = { id: -1, x: 0, y: 0, ox: 0, oy: 0 };
+  // iOS Safari hands out huge, often negative touch pointerIds, so "no finger" is null, not a number.
+  const joy = { id: null as number | null, x: 0, y: 0, ox: 0, oy: 0 };
   let firing = false, lastSend = 0, lastIn = "", boostMax = 1, turnIn = 0, thIn = 0;
   let trauma = 0, fovKick = 0, roll = 0, downBy = "", lastNews = "", newsT = 0;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -633,7 +634,7 @@ export function start(app: HTMLElement, code: string) {
 
   // ---------- Controls ----------
   joyZone.onpointerdown = (e) => {
-    if (joy.id >= 0) return;
+    if (joy.id !== null) return;
     joyZone.setPointerCapture(e.pointerId);
     Object.assign(joy, { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: 0, y: 0 });
     Object.assign(joyEl.style, { left: `${e.clientX}px`, top: `${e.clientY}px` });
@@ -650,7 +651,7 @@ export function start(app: HTMLElement, code: string) {
   };
   joyZone.onpointerup = joyZone.onpointercancel = (e) => {
     if (e.pointerId !== joy.id) return;
-    Object.assign(joy, { id: -1, x: 0, y: 0 });
+    Object.assign(joy, { id: null, x: 0, y: 0 });
     joyEl.classList.add("hidden");
     (joyEl.firstChild as HTMLElement).style.transform = "";
   };
@@ -693,7 +694,7 @@ export function start(app: HTMLElement, code: string) {
     lastT = now;
     const kx = (keys.has("ArrowRight") || keys.has("KeyD") ? 1 : 0) - (keys.has("ArrowLeft") || keys.has("KeyA") ? 1 : 0);
     const ky = (keys.has("ArrowUp") || keys.has("KeyW") ? 1 : 0) - (keys.has("ArrowDown") || keys.has("KeyS") ? 1 : 0);
-    const jx = joy.id >= 0 ? joy.x : kx, jy = joy.id >= 0 ? joy.y : ky;
+    const jx = joy.id !== null ? joy.x : kx, jy = joy.id !== null ? joy.y : ky;
     const fire = firing || keys.has("Space");
     // Only our own heading is predicted, at the server's turn rate.
     if (me?.state === "alive") localH = wrap(localH + jx * T.TURN * dt);
