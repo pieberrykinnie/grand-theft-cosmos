@@ -280,15 +280,15 @@ Flat. Depth comes from contrast, a white slab on studio black, or a near-opaque 
 The over-scene layer on the phone is the only place soft shadows appear, and only for legibility or danger: floating damage numbers and the BANKED pop carry a dark text shadow so they read over the moving 3D view, and taking damage shows a red inset vignette. These belong to the over-scene layer and do not carry over to chrome.
 
 ### Named Rules
-**The Flat Studio Rule.** No glow, no smooth gradients and no blur on chrome. Hard-stop gradients that draw segmented meters (the BOOST cooldown dial, the HOLD slot dividers) are drawings of steps, not shading, and are allowed.
+**The Flat Studio Rule.** No glow, no smooth gradients and no blur on chrome. Hard-stop gradients that draw segmented meters (the DASH cooldown dial, the HOLD slot dividers) are drawings of steps, not shading, and are allowed.
 
 ## Shapes
 
 Square. Every slab, button, field, chip, tag, HUD block, map tag and HQ marker has a 0 radius. Borders are 2px (fields, outline buttons, dividers) or 3px (thumb buttons, focus rings).
 
-Circles are reserved. On chrome they appear only for the thumb buttons (BUILD, BOOST, FIRE), map pins and the radar. The map's own geometry is circular because the world is: the sector disc, range rings, loot fields, territory rings, claim arcs and ping ripples, and the joystick ring. The vault is a white diamond; the Crown and the pin are fixed paths.
+Circles are reserved. On chrome they appear only for the thumb buttons (BUILD, DASH, FIRE), map pins and the radar. The map's own geometry is circular because the world is: the sector disc, range rings, loot fields, territory rings, claim arcs and ping ripples, and the joystick ring. The vault is a white diamond; the Crown and the pin are fixed paths.
 
-Unavailable, offline, stunned and unclaimed states turn a filled shape into its outline: outline chips for offline players, a dashed ring when unclaimed, a dashed diamond when the vault is cracked, an outlined HQ square when stunned, an outlined BUILD button when building is unavailable, outline buttons when disabled.
+Unavailable, offline, stunned and unclaimed states turn a filled shape into its outline: outline chips for offline players, a dashed ring when unclaimed, a dashed diamond when the vault is cracked, an outlined HQ square when stunned, outline buttons when disabled.
 
 ## Components
 
@@ -336,11 +336,10 @@ Map plate disc with a faint grid, two range rings and a slab rim. Loot fields in
 
 ### Phone HUD (signature)
 - **Telemetry block:** three rows. The chip beside LEVEL N over a 10-step bar in the player's colour: banked score toward the target, one step per level, so one bar is both XP and the race; a white tick marks the leader when they are ahead of you. Then HULL (slab, red when low) and HOLD (aquamarine, slotted) meters with tabular values.
-- **Instruction strap:** one line at top-centre with a direction arrow and distance; gold for HOME, aquamarine for LOOT. First-time hints and the perk prompt take over the same strap with a 2px slab outline.
 - **Timer strip:** one status at a time as 10 square steps.
-- **Thumb buttons:** FIRE is a 112px red circle; BOOST is a 76px dial whose segmented ring shows cooldown; BUILD stays hidden until building first matters (it arrives with its first-time hint), then is an outline until building is possible and fills slab. Pressed buttons scale to 0.94.
-- **Perk pick:** two slab cards (64px minimum) hanging directly under the "Level up" strap, over the sky, uppercase name over a sentence. The strap and the cards are the level-up announcement; there is no separate level pop.
-- **HOME tag:** a black tag with the house and carried amount over your HQ while it is on screen. Off screen, the radar rim and the objective arrows point home; nothing pins to the screen edge.
+- **Thumb buttons:** FIRE is a 112px red circle; DASH is a 76px dial whose segmented ring shows cooldown; BUILD is a slab button shown only where a station is allowed. Where only the 300 station gap blocks it, a dashed white ring on the floor marks the gap to clear. Pressed buttons scale to 0.94.
+- **Perk pick:** two slab cards (64px minimum) at top-centre, over the sky, uppercase name over a sentence. The cards are the level-up announcement; there is no separate level pop.
+- **HOME tag:** a black tag with the house and carried amount over your HQ while it is on screen. Off screen, the radar rim points home; nothing pins to the screen edge.
 - **Ticker and cards:** each ticker line shows for 6 s, then the bottom clears. The Destroyed card's red headline names who did it ("Destroyed by Mira") instead of a toast on top of it.
 
 ## Do's and Don'ts
@@ -351,7 +350,7 @@ Map plate disc with a faint grid, two range rings and a slab rim. Loot fields in
 - **Do** limit gold on the phone to the HOME objective, the HOME marker and "+N BANKED"; give level and XP the player's own colour.
 - **Do** show unavailable, offline, stunned or unclaimed things as outlines (solid or dashed).
 - **Do** show timers and cooldowns as 10-step strips or segmented dials.
-- **Do** give the phone one instruction at a time; hints and the perk prompt reuse the same strap, and the perk cards hang under it.
+- **Do** give the phone one message at a time: first-time hints and events share one toast.
 - **Do** keep the phone's ship and lower half clear of everything but the thumb buttons and the ticker; reveal a control when it first matters.
 - **Do** switch the Scanner sidebar to dense mode at 9–12 players so every row stays on screen.
 - **Do** use tabular numerals for every changing number.

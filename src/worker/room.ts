@@ -116,7 +116,7 @@ export class Room extends DurableObject<Env> {
     if (!p) return;
     sim.touch(g, p);
     if (m.t === "in") sim.input(g, p, m.h, m.th, m.f);
-    else if (m.t === "act") sim.act(g, p, m.a, m.k);
+    else if (m.t === "act") sim.act(g, p, m.a, m.k, m.h);
     this.ensureTick();
   }
 

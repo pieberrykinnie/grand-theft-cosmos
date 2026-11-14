@@ -14,8 +14,8 @@ A couch-party space heist for 2–12 players and one laptop. The laptop runs **t
 
 ### Pillars
 
-1. **You get it in 1 minute.** One sentence explains the goal, an arrow shows the way, and there are 3 buttons.
-2. **The big screen is a police scanner.** It is public, live and deliberately incomplete. Shooting, boosting and banking give you away, while flying around quietly doesn't.
+1. **You get it in 1 minute.** One sentence explains the goal, the radar shows the way, and there are 3 buttons.
+2. **The big screen is a police scanner.** It is public, live and deliberately incomplete. Shooting, dashing and banking give you away, while flying around quietly doesn't.
 3. **Everything can be stolen:** the loot in your hold, your stations, and the Crown.
 4. **Players drive everything.** Nothing in the world changes on a clock. Fields run dry because people mine them, and the Vault opens because someone cracks it.
 5. **Nobody loses to the network.** Dropped connections, locked screens and page refreshes are routine.
@@ -64,15 +64,11 @@ A judge scans the QR code, and 60 seconds later should have completed the whole 
 > 2. **Shoot ships** to make them drop their loot.
 > 3. **Own rings and stations.** They pay you over time.
 
-Below the card is a picture of the controls: the joystick on the left, FIRE / BOOST / BUILD on the right.
+Below the card is a picture of the controls: the joystick on the left, FIRE / DASH / BUILD on the right.
 
-**The arrow** is the tutorial. A single thick 3D arrow hovers over your ship (gold for HOME, aquamarine for loot), echoed by an objective chip at the top of the HUD with the distance and a one-line instruction:
-- When your hold is less than half full, it points to the nearest loot or field.
-- When it's half full or more, or you're carrying the Crown, it points to your nearest bank, labelled HOME.
+**The radar** points the way. A goal ring on it marks the nearest loot or field while your hold is under half full, and your nearest bank once it's half full or you carry the Crown; HOME stays pinned to its rim. There is no on-screen arrow or instruction line.
 
-A new player who just follows the arrow completes the core loop without reading anything.
-
-**Hints.** Each hint is at most 6 words. It appears the first time its situation comes up, then never again (remembered in `localStorage`).
+**Hints.** Each hint is at most 6 words, shown as a short toast. It appears the first time its situation comes up, then never again (remembered in `localStorage`).
 
 | Situation | Hint |
 |---|---|
@@ -82,10 +78,11 @@ A new player who just follows the arrow completes the core loop without reading 
 | Firing for the first time | "Shooting shows you on the big screen" |
 | Hull drops below 30% | "Run home — you'll drop your loot" |
 | BUILD becomes available | "BUILD: plant a station here" |
+| The no-build line first appears | "Build outside the dashed line" |
 
 **Rookie shield.** For your first 60 s in a game you can't be damaged. Firing drops the shield early, and while it's up you can't capture rings. The first minute is for learning, and the shield also protects people who join late.
 
-**Everything else is automatic.** Picking up loot, banking, capturing and turrets all happen without input. The only choices are where to fly, FIRE, BOOST, BUILD, and which of two perks to take.
+**Everything else is automatic.** Picking up loot, banking, capturing and turrets all happen without input. The only choices are where to fly, FIRE, DASH, BUILD, and which of two perks to take.
 
 ---
 
@@ -117,7 +114,7 @@ Fly to loot → grab it → fly home → bank (now it's score, and safe) → pic
 
 - The world is a flat **2D plane** (x, z). Rendering is 3D, but gameplay is circles on a plane: ships don't collide with each other and there are no obstacles.
 - Movement has inertia: thrust along the heading, light drag, and a speed cap of 70. Turning is fast, at 180°/s.
-- **Boost:** 1.8× top speed for 1.5 s, with a 5 s cooldown.
+- **Dash:** an instant 120-unit hop where the joystick points (straight ahead if it's idle), with a 5 s cooldown. Afterimages trail it.
 - **Hull:** 100 HP. It regenerates 5 HP/s once you've gone 6 s without taking damage. There are no shields.
 - **Blaster:** fires straight ahead, 4 bolts/s at 10 damage each, with a range of 320. **Aim assist:** a bolt locks onto the nearest target within a 15° cone.
 - **Hold:** 50 loot. **Your ship glows brighter the more you carry**, so anyone close enough to see you can tell who is worth robbing.
@@ -148,9 +145,9 @@ Every rule below fits in a single line in the game:
 | **Wild field** | Grows 1 crystal every 4 s, with at most 15 floating. **It runs dry after producing 600 loot**, and a new one forms elsewhere (0.25–0.7R) 30 s later. Fields move because players use them up. |
 | **HQ** (one per player) | Your bank, respawn point and safe zone (radius 140). You can't be hurt there, and a 30 dps turret shoots intruders. It can't be taken. |
 | **Ring** (one per wedge) | Stay inside it (radius 110) for 10 s to claim it. Progress freezes when it's contested and decays when it's empty. **It pays its owner +1 every 5 s** and shows the owner nearby ships on their radar. |
-| **Station** (built by players) | Press **BUILD** and hold still for 5 s. Free, up to 3 each, at least 300 from other structures. It's a bank, a 12 dps turret, and radar for its owner, and **pays +1 every 10 s**. **Shoot it to 0 HP and it becomes yours** at 50% HP. If you already own 3, it's destroyed instead. |
+| **Station** (built by players) | Press **BUILD** and hold still for 5 s. Free, up to 3 each, at least 300 from the Vault and every HQ, ring and station (inside that gap the phone hides BUILD and draws a dashed line round the structure in the way). It's a bank, a 12 dps turret, and radar for its owner, and **pays +1 every 10 s**. **Shoot it to 0 HP and it becomes yours** at 50% HP. If you already own 3, it's destroyed instead. |
 | **Vault** (centre) | Shoot it (600 HP) to crack it open, and **the Crown** pops out. If nobody damages it for 5 s, the Vault regenerates 20 HP/s. Cracking it is loud: every shot pings you on the Scanner. |
-| **Crown** | Worth **15% of the target**. The carrier flies at 0.6× speed, can't boost, and **appears live on the Scanner**. It drops if the carrier dies or goes into stasis. If nobody touches it for 30 s it goes back into the Vault, which reseals at full HP. Once it's banked, the Vault reseals. |
+| **Crown** | Worth **15% of the target**. The carrier flies at 0.6× speed (dashing still works) and **appears live on the Scanner**. It drops if the carrier dies or goes into stasis. If nobody touches it for 30 s it goes back into the Vault, which reseals at full HP. Once it's banked, the Vault reseals. |
 
 ### 5.5 Score and levels
 
@@ -167,10 +164,10 @@ Every rule below fits in a single line in the game:
 | Twin Guns | Fire 2 bolts at once | 1 |
 | Thick Hull | +40 max hull | 3 |
 | Thrusters | +12% top speed | 3 |
-| Afterburner | −35% boost cooldown | 2 |
+| Afterburner | −35% dash cooldown | 2 |
 | Big Hold | +25 hold | 3 |
 | Magnet | +60% pickup radius | 2 |
-| Ghost | Boosting and banking no longer ping you on the Scanner | 1 |
+| Ghost | Dashing and banking no longer ping you on the Scanner | 1 |
 | Fortify | Your stations get +50% HP and turret damage | 2 |
 | Patch Kit | Hull starts regenerating 2 s after damage instead of 6 | 1 |
 | Insurance | You drop only half your hold when you die | 1 |
@@ -194,7 +191,7 @@ The rule for the game is shown as one line on the Scanner and the phones. It's a
 | Blackout | The Scanner shows only deaths, the leader and the Crown |
 | Glass Cannons | All damage ×2 |
 | Hot Rings | Rings pay ×2 |
-| Afterburners | Everyone ×1.25 speed, boost cooldown halved |
+| Afterburners | Everyone ×1.25 speed, dash cooldown halved |
 | Fat Crown | The Crown is worth ×2, and its carrier flies at ×0.45 |
 | Pirate Code | Loot spilled on death is worth ×1.5 |
 
@@ -224,7 +221,7 @@ All filtering happens **on the server**. No client ever receives data it isn't a
 
 **Pings** are circles in the owner's colour that fade over 8 s. They're triggered by:
 - firing (at most once per ship every 2 s)
-- boosting
+- dashing
 - taking a hit
 - dying (a wreck marker that lasts 12 s)
 - capturing
@@ -240,9 +237,8 @@ All filtering happens **on the server**. No client ever receives data it isn't a
 ### 7.1 Phone (landscape, third person)
 
 - **Left half of the screen:** a floating joystick that appears wherever your thumb lands. Left and right turn the ship; up is thrust and down is brake or reverse (−0.4). About 40 lines of pointer-event code.
-- **Right side:** **FIRE** (large, hold to fire), **BOOST** (tap), **BUILD** (lit only where a station is allowed).
+- **Right side:** **FIRE** (large, hold to fire), **DASH** (tap), **BUILD** (shown only where a station is allowed).
 - **HUD:**
-  - the arrow (§3): 3D over the ship, plus the objective chip and a one-line instruction
   - hull bar
   - hold bar, segmented one crystal per notch
   - "Level N" and an XP bar (banked loot toward the next level), and a "PICK A PERK" badge while an offer is waiting
@@ -250,7 +246,7 @@ All filtering happens **on the server**. No client ever receives data it isn't a
   - a HOME marker over your HQ, pinned to the screen edge and pointing at it when it's off screen; it shows the loot you'd bank
   - hit markers: the damage you dealt floats up where your bolt landed; taking a hit flashes a red arc on the side it came from
   - on banking, crystals fly from your ship into the bank, "+N BANKED" pops and the XP bar fills (phone only; the Scanner just pings)
-  - boost cooldown ring
+  - dash cooldown ring
   - the latest ticker line
   - the sector rule
   - a radar (a 2D canvas about 160 px wide)
@@ -353,7 +349,7 @@ src/worker/room.ts         Room DO: sockets, tick, persistence, rate limits
 src/client/main.ts         "/" → landing, "/host/:code" → scanner, "/j/:code" → phone
 src/client/net.ts          WebSocket that reconnects itself
 src/client/scanner.ts      Canvas 2D Scanner
-src/client/phone.ts        Three.js view, HUD, joystick, arrow, hints
+src/client/phone.ts        Three.js view, HUD, joystick, hints
 src/client/models.ts       procedurally generated meshes
 scripts/bots.ts            load-test bots (Bun)
 ```
@@ -395,7 +391,7 @@ Perks and sector rules are both **tables of tuning overrides**. `sim.ts` reads s
 |---|---|---|
 | `hello` | `{t, v, role:"player", name, pid?, sec?}` or `{t, v, role:"host", tok}` | First message on every socket |
 | `in` | `{t, h, th, f}`: heading in radians, throttle from −0.4 to 1, fire 0/1 | When it changes, at most **5 Hz**. If nothing has changed, it is resent every 2 s as a heartbeat. |
-| `act` | `{t, a:"boost"\|"build"\|"perk", k?:0\|1}` | When the player taps |
+| `act` | `{t, a:"boost"\|"build"\|"perk", k?:0\|1, h?}` (`boost` is the dash; `h` its heading in radians) | When the player taps |
 | `host` | `{t, a:"start"\|"pause"\|"resume"\|"end"\|"kick", pid?}` | Host only |
 
 **Server → client**
@@ -449,7 +445,7 @@ Principle: **the server holds all the truth, and phones are terminals that hold 
 
 | Threat | Defence |
 |---|---|
-| Speed hacks, teleporting, faking damage or score | **The server is authoritative.** Clients send heading, throttle and buttons. The server limits heading change per tick, keeps throttle in range, and enforces fire rate, boost cooldown, build rules and perk offers (you can only pick from the 2 cards you were offered). |
+| Speed hacks, teleporting, faking damage or score | **The server is authoritative.** Clients send heading, throttle and buttons. The server limits heading change per tick, keeps throttle in range, and enforces fire rate, dash cooldown and distance, build rules and perk offers (you can only pick from the 2 cards you were offered). |
 | Map hacks, or reading the network traffic | **Fog is applied on the server** (§6). The Scanner receives only public data, so a host who is also a player gains nothing. |
 | Taking over someone else's ship | A 128-bit `sec` for each player in each room. Host actions require the host token. Neither ever appears in a URL, QR code or screenshot. |
 | Malformed or oversized messages | Messages over 512 bytes are dropped. `JSON.parse` is wrapped in a try. Every field is type-checked and checked with `Number.isFinite`. Unknown message types are ignored. |
@@ -510,7 +506,7 @@ Worst case, every player steering constantly at 5 Hz: **900 DO requests per play
 - Every 60 s, bots randomly drop their connection and reconnect.
 - Pass when every reconnect succeeds, no phone goes more than 500 ms without a snapshot, and the server's 99th-percentile tick time is under 5 ms.
 
-**One-minute test** (the one that matters for judging): hand the QR code to someone who has never seen the game and say nothing. **Within 60 s they should have banked loot and picked a perk.** Watch where they hesitate, then fix the arrow or the hints, not the rules card.
+**One-minute test** (the one that matters for judging): hand the QR code to someone who has never seen the game and say nothing. **Within 60 s they should have banked loot and picked a perk.** Watch where they hesitate, then fix the radar or the hints, not the rules card.
 
 **Real-device checklist** (deployed build, Quick target, at least 3 phones):
 - iPhone Safari and Android Chrome both join by QR code.
@@ -545,7 +541,7 @@ Worst case, every player steering constantly at 5 Hz: **900 DO requests per play
 4. The Vault and the Crown.
 5. Station turrets.
 
-**Never cut:** building stations, rings, reconnect and stasis, server-side fog, the target win, joining by QR code, the arrow.
+**Never cut:** building stations, rings, reconnect and stasis, server-side fog, the target win, joining by QR code.
 
 ---
 
@@ -556,7 +552,7 @@ Worst case, every player steering constantly at 5 Hz: **900 DO requests per play
 | Room | `MAX_PLAYERS 12` · targets `600 / 2,500 / 8,000` (default 600) · level every `target/10` |
 | Network | `TICK_HZ 10` · public update to host `2 Hz`, to phones `1 Hz` · input `≤5 Hz` with a `2 s` heartbeat · save every `10 s` · client considers the socket dead after `3 s` · server marks offline after `6 s` · stasis after `10 s` offline · auto-pause after `30 s` with no players · max message `512 B` · rate limit `15/s`, burst `30` |
 | Map | `W = max(players, 4)` · `R = 800 + 150W` · HQ `0.92R` · home field `0.75R` · ring `0.47–0.63R` (rolled) · wild field `0.30–0.45R` (rolled) · minimum station spacing `300` |
-| Ship | radius `10` · top speed `70` · acceleration `140` · drag `0.8/s` · turn `180°/s` · throttle `−0.4..1` · boost `×1.8 / 1.5 s / 5 s cooldown` · hull `100` · regeneration `5/s` after `6 s` · sensors `450` · respawn `5 s` · respawn shield `3 s` · rookie shield `60 s` |
+| Ship | radius `10` · top speed `70` · acceleration `140` · drag `0.8/s` · turn `180°/s` · throttle `−0.4..1` · dash `120` · `5 s` cooldown · hull `100` · regeneration `5/s` after `6 s` · sensors `450` · respawn `5 s` · respawn shield `3 s` · rookie shield `60 s` |
 | Weapon | `10` damage · `4/s` · bolt speed `450` · range `320` · aim assist `15°` · kill credit window `10 s` |
 | Loot | crystal value `5` · hold `50` · pickup radius `25` · spilled loot lasts `120 s` |
 | Fields | radius `120` · home: `1 crystal / 10 s`, at most `6` floating, never runs out · wild: `1 / 4 s`, at most `15` floating, runs dry after `600`, a new one forms `30 s` later in `0.25–0.7R` |
@@ -573,7 +569,7 @@ Worst case, every player steering constantly at 5 Hz: **900 DO requests per play
 
 | Risk | Mitigation |
 |---|---|
-| A judge doesn't get the game within 1 minute | The arrow, the 3-line rules card, the hints, the rookie shield. The one-minute test in §13 is a requirement before freezing. |
+| A judge doesn't get the game within 1 minute | The radar, the 3-line rules card, the hints, the rookie shield. The one-minute test in §13 is a requirement before freezing. |
 | A daily Free limit is hit and kills a live game | The budget in §12. Test locally. Switch to Paid ($5) before running at maximum capacity. |
 | Deploying during a live game | A deploy freeze. Snapshots and automatic reconnect limit the damage to ≤10 s. |
 | The Vite plugin doesn't handle DOs or WebSockets in dev | Checked in hour 0. Fallback: `wrangler dev` plus `vite build --watch`. |

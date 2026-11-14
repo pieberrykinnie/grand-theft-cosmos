@@ -213,7 +213,7 @@ export function input(g: Game, p: Player, h: number, th: number, f: 0 | 1): void
   p.inF = f;
 }
 
-export function act(g: Game, p: Player, a: "boost" | "build" | "perk", k?: 0 | 1): void {
+export function act(g: Game, p: Player, a: "boost" | "build" | "perk", k?: 0 | 1, h = p.h): void {
   if (g.state !== "play") return;
   if (a === "perk") {
     const id = p.offer && k !== undefined ? p.offer[k] : undefined;
@@ -228,10 +228,11 @@ export function act(g: Game, p: Player, a: "boost" | "build" | "perk", k?: 0 | 1
   }
   if (p.dead || p.stasis) return;
   if (a === "boost") {
-    if (p.boostCd > 0 || p.crown) return;
-    p.boostT = stat(g, p, "boostDur");
-    p.boostCd = stat(g, p, "boostCd");
+    // The DASH: an instant hop toward h (the stick; the nose when idle). step() pulls it back inside the rim.
+    if (p.boostCd > 0) return;
     if (!stat(g, p, "ghost")) ping(g, p, "boost");
+    const d = stat(g, p, "boostDist");
+    Object.assign(p, { x: p.x + Math.cos(h) * d, z: p.z + Math.sin(h) * d, boostT: T.DASH_FX, boostCd: stat(g, p, "boostCd"), build: -1 });
   } else if (p.build < 0 && canBuild(g, p)) {
     p.build = 0;
     ping(g, p, "build");
@@ -410,14 +411,14 @@ export function step(g: Game, dt: number): void {
     if (p.dead || p.stasis) continue;
     const turn = T.TURN * dt * T.TURN_SLACK;
     p.h = wrap(p.h + clamp(wrap(p.inH - p.h), -turn, turn));
-    const boost = p.boostT > 0 ? stat(g, p, "boostMul") : 1, building = p.build >= 0;
-    const acc = stat(g, p, "accel") * (building ? 0 : p.inTh) * boost;
+    const building = p.build >= 0;
+    const acc = stat(g, p, "accel") * (building ? 0 : p.inTh);
     p.vx += Math.cos(p.h) * acc * dt;
     p.vz += Math.sin(p.h) * acc * dt;
     const k = Math.exp(-stat(g, p, "drag") * dt * (building ? 6 : 1));
     p.vx *= k;
     p.vz *= k;
-    const cap = stat(g, p, "speed") * boost * (p.crown ? stat(g, null, "crownSpeed") : 1), sp = Math.hypot(p.vx, p.vz);
+    const cap = stat(g, p, "speed") * (p.crown ? stat(g, null, "crownSpeed") : 1), sp = Math.hypot(p.vx, p.vz);
     if (sp > cap) [p.vx, p.vz] = [(p.vx * cap) / sp, (p.vz * cap) / sp];
     p.x += p.vx * dt;
     p.z += p.vz * dt;
@@ -508,7 +509,6 @@ export function step(g: Game, dt: number): void {
     if (g.crown && !g.crown.by && d2(p.x, p.z, g.crown.x, g.crown.z) <= (pr + 15) ** 2) {
       g.crown.by = p.id;
       p.crown = true;
-      p.boostT = 0;
       ticker(g, `${p.name} grabbed the Crown!`);
     }
     // Banking: automatic inside your HQ or one of your stations.

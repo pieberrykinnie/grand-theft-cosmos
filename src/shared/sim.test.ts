@@ -175,6 +175,24 @@ describe("station theft (§13.4)", () => {
     const { g, s } = withStation(3);
     expect(g.stations).not.toContain(s);
   });
+  test("DASH: instant hop toward h, the nose when idle, then a cooldown; never past the rim", () => {
+    const { g, ps: [a] } = setup(2);
+    at(a, 0, 500);
+    a.h = 0;
+    act(g, a, "boost", undefined, Math.PI / 2);
+    expect(a.x).toBeCloseTo(0);
+    expect(a.z - 500).toBeCloseTo(BASE.boostDist);
+    act(g, a, "boost"); // cooling down
+    expect(a.z - 500).toBeCloseTo(BASE.boostDist);
+    a.boostCd = 0;
+    act(g, a, "boost");
+    expect(a.x).toBeCloseTo(BASE.boostDist);
+    at(a, 0, g.R - 10);
+    a.boostCd = 0;
+    act(g, a, "boost", undefined, Math.PI / 2);
+    run(g, 0.1);
+    expect(Math.hypot(a.x, a.z)).toBeLessThanOrEqual(g.R + 1e-6);
+  });
   test("BUILD: hold still 5 s, at least 300 from other structures", () => {
     const { g, ps: [a] } = setup(2);
     at(a, 0, 100); // too close to the Vault
@@ -205,16 +223,17 @@ describe("vault (§13.5)", () => {
     expect(g.crown).toBeNull();
     expect(g.vault.hp).toBe(T.VAULT_HP);
   });
-  test("Crown carrier is slow, can't boost, and banks 15% of target", () => {
+  test("Crown carrier is slow, can still dash, and banks 15% of target", () => {
     const { g, ps: [a] } = setup(2);
     g.crown = { x: a.hx * 0.8, z: a.hz * 0.8, by: 0, since: g.t };
     at(a, g.crown.x, g.crown.z);
     run(g, 0.1);
     expect(a.crown).toBe(true);
+    const x0 = a.x;
     act(g, a, "boost");
-    expect(a.boostT).toBe(0);
+    expect(a.x - x0).toBeCloseTo(Math.cos(a.h) * BASE.boostDist);
     input(g, a, a.h, 1, 0);
-    run(g, 3, () => (a.boostT = 0));
+    run(g, 3);
     expect(Math.hypot(a.vx, a.vz)).toBeLessThanOrEqual(BASE.speed * 0.6 + 1e-6);
     at(a, a.hx, a.hz);
     run(g, 0.1);
@@ -365,12 +384,13 @@ describe("protocol trust boundary", () => {
   test("parses good messages and clamps", () => {
     expect(parseClient('{"t":"in","h":1,"th":5,"f":1}')).toEqual({ t: "in", h: 1, th: 1, f: 1 });
     expect(parseClient('{"t":"act","a":"perk","k":1}')).toEqual({ t: "act", a: "perk", k: 1 });
+    expect(parseClient('{"t":"act","a":"boost","h":1.5}')).toEqual({ t: "act", a: "boost", h: 1.5 });
     expect(parseClient('{"t":"hello","v":1,"role":"player","name":"  Zed  "}')).toEqual({ t: "hello", v: 1, role: "player", name: "Zed" });
   });
   test("drops garbage", () => {
     for (const bad of [
       "not json", "null", "[]", '{"t":"in","h":"1","th":0,"f":0}', '{"t":"in","h":1e999,"th":0,"f":0}',
-      '{"t":"in","h":1,"th":0,"f":2}', '{"t":"act","a":"perk","k":2}', '{"t":"host","a":"nuke"}',
+      '{"t":"in","h":1,"th":0,"f":2}', '{"t":"act","a":"perk","k":2}', '{"t":"act","a":"boost","h":"x"}','{"t":"host","a":"nuke"}',
       '{"t":"host","a":"kick"}', '{"t":"hello","v":1,"role":"player","name":"\\u0000\\u0007"}',
       '{"t":"hello","v":1,"role":"player","name":"x","pid":3}', '{"t":"zzz"}', "x".repeat(513),
       JSON.stringify({ t: "in", h: 1, th: 0, f: 0, pad: "é".repeat(250) }),

@@ -41,6 +41,7 @@ export const T = {
   RESPAWN_SHIELD: 3,
   ROOKIE_SHIELD: 60,
   RECONNECT_SHIELD: 2,
+  DASH_FX: 0.3, // s the BOOST flag stays up after a dash: outlives one MAX_DT step, so a snapshot carries it
   // Weapon
   KILL_WINDOW: 10,
   // Loot
@@ -87,8 +88,7 @@ export const BASE = {
   speed: 70,
   accel: 140,
   drag: 0.8,
-  boostMul: 1.8,
-  boostDur: 1.5,
+  boostDist: 120, // "boost" is the DASH: an instant hop this far
   boostCd: 5,
   hull: 100,
   regen: 5,
@@ -131,10 +131,10 @@ export const PERKS = {
   twin: { name: "Twin Guns", desc: "Fire 2 bolts at once", max: 1, add: { guns: 1 } },
   thick: { name: "Thick Hull", desc: "+40 max hull", max: 3, add: { hull: 40 } },
   thrust: { name: "Thrusters", desc: "+12% top speed", max: 3, mul: { speed: 1.12 } },
-  burner: { name: "Afterburner", desc: "−35% boost cooldown", max: 2, mul: { boostCd: 0.65 } },
+  burner: { name: "Afterburner", desc: "−35% dash cooldown", max: 2, mul: { boostCd: 0.65 } },
   bighold: { name: "Big Hold", desc: "+25 hold", max: 3, add: { hold: 25 } },
   magnet: { name: "Magnet", desc: "+60% pickup radius", max: 2, mul: { pickup: 1.6 } },
-  ghost: { name: "Ghost", desc: "Boost and bank without pinging", max: 1, add: { ghost: 1 } },
+  ghost: { name: "Ghost", desc: "Dash and bank without pinging", max: 1, add: { ghost: 1 } },
   fortify: { name: "Fortify", desc: "Stations +50% HP and turret damage", max: 2, mul: { stationHp: 1.5, stationDps: 1.5 } },
   patch: { name: "Patch Kit", desc: "Regen starts 2 s after damage", max: 1, mul: { regenDelay: 1 / 3 } },
   insurance: { name: "Insurance", desc: "Drop only half your hold on death", max: 1, mul: { dropFrac: 0.5 } },
@@ -147,7 +147,7 @@ export const SECTORS = {
   blackout: { name: "Blackout", desc: "Scanner shows only deaths, the leader and the Crown", add: { blackout: 1 } },
   glass: { name: "Glass Cannons", desc: "All damage ×2", mul: { dmg: 2, stationDps: 2, hqDps: 2 } },
   hotrings: { name: "Hot Rings", desc: "Rings pay ×2", mul: { ringPay: 2 } },
-  burners: { name: "Afterburners", desc: "Everyone ×1.25 speed, boost cooldown halved", mul: { speed: 1.25, boostCd: 0.5 } },
+  burners: { name: "Afterburners", desc: "Everyone ×1.25 speed, dash cooldown halved", mul: { speed: 1.25, boostCd: 0.5 } },
   fatcrown: { name: "Fat Crown", desc: "Crown worth ×2, carrier flies at ×0.45", mul: { crownValue: 2, crownSpeed: 0.75 } },
   pirate: { name: "Pirate Code", desc: "Loot spilled on death is worth ×1.5", mul: { spillMul: 1.5 } },
 } satisfies Record<string, SectorDef>;
