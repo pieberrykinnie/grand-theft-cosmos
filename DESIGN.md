@@ -265,7 +265,7 @@ A broadcast palette: near-black studio and off-white slabs carry the structure, 
 
 **Dense mode (9–12 players).** The sidebar switches to a dense variant: race rows drop from 48px to 29px with 25px chips, Most Wanted collapses to one line, the join tile's QR shrinks from 136px to 104px. Nobody drops off the board.
 
-**Phone in play** (landscape): telemetry block top-left (220px), one instruction strap top-centre, radar top-right (140px), thumb buttons bottom-right, left half kept clear for the floating joystick, broadcast ticker bottom-centre. Everything respects `env(safe-area-inset-*)`. Under 760px wide the telemetry block narrows to 180px and the radar to 116px. Portrait shows a full-screen "Turn your phone sideways" card.
+**Phone in play** (landscape): telemetry block top-left (220px), radar top-right (140px), and between them a top-centre column (the instruction strap, then the timer strip or the perk cards) centred in the gap with 8px clear of each corner block. Thumb buttons bottom-right, left half kept clear for the floating joystick, broadcast ticker bottom-centre. The ship and the lower half carry nothing else, so the sky band at the top holds every prompt. Everything respects `env(safe-area-inset-*)`. Under 760px wide the telemetry block narrows to 180px and the radar to 116px. Portrait shows a full-screen "Turn your phone sideways" card.
 
 **Landing** (Operate): a centred two-column grid (max 1360px, 56px side padding): title, pitch and rules card left; host form and join form right; crawl along the bottom. At 900px and below it becomes a single column ordered title, join, rules, host, because a phone visitor almost always came to join.
 
@@ -335,11 +335,13 @@ A slab card titled THE RACE with the red target label, then one row per player: 
 Map plate disc with a faint grid, two range rings and a slab rim. Loot fields in translucent aquamarine (opacity shows what remains). Rings are dashed slab when unclaimed and solid in the owner's colour with their letter when held, with a claim arc in the claimer's colour and red dashes when contested. Loud acts drop a slab pin with a coloured head and letter, ripple and fade over 8s; deaths leave an X for 12s. HQs are 44px player squares with a black name tag; stations are 26px squares with three HP pips. Most Wanted gets slab reticle brackets and a WANTED tag matching its sidebar card.
 
 ### Phone HUD (signature)
-- **Telemetry block:** chip, level and XP in the player's colour; HULL (slab, red when low), HOLD (aquamarine, slotted) and RACE meters with tabular values.
+- **Telemetry block:** three rows. The chip beside LEVEL N over a 10-step bar in the player's colour: banked score toward the target, one step per level, so one bar is both XP and the race; a white tick marks the leader when they are ahead of you. Then HULL (slab, red when low) and HOLD (aquamarine, slotted) meters with tabular values.
 - **Instruction strap:** one line at top-centre with a direction arrow and distance; gold for HOME, aquamarine for LOOT. First-time hints and the perk prompt take over the same strap with a 2px slab outline.
 - **Timer strip:** one status at a time as 10 square steps.
-- **Thumb buttons:** FIRE is a 112px red circle; BOOST is a 76px dial whose segmented ring shows cooldown; BUILD is an outline until building is possible, then fills slab. Pressed buttons scale to 0.94.
-- **Perk pick:** two slab cards above the thumb buttons, uppercase name over a sentence.
+- **Thumb buttons:** FIRE is a 112px red circle; BOOST is a 76px dial whose segmented ring shows cooldown; BUILD stays hidden until building first matters (it arrives with its first-time hint), then is an outline until building is possible and fills slab. Pressed buttons scale to 0.94.
+- **Perk pick:** two slab cards (64px minimum) hanging directly under the "Level up" strap, over the sky, uppercase name over a sentence. The strap and the cards are the level-up announcement; there is no separate level pop.
+- **HOME tag:** a black tag with the house and carried amount over your HQ while it is on screen. Off screen, the radar rim and the objective arrows point home; nothing pins to the screen edge.
+- **Ticker and cards:** each ticker line shows for 6 s, then the bottom clears. The Destroyed card's red headline names who did it ("Destroyed by Mira") instead of a toast on top of it.
 
 ## Do's and Don'ts
 
@@ -349,7 +351,8 @@ Map plate disc with a faint grid, two range rings and a slab rim. Loot fields in
 - **Do** limit gold on the phone to the HOME objective, the HOME marker and "+N BANKED"; give level and XP the player's own colour.
 - **Do** show unavailable, offline, stunned or unclaimed things as outlines (solid or dashed).
 - **Do** show timers and cooldowns as 10-step strips or segmented dials.
-- **Do** give the phone one instruction at a time; hints and the perk prompt reuse the same strap.
+- **Do** give the phone one instruction at a time; hints and the perk prompt reuse the same strap, and the perk cards hang under it.
+- **Do** keep the phone's ship and lower half clear of everything but the thumb buttons and the ticker; reveal a control when it first matters.
 - **Do** switch the Scanner sidebar to dense mode at 9–12 players so every row stays on screen.
 - **Do** use tabular numerals for every changing number.
 - **Do** stop the crawl and drop ripples, pulses and camera shake under reduced motion.

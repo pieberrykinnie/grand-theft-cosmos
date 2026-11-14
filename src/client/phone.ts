@@ -15,10 +15,9 @@ const CSS = `
 .hud { position: absolute; inset: 0; pointer-events: none; font: 800 16px/1 var(--font); text-transform: uppercase; }
 .blk { background: rgba(21,21,21,.9); color: var(--slab); }
 .tl { position: absolute; left: max(10px, env(safe-area-inset-left)); top: 8px; width: 220px; padding: 8px 10px 9px; display: grid; gap: 7px; }
-.lvrow { display: flex; align-items: center; gap: 8px; }
-.lvrow .chip { width: 30px; height: 30px; font-size: 22px; }
-.lvl { font-size: 20px; color: var(--slab); white-space: nowrap; }
-.lvrow .trk { flex: 1; height: 6px; }
+.lvrow { display: grid; grid-template-columns: 30px 1fr; gap: 4px 8px; align-items: end; }
+.lvrow .chip { grid-row: span 2; width: 30px; height: 30px; font-size: 22px; }
+.lvl { color: var(--slab); white-space: nowrap; }
 .mrow { display: grid; grid-template-columns: 40px 1fr 50px; align-items: center; gap: 6px; }
 .mrow b { font-size: 14px; letter-spacing: .08em; color: var(--mute); }
 .mrow .v { font-size: 17px; text-align: right; font-variant-numeric: tabular-nums; }
@@ -27,14 +26,13 @@ const CSS = `
 .hull i { background: var(--slab); }
 .hull.low i { background: var(--red); } .hull.low b, .hull.low .v { color: #ff6b5e; }
 .hold i { background: var(--loot); }
-.hold .trk::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(100% - 2px), #151515 0) 0 0 / calc(100% / var(--n, 10)) 100%; }
+.hold .trk::after, .lvrow .trk::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(100% - 2px), #151515 0) 0 0 / calc(100% / var(--n, 10)) 100%; }
 .hold.full b, .hold.full .v { color: var(--loot); }
-.xp i { background: var(--slab); }
-.race .trk::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 3px; background: var(--slab); }
-.race .trk u { width: 3px; background: var(--slab); transition: left .3s; }
+.lvrow .trk u { z-index: 1; width: 3px; background: var(--slab); transition: left .3s; }
 .punch { animation: punch .45s cubic-bezier(.16,1,.3,1); }
 @keyframes punch { 0% { transform: scale(1.1); filter: brightness(1.8); } 100% { transform: none; filter: none; } }
-.tc { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); display: grid; justify-items: center; gap: 4px; width: max-content; max-width: calc(100% - 480px); }
+/* Top-centre column: centred in the gap between the telemetry block and the radar, never under either. */
+.tc { position: absolute; top: 8px; left: calc(max(10px, env(safe-area-inset-left)) + 228px); right: calc(max(10px, env(safe-area-inset-right)) + 148px); display: grid; justify-items: center; gap: 4px; }
 .tc > * { max-width: 100%; } .obj .t { min-width: 0; }
 .obj { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 14px 4px 8px; font-size: 20px; }
 .obj svg { width: 26px; height: 26px; flex: none; fill: currentColor; }
@@ -62,26 +60,22 @@ const CSS = `
 .fxl { position: absolute; inset: 0; overflow: hidden; }
 .num { position: absolute; left: 0; top: 0; font-size: 24px; color: #fff; text-shadow: 0 1px 2px #000, 0 2px 8px rgba(0,0,0,.6); opacity: 0; will-change: transform, opacity; }
 .num.st { color: var(--rule); } .num.lt { color: var(--loot); font-size: 19px; }
-.home { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 5px; padding: 4px 7px 4px 5px; background: rgba(21,21,21,.88); font-size: 15px; white-space: nowrap; will-change: transform; }
-.home svg { width: 18px; height: 18px; fill: currentColor; }
-.home span { color: var(--slab); } .home small { color: var(--loot); font-size: 15px; }
-.home .chev { position: absolute; left: 50%; top: 11px; width: 0; height: 0; }
-.home .chev::before { content: ""; position: absolute; left: -7px; top: -30px; border: 7px solid transparent; border-top: 0; border-bottom: 10px solid currentColor; }
-.home.on .chev { display: none; }
+.hm { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 5px; padding: 4px 7px 4px 5px; background: rgba(21,21,21,.88); font-size: 15px; white-space: nowrap; will-change: transform; }
+.hm svg { width: 18px; height: 18px; fill: currentColor; }
+.hm span { color: var(--slab); } .hm small { color: var(--loot); font-size: 15px; }
 .dirhit { position: absolute; left: 50%; top: 58%; width: 0; height: 0; opacity: 0; transition: opacity .6s; }
 .dirhit i { position: absolute; left: -70px; top: -125px; width: 140px; height: 40px; border-radius: 50%; border-top: 7px solid var(--red); }
 .dirhit.on { opacity: 1; transition: none; }
-.pop { position: absolute; left: 50%; top: 26%; transform: translateX(-50%); font-size: 44px; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.7); white-space: nowrap; opacity: 0; }
-.pop.lv { top: 37%; color: var(--slab); }
+.pop { position: absolute; left: 50%; top: 37%; transform: translateX(-50%); font-size: 44px; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.7); white-space: nowrap; opacity: 0; }
 .pop.go { animation: pop 1.6s cubic-bezier(.16,1,.3,1) forwards; }
 @keyframes pop { 0% { opacity: 0; transform: translate(-50%, 12px) scale(.7); } 12% { opacity: 1; transform: translate(-50%, 0) scale(1.1); } 24% { transform: translate(-50%, 0) scale(1); } 75% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -18px); } }
 .toast { position: absolute; left: 50%; top: 45%; transform: translateX(-50%); padding: 8px 16px; font-size: 22px; white-space: nowrap; }
 .vig { position: absolute; inset: 0; box-shadow: inset 0 0 90px 30px rgba(215,38,30,.7); opacity: 0; transition: opacity .35s; }
 .vig.on { opacity: 1; transition: none; }
-.perks { position: absolute; right: 230px; bottom: 14px; display: grid; gap: 6px; pointer-events: auto; }
-.perks div { display: flex; gap: 10px; }
-.perks button { width: 156px; min-height: 96px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 5px; text-align: left; font: 600 16px/1.2 var(--font); letter-spacing: 0; text-transform: none; }
-.perks button b { font: 800 22px/1 var(--font); text-transform: uppercase; }
+/* The perk pick hangs under its own strap, over the sky, clear of the ship and the thumbs. */
+.perks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 380px; pointer-events: auto; }
+.perks button { min-height: 64px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; text-align: left; font: 600 15px/1.15 var(--font); letter-spacing: 0; text-transform: none; }
+.perks button b { font: 800 20px/1 var(--font); text-transform: uppercase; }
 .perks button:active { background: var(--ink); color: var(--slab); }
 .over { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 8px; pointer-events: none; }
 .over b { padding: 8px 16px; background: var(--red); color: #fff; font-size: 34px; }
@@ -90,7 +84,7 @@ const CSS = `
 .msg h1 { font-size: clamp(36px, 10vh, 56px); } .msg p { margin: 0; font-size: 22px; color: var(--mute); max-width: 36ch; }
 @media (max-width: 760px) {
   .tl { width: 180px; } .radar { width: 116px; height: 116px; }
-  .tc { max-width: calc(100% - 400px); } .obj { font-size: 17px; } .obj svg { width: 22px; height: 22px; }
+  .tc { left: calc(max(10px, env(safe-area-inset-left)) + 188px); right: calc(max(10px, env(safe-area-inset-right)) + 124px); } .obj { font-size: 17px; } .obj svg { width: 22px; height: 22px; }
 }
 #rotate { display: none; } @media (orientation: portrait) { #rotate.want { display: flex; } }
 #rotate svg { width: 96px; height: 96px; }
@@ -165,12 +159,11 @@ export function start(app: HTMLElement, code: string) {
     const fill = el("i"), v = el("span", { className: "v" });
     return { row: el("div", { className: `mrow ${cls}` }, el("b", { textContent: name }), el("div", { className: "trk" }, fill), v), fill, v };
   };
-  const hullM = meter("hull", "Hull"), holdM = meter("hold", "Hold"), raceM = meter("race hidden", "Race");
-  const raceLead = el("u");
-  raceM.fill.after(raceLead);
+  const hullM = meter("hull", "Hull"), holdM = meter("hold", "Hold");
   // Your chip prints exactly as on the Scanner, so a glance from phone to big screen finds you.
-  const myChip = el("span", { className: "chip" }), lvl = el("span", { className: "lvl", textContent: "Level 0" }), xpFill = el("i");
-  const lvrow = el("div", { className: "lvrow xp" }, myChip, lvl, el("div", { className: "trk" }, xpFill));
+  // One 10-step bar is both race and XP: each step is a level (target / LEVELS banked); the white tick is the leader.
+  const myChip = el("span", { className: "chip" }), lvl = el("span", { className: "lvl", textContent: "Level 0" }), xpFill = el("i"), raceLead = el("u", { className: "hidden" });
+  const lvrow = el("div", { className: "lvrow" }, myChip, lvl, el("div", { className: "trk" }, xpFill, raceLead));
   const obj = el("div", { className: "obj blk hidden", innerHTML: ARROW_SVG }), objT = el("span", { className: "t" }), objD = el("span", { className: "d" });
   obj.append(objT, objD);
   const objSvg = obj.firstElementChild as SVGElement;
@@ -179,19 +172,19 @@ export function start(app: HTMLElement, code: string) {
   const tmrT = el("span"), tmr = el("div", { className: "tmr blk hidden" }, tmrT, steps);
   const radar = el("canvas", { className: "radar", width: 140, height: 140 });
   const ticker = el("div", { className: "bc blk" });
-  const fireB = el("button", { className: "fire", textContent: "Fire" }), boostB = el("button", { className: "boost" }, el("span", { textContent: "Boost" })), buildB = el("button", { className: "build", textContent: "Build" });
+  const fireB = el("button", { className: "fire", textContent: "Fire" }), boostB = el("button", { className: "boost" }, el("span", { textContent: "Boost" })), buildB = el("button", { className: "build hidden", textContent: "Build" });
   const toast = el("div", { className: "toast blk hidden" }), vig = el("div", { className: "vig" });
-  const pop = el("div", { className: "pop" }), popLv = el("div", { className: "pop lv" }), dirHit = el("div", { className: "dirhit" }, el("i"));
-  const homeT = el("span", { textContent: "HOME" }), homeAmt = el("small"), chev = el("i", { className: "chev" });
-  const homeMk = el("div", { className: "home hidden", innerHTML: HOUSE_SVG }, homeT, homeAmt, chev);
+  const pop = el("div", { className: "pop" }), dirHit = el("div", { className: "dirhit" }, el("i"));
+  const homeT = el("span", { textContent: "HOME" }), homeAmt = el("small");
+  const homeMk = el("div", { className: "hm hidden", innerHTML: HOUSE_SVG }, homeT, homeAmt);
   const fxl = el("div", { className: "fxl" }, homeMk);
   const perks = el("div", { className: "perks hidden" });
   const over = el("div", { className: "over hidden" });
   const hud = el("div", { className: "hud" }, vig, fxl, dirHit,
-    el("div", { className: "tl blk" }, lvrow, hullM.row, holdM.row, raceM.row),
-    el("div", { className: "tc" }, obj, tmr),
-    radar, ticker, pop, popLv, toast, over);
-  const game = el("div", { className: "game hidden" }, renderer.domElement, joyZone, joyEl, hud, el("div", { className: "btns" }, buildB, boostB, fireB), perks);
+    el("div", { className: "tl blk" }, lvrow, hullM.row, holdM.row),
+    el("div", { className: "tc" }, obj, tmr, perks),
+    radar, ticker, pop, toast, over);
+  const game = el("div", { className: "game hidden" }, renderer.domElement, joyZone, joyEl, hud, el("div", { className: "btns" }, buildB, boostB, fireB));
   const lost = el("div", { className: "full veil msg hidden", onclick: () => location.reload() }, el("h1", { textContent: "Tap to resume" }), el("p", { textContent: "The 3D view stopped. Your ship is still in the game." }));
   app.append(game, joinScr, waitScr, endScr, paused, msgScr, down, rotate, lost);
   renderer.domElement.addEventListener("webglcontextlost", (e) => { e.preventDefault(); lost.classList.remove("hidden"); });
@@ -201,7 +194,7 @@ export function start(app: HTMLElement, code: string) {
   let localH = 0, syncH = true, wasDead = false, playing = false;
   const joy = { id: -1, x: 0, y: 0, ox: 0, oy: 0 };
   let firing = false, lastSend = 0, lastIn = "", boostMax = 1, turnIn = 0, thIn = 0;
-  let trauma = 0, fovKick = 0, roll = 0;
+  let trauma = 0, fovKick = 0, roll = 0, downBy = "", lastNews = "", newsT = 0;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const seen: string[] = store.get("gtc:hints") ?? [];
   const playerOf = (pid: number) => pub?.players.find((q) => q[0] === pid);
@@ -341,7 +334,13 @@ export function start(app: HTMLElement, code: string) {
     vaultCore.visible = cracked;
     crown.visible = !!p.crown && !p.crown[2];
     if (p.crown) crown.position.set(p.crown[0], 10, p.crown[1]);
-    ticker.textContent = p.ticker.at(-1) ?? "";
+    const news = p.ticker.at(-1) ?? "";
+    if (news !== lastNews) { // each headline stays 6 s, then the bottom of the screen clears
+      lastNews = news;
+      ticker.textContent = news;
+      clearTimeout(newsT);
+      newsT = setTimeout(() => (ticker.textContent = ""), 6000);
+    }
     paused.classList.toggle("hidden", p.st !== "paused");
     if (p.st === "lobby") {
       const q = playerOf(mine), sec = SECTORS[p.sector];
@@ -388,10 +387,7 @@ export function start(app: HTMLElement, code: string) {
     if (prev) {
       if (me.state === "alive" && prev.state === "alive" && me.held > prev.held) pickup(me.held - prev.held);
       if (me.score > prev.score) replay(lvrow, "punch"); // ring and station income lands here too
-      if (me.level > prev.level) {
-        popup(popLv, `LEVEL ${me.level}!`);
-        replay(lvl, "punch");
-      }
+      if (me.level > prev.level) replay(lvl, "punch"); // the strap and perk cards announce it; no third pop
       if (me.boost && !prev.boost && !reduceMotion) fovKick = 7;
     }
     hud10(me, s);
@@ -437,11 +433,13 @@ export function start(app: HTMLElement, code: string) {
           setTimeout(() => dirHit.classList.remove("on"), 160);
         }
         return;
-      case "dead":
+      case "dead": // who did it goes on the Destroyed card, not in a toast on top of it
         navigator.vibrate?.(250);
         trauma = 1;
         boom(colorOf(id?.pid ?? 0), sp.x, sp.z);
-        break;
+        downBy = m.text;
+        over.dataset.k = "";
+        return;
       case "bank": { // crystals fly from the hold into the bank, the zone flares, the XP bar fills
         showHint("bank");
         popup(pop, m.text.replace(/^Banked (\+\d+)/, "$1 BANKED"));
@@ -473,20 +471,12 @@ export function start(app: HTMLElement, code: string) {
     holdM.v.textContent = `${me.held}/${me.hold}`;
     holdM.row.style.setProperty("--n", String(Math.round(me.hold / T.CRYSTAL)));
     holdM.row.classList.toggle("full", me.held >= me.hold);
-    // Level and XP: XP is banked loot; every target/10 banked is a level (the first bank is Level 1).
-    const step = (pub?.target ?? T.TARGETS[0]) / T.LEVELS, into = me.level ? me.score - (me.level - 1) * step : 0;
+    // Level and race share one bar: banked score toward the target, one step per level (the first bank is Level 1).
+    const target = pub?.target ?? T.TARGETS[0], lead = Math.max(0, ...(pub?.players.map((r) => r[3]) ?? []));
     lvl.textContent = `Level ${me.level}`;
-    xpFill.style.width = `${(100 * into) / step}%`;
-    // The race row appears once anyone has banked: you, the leader's tick, the target at the end.
-    if (pub) {
-      const lead = Math.max(0, ...pub.players.map((r) => r[3]));
-      raceM.row.classList.toggle("hidden", lead <= 0);
-      raceM.fill.style.width = `${Math.min(100, (100 * me.score) / pub.target)}%`;
-      raceM.fill.style.background = colorOf(pid);
-      raceM.v.textContent = `${me.score}`;
-      raceLead.style.left = `calc(${Math.min(100, (100 * lead) / pub.target)}% - 3px)`;
-      raceLead.classList.toggle("hidden", lead <= me.score);
-    }
+    xpFill.style.width = `${Math.min(100, (100 * me.score) / target)}%`;
+    raceLead.style.left = `calc(${Math.min(100, (100 * lead) / target)}% - 3px)`;
+    raceLead.classList.toggle("hidden", lead <= me.score);
     // One instruction at a time. objective() adds the arrow and distance; a first-time hint takes the banner for 4 s.
     const vaultE = s.ents.find((e) => e[1] === K.VAULT && Math.hypot(e[2] - me.x, e[3] - me.z) < 420);
     const stn = s.ents.find((e) => e[1] === K.STATION && e[5] !== pid && Math.hypot(e[2] - me.x, e[3] - me.z) < 360);
@@ -520,7 +510,6 @@ export function start(app: HTMLElement, code: string) {
       stn ? [`Station ${stn[6]} HP · shoot to steal`, Math.min(1, stn[6] / BASE.stationHp)] :
       vaultE ? [`Vault ${vaultE[6]}/${T.VAULT_HP} · shoot to crack`, vaultE[6] / T.VAULT_HP] : null;
     tmr.classList.toggle("hidden", !st || !!me.offer);
-    ticker.classList.toggle("hidden", !!me.offer); // the perk cards sit over it
     if (st) {
       tmrT.textContent = st[0];
       const on = Math.round(st[1] * 10);
@@ -536,15 +525,15 @@ export function start(app: HTMLElement, code: string) {
     const ov = me.state === "dead" ? `dead${me.respawnIn}` : me.state;
     if (over.dataset.k !== ov) {
       over.dataset.k = ov;
-      over.replaceChildren(...(me.state === "dead" ? [el("b", { textContent: "Destroyed" }), el("span", { className: "blk", textContent: `Back in ${me.respawnIn}` })]
+      over.replaceChildren(...(me.state === "dead" ? [el("b", { textContent: downBy || "Destroyed" }), el("span", { className: "blk", textContent: `Back in ${me.respawnIn}` })]
         : me.state === "stasis" ? [el("b", { className: "calm", textContent: "Stasis" }), el("span", { className: "blk", textContent: "Your ship is safe. Reconnecting…" })] : []));
     }
     // Perk cards
     const sig = JSON.stringify(me.offer);
     if (perks.dataset.sig !== sig) {
       perks.dataset.sig = sig;
-      perks.replaceChildren(el("div", {},...(me.offer ?? []).map((pk: PerkId, k: number) =>
-        el("button", { onclick: () => send({ t: "act", a: "perk", k }) }, el("b", { textContent: PERKS[pk].name }), PERKS[pk].desc))));
+      perks.replaceChildren(...(me.offer ?? []).map((pk: PerkId, k: number) =>
+        el("button", { onclick: () => send({ t: "act", a: "perk", k }) }, el("b", { textContent: PERKS[pk].name }), PERKS[pk].desc)));
       perks.classList.toggle("hidden", !me.offer);
     }
     // Hints
@@ -552,6 +541,7 @@ export function start(app: HTMLElement, code: string) {
     if (me.ring) showHint("ring");
     if (me.state === "alive" && me.hp < me.hpMax * 0.3) showHint("hull");
     if (me.canBuild && me.level > 0) showHint("build");
+    buildB.classList.toggle("hidden", !seen.includes("build")); // BUILD arrives with its hint, then stays
     drawRadar(me, s);
   }
 
@@ -927,27 +917,14 @@ export function start(app: HTMLElement, code: string) {
     objD.textContent = `${Math.round(bd)}`;
   }
 
-  /** HOME tag over your HQ when it's on screen; pinned to an ellipse around the ship, pointing at it, when it isn't. */
+  /** HOME tag over your HQ while it's on screen. Off screen, the radar rim and the objective arrow already point home. */
   function homeMarker(px: number, pz: number) {
     const q = playerOf(id?.pid ?? 0);
-    const d = q ? Math.hypot(q[6] - px, q[7] - pz) : 0;
-    if (!q || !me || me.state === "dead" || d < T.HQ_R) return void homeMk.classList.add("hidden");
-    homeMk.classList.remove("hidden");
-    homeAmt.textContent = me.held || me.crown ? `+${me.held}${me.crown ? " + Crown" : ""}` : "";
-    const W = innerWidth, H = innerHeight, cx = W / 2, cy = H / 2;
-    v3.set(q[6], 50, q[7]).applyMatrix4(camera.matrixWorldInverse);
-    let dx: number, dy: number, on = false;
-    if (v3.z < 0) {
-      v3.applyMatrix4(camera.projectionMatrix);
-      [dx, dy] = [(v3.x * W) / 2, (-v3.y * H) / 2];
-      on = Math.abs(dx) < cx - 30 && Math.abs(dy) < cy - 30;
-    } else [dx, dy] = [v3.x, Math.abs(v3.z) + 1]; // behind the camera: bottom of the screen, on the correct side
-    if (!on) {
-      const rx = cx - 70, ry = cy - 56, k = 1 / Math.hypot(dx / rx, dy / ry);
-      [dx, dy] = [dx * k, dy * k];
-      chev.style.transform = `rotate(${Math.atan2(dx, -dy)}rad)`;
-    }
-    homeMk.classList.toggle("on", on);
-    homeMk.style.transform = `translate(${cx + dx}px, ${cy + dy}px) translate(-50%, -11px)`;
+    const p = q && me && me.state !== "dead" && Math.hypot(q[6] - px, q[7] - pz) >= T.HQ_R ? screen(q[6], 50, q[7]) : null;
+    const on = !!p && p[0] > 30 && p[0] < innerWidth - 30 && p[1] > 30 && p[1] < innerHeight - 30;
+    homeMk.classList.toggle("hidden", !on);
+    if (!p || !on) return;
+    homeAmt.textContent = me!.held || me!.crown ? `+${me!.held}${me!.crown ? " + Crown" : ""}` : "";
+    homeMk.style.transform = `translate(${p[0]}px, ${p[1]}px) translate(-50%, -11px)`;
   }
 }
