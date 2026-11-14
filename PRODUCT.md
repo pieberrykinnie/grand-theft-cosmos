@@ -20,11 +20,11 @@ A couch-party space heist: grab loot, bring it home, first to the target wins; s
 
 ## Positioning
 
-The laptop is a **public police scanner**, not a shared view of the game: it shows the map, ownership and the score race, but ship positions only as pings when someone does something loud (firing, boosting, banking, building, dying). Flying quietly hides you. Each phone sees only its own sensor range, and all filtering happens on the server. The table sees the noise, never the whole picture, so suspicion, deals and betrayals happen out loud in the room.
+The laptop is a **public police scanner**, not a shared view of the game: it shows the map, ownership and the score race, but ship positions only as pings when someone does something loud (firing, dashing, banking, building, dying). Flying quietly hides you. Each phone sees only its own sensor range, and all filtering happens on the server. The table sees the noise, never the whole picture, so suspicion, deals and betrayals happen out loud in the room.
 
 ## Operating Context
 
-- A living room or judging table: the Scanner must read from about 3 metres; phones are held in landscape with both thumbs (joystick left, FIRE / BOOST / BUILD right).
+- A living room or judging table: the Scanner must read from about 3 metres; phones are held in landscape with both thumbs (joystick left, FIRE / DASH / BUILD right).
 - Players join by scanning a QR code, type a name and wait on the rules card. Anyone can join mid-game; the QR stays in a corner of the Scanner.
 - The host controls Start, Pause (space bar), End and kick from the Scanner.
 - Venue Wi-Fi is flaky, phones lock, pages get refreshed, batteries drain in long games. Reconnecting and stasis are routine states, not errors.
@@ -55,7 +55,7 @@ The laptop is a **public police scanner**, not a shared view of the game: it sho
 
 ## Product Principles
 
-1. **Understood in one minute.** The arrow is the tutorial. Anything that adds reading time for a first-time judge has to earn it.
+1. **Understood in one minute.** The radar and the hints are the tutorial. Anything that adds reading time for a first-time judge has to earn it.
 2. **The big screen is public and deliberately incomplete.** Loud actions reveal you, quiet ones don't. Never leak private information to the Scanner.
 3. **Players drive everything.** Nothing changes on a clock; everything can be stolen.
 4. **Nobody loses to the network.** Reconnecting, stasis and refreshes are first-class states with calm, clear UI.

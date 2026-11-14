@@ -1,4 +1,4 @@
-// The phone: third-person Three.js view, HUD, joystick, arrow, hints. A terminal that holds no truth.
+// The phone: third-person Three.js view, HUD, joystick, hints. A terminal that holds no truth.
 import * as THREE from "three";
 import { cleanName, F, K, PROTOCOL_VERSION } from "../shared/protocol";
 import { COLORS, GLYPHS, type End, type Pub, type Snap } from "../shared/sim";
@@ -33,14 +33,7 @@ const CSS = `
 @keyframes punch { 0% { transform: scale(1.1); filter: brightness(1.8); } 100% { transform: none; filter: none; } }
 /* Top-centre column: centred in the gap between the telemetry block and the radar, never under either. */
 .tc { position: absolute; top: 8px; left: calc(max(10px, env(safe-area-inset-left)) + 228px); right: calc(max(10px, env(safe-area-inset-right)) + 148px); display: grid; justify-items: center; gap: 4px; }
-.tc > * { max-width: 100%; } .obj .t { min-width: 0; }
-.obj { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 14px 4px 8px; font-size: 20px; }
-.obj svg { width: 26px; height: 26px; flex: none; fill: currentColor; }
-.obj.home { color: var(--gold); } .obj.loot { color: var(--loot); }
-.obj .t { color: var(--slab); text-wrap: balance; line-height: 1.05; }
-.obj .d { color: var(--mute); font-size: 17px; font-variant-numeric: tabular-nums; }
-.obj.hint, .obj.ask { box-shadow: inset 0 0 0 2px var(--slab); }
-.obj.hint svg, .obj.hint .d, .obj.ask svg, .obj.ask .d { display: none; }
+.tc > * { max-width: 100%; }
 .tmr { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 8px; padding: 5px 10px; font-size: 15px; text-align: center; }
 .steps { display: flex; gap: 3px; } .steps i { width: 11px; height: 10px; background: rgba(244,244,240,.22); } .steps i.on { background: var(--slab); }
 .radar { position: absolute; right: max(10px, env(safe-area-inset-right)); top: 8px; width: 140px; height: 140px; border-radius: 50%; background: rgba(21,21,21,.9); box-shadow: inset 0 0 0 2px var(--slab); }
@@ -52,8 +45,7 @@ const CSS = `
 .btns .boost, .btns .boost:hover { grid-column: 1; grid-row: 2; border: 0; background: repeating-conic-gradient(#151515 0 4deg, transparent 0 36deg), conic-gradient(var(--slab) var(--p, 100%), #4a4a4a 0); }
 .btns .boost::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: #151515; }
 .btns .boost span { position: relative; }
-.btns .build, .btns .build:hover { grid-column: 1; grid-row: 1; background: rgba(21,21,21,.4); border-color: var(--mute); color: var(--mute); }
-.btns .build.on, .btns .build.on:hover { background: var(--slab); border-color: var(--slab); color: var(--ink); }
+.btns .build, .btns .build:hover { grid-column: 1; grid-row: 1; background: var(--slab); border-color: var(--slab); color: var(--ink); }
 .btns button.down { transform: scale(.94); }
 .btns .fire.down { background: var(--red-d); border-color: var(--red-d); }
 .btns .boost.down::before { background: #3a3a3a; }
@@ -84,7 +76,7 @@ const CSS = `
 .msg h1 { font-size: clamp(36px, 10vh, 56px); } .msg p { margin: 0; font-size: 22px; color: var(--mute); max-width: 36ch; }
 @media (max-width: 760px) {
   .tl { width: 180px; } .radar { width: 116px; height: 116px; }
-  .tc { left: calc(max(10px, env(safe-area-inset-left)) + 188px); right: calc(max(10px, env(safe-area-inset-right)) + 124px); } .obj { font-size: 17px; } .obj svg { width: 22px; height: 22px; }
+  .tc { left: calc(max(10px, env(safe-area-inset-left)) + 188px); right: calc(max(10px, env(safe-area-inset-right)) + 124px); }
 }
 #rotate { display: none; } @media (orientation: portrait) { #rotate.want { display: flex; } }
 #rotate svg { width: 96px; height: 96px; }
@@ -112,8 +104,7 @@ const CSS = `
 .endscr td .chip { width: 22px; height: 22px; margin-right: 8px; font-size: 16px; vertical-align: middle; }
 .endscr tr.me td { background: #e2e3dc; }
 `;
-// Objective arrow (shaft + head, pointing up = straight ahead), the HOME house, and the rotate-your-phone picture.
-const ARROW_SVG = `<svg viewBox="-16 -16 32 32" aria-hidden="true"><path d="M0-14 12 0H4.5v13h-9V0H-12z"/></svg>`;
+// The HOME house and the rotate-your-phone picture.
 const HOUSE_SVG = `<svg viewBox="-12 -12 24 24" aria-hidden="true"><path d="M0-10 10-1H7v10H-7V-1h-3z"/></svg>`;
 const ROTATE_SVG = `<svg viewBox="0 0 96 96" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="4"><rect x="34" y="14" width="28" height="48" rx="4"/><rect x="22" y="56" width="52" height="28" rx="4" stroke-dasharray="6 5"/><path d="M76 30a26 26 0 0 1-6 28m0 0 1-11m-1 11-10-3"/></svg>`;
 
@@ -123,6 +114,7 @@ interface Ev { kind: string; text: string; x?: number; z?: number; n?: number }
 const HINTS = {
   full: "Hold full — go home", bank: "Banked! Pick a perk", ring: "Stay inside to claim it",
   fire: "Shooting shows you on the big screen", hull: "Run home — you'll drop your loot", build: "BUILD: plant a station here",
+  gap: "Build outside the dashed line",
 };
 const TAU = Math.PI * 2;
 const wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
@@ -164,15 +156,12 @@ export function start(app: HTMLElement, code: string) {
   // One 10-step bar is both race and XP: each step is a level (target / LEVELS banked); the white tick is the leader.
   const myChip = el("span", { className: "chip" }), lvl = el("span", { className: "lvl", textContent: "Level 0" }), xpFill = el("i"), raceLead = el("u", { className: "hidden" });
   const lvrow = el("div", { className: "lvrow" }, myChip, lvl, el("div", { className: "trk" }, xpFill, raceLead));
-  const obj = el("div", { className: "obj blk hidden", innerHTML: ARROW_SVG }), objT = el("span", { className: "t" }), objD = el("span", { className: "d" });
-  obj.append(objT, objD);
-  const objSvg = obj.firstElementChild as SVGElement;
   // One status at a time as a 10-step strip: build, ring claim, shield, or the HP of what you're shooting.
   const steps = el("div", { className: "steps" }, ...Array.from({ length: 10 }, () => el("i")));
   const tmrT = el("span"), tmr = el("div", { className: "tmr blk hidden" }, tmrT, steps);
   const radar = el("canvas", { className: "radar", width: 140, height: 140 });
   const ticker = el("div", { className: "bc blk" });
-  const fireB = el("button", { className: "fire", textContent: "Fire" }), boostB = el("button", { className: "boost" }, el("span", { textContent: "Boost" })), buildB = el("button", { className: "build hidden", textContent: "Build" });
+  const fireB = el("button", { className: "fire", textContent: "Fire" }), boostB = el("button", { className: "boost" }, el("span", { textContent: "Dash" })), buildB = el("button", { className: "build hidden", textContent: "Build" });
   const toast = el("div", { className: "toast blk hidden" }), vig = el("div", { className: "vig" });
   const pop = el("div", { className: "pop" }), dirHit = el("div", { className: "dirhit" }, el("i"));
   const homeT = el("span", { textContent: "HOME" }), homeAmt = el("small");
@@ -182,7 +171,7 @@ export function start(app: HTMLElement, code: string) {
   const over = el("div", { className: "over hidden" });
   const hud = el("div", { className: "hud" }, vig, fxl, dirHit,
     el("div", { className: "tl blk" }, lvrow, hullM.row, holdM.row),
-    el("div", { className: "tc" }, obj, tmr, perks),
+    el("div", { className: "tc" }, tmr, perks),
     radar, ticker, pop, toast, over);
   const game = el("div", { className: "game hidden" }, renderer.domElement, joyZone, joyEl, hud, el("div", { className: "btns" }, buildB, boostB, fireB));
   const lost = el("div", { className: "full veil msg hidden", onclick: () => location.reload() }, el("h1", { textContent: "Tap to resume" }), el("p", { textContent: "The 3D view stopped. Your ship is still in the game." }));
@@ -206,23 +195,19 @@ export function start(app: HTMLElement, code: string) {
   // QA hook (?debug): read-only view of what this phone already knows, for scripted playtests.
   if (new URLSearchParams(location.search).has("debug")) Object.assign(window, { __gtc: { get me() { return me; }, get pub() { return pub; }, get h() { return localH; }, get ents() { return [...(frames.at(-1)?.ents.values() ?? [])]; }, get info() { return { ...renderer.info.render, ...renderer.info.memory, programs: renderer.info.programs?.length }; } } });
 
-  /** First-time hints take over the instruction banner for 4 s, so there is still only one sentence on screen. */
-  let hintUntil = 0;
+  /** First-time hints show once, as a 4 s toast. */
   function showHint(k: keyof typeof HINTS) {
     if (seen.includes(k)) return;
     seen.push(k);
     store.set("gtc:hints", seen);
-    objT.textContent = HINTS[k];
-    obj.classList.add("hint");
-    obj.classList.remove("hidden");
-    hintUntil = performance.now() + 4000;
+    say(HINTS[k], 4000);
   }
   let toastT = 0;
-  function say(text: string) {
+  function say(text: string, ms = 1800) {
     toast.textContent = text;
     toast.classList.remove("hidden");
     clearTimeout(toastT);
-    toastT = setTimeout(() => toast.classList.add("hidden"), 1800);
+    toastT = setTimeout(() => toast.classList.add("hidden"), ms);
   }
   function popup(e: HTMLElement, text: string) {
     e.textContent = text;
@@ -297,8 +282,8 @@ export function start(app: HTMLElement, code: string) {
   rimLight.position.set(-0.5, 0.25, -0.8);
   scene.add(sun, rimLight);
   const backdrop = M.backdrop(), dust = M.dust();
-  const lootMesh = M.loot(800), lootHalo = M.halos(800, M.LOOT_C, 30), bolts = M.bolts(500), vault = M.vault(), crown = M.crown(), arrow3 = M.arrow();
-  scene.add(backdrop, dust.obj, lootMesh, lootHalo, bolts.sleeve, bolts.core, vault, crown, arrow3.obj);
+  const lootMesh = M.loot(800), lootHalo = M.halos(800, M.LOOT_C, 30), bolts = M.bolts(500), vault = M.vault(), crown = M.crown(), noBuild = M.noBuild();
+  scene.add(backdrop, dust.obj, lootMesh, lootHalo, bolts.sleeve, bolts.core, vault, crown, noBuild);
   const fx = M.effects(scene);
   const vaultA = vault.getObjectByName("a")!, vaultB = vault.getObjectByName("b")!, vaultCage = vault.getObjectByName("cage")!, vaultOrbit = vault.getObjectByName("orbit")!, vaultCore = vault.getObjectByName("core")!;
   const myShip = M.ship("#ffffff");
@@ -382,9 +367,13 @@ export function start(app: HTMLElement, code: string) {
     startPlaying();
     if (syncH || (wasDead && me.state === "alive")) [localH, syncH] = [me.h, false];
     wasDead = me.state === "dead";
-    // Ships that vanish deep inside sensor range just died.
-    const last = frames.at(-2);
-    if (last && prev) for (const e of last.ents.values()) if (e[1] === K.SHIP && !frames.at(-1)!.ents.has(e[0]) && Math.hypot(e[2] - me.x, e[3] - me.z) < 380) boom(colorOf(e[5]), e[2], e[3]);
+    // Ships that vanish deep inside sensor range just died (a dash can carry one out from closer than sensors − boostDist).
+    const last = frames.at(-2), cur = frames.at(-1)!;
+    if (last && prev) for (const e of last.ents.values()) if (e[1] === K.SHIP && !cur.ents.has(e[0]) && Math.hypot(e[2] - me.x, e[3] - me.z) < BASE.sensors - BASE.boostDist - 30) boom(colorOf(e[5]), e[2], e[3]);
+    // Dashes: the BOOST flag rises on the snapshot that carries the hop; trail it once the 100 ms-late render gets there.
+    const dash = (x0: number, z0: number, x1: number, z1: number, h: number, c: string) => setTimeout(() => fx.afterimage(x0, z0, x1, z1, h, c), 100);
+    if (last) for (const e of cur.ents.values()) { const o = last.ents.get(e[0]); if (e[1] === K.SHIP && o && e[6] & F.BOOST && !(o[6] & F.BOOST)) dash(o[2], o[3], e[2], e[3], e[4], colorOf(e[5])); }
+    if (prev && me.boost && !prev.boost) dash(prev.x, prev.z, me.x, me.z, localH, myShip.color);
     if (prev) {
       if (me.state === "alive" && prev.state === "alive" && me.held > prev.held) pickup(me.held - prev.held);
       if (me.score > prev.score) replay(lvrow, "punch"); // ring and station income lands here too
@@ -478,27 +467,9 @@ export function start(app: HTMLElement, code: string) {
     xpFill.style.width = `${Math.min(100, (100 * me.score) / target)}%`;
     raceLead.style.left = `calc(${Math.min(100, (100 * lead) / target)}% - 3px)`;
     raceLead.classList.toggle("hidden", lead <= me.score);
-    // One instruction at a time. objective() adds the arrow and distance; a first-time hint takes the banner for 4 s.
     const vaultE = s.ents.find((e) => e[1] === K.VAULT && Math.hypot(e[2] - me.x, e[3] - me.z) < 420);
     const stn = s.ents.find((e) => e[1] === K.STATION && e[5] !== pid && Math.hypot(e[2] - me.x, e[3] - me.z) < 360);
     const inRing = me.ring && me.ring[0] !== pid;
-    const instr =
-      me.state !== "alive" ? "" :
-      me.build >= 0 ? "Hold still — building" :
-      inRing && me.ring![2] ? "Ring contested" :
-      inRing && me.shield > 0 ? "Shielded: can't claim rings" :
-      inRing ? "Stay in the ring" :
-      me.offer ? `Level up: pick a perk${me.picks > 1 ? ` (${me.picks} waiting)` : ""}` :
-      me.crown ? "Fly home with the Crown" :
-      me.held >= me.hold ? "Hold full — fly home" :
-      me.held >= me.hold / 2 ? `Fly home to bank +${me.held}` :
-      me.held ? "Grab more, or bank at home" : "Fly to the glowing loot";
-    if (performance.now() > hintUntil) {
-      obj.classList.remove("hint");
-      obj.classList.toggle("ask", instr.startsWith("Level up")); // the perk pick owns the banner; no arrow or distance
-      objT.textContent = instr;
-      obj.classList.toggle("hidden", !instr);
-    }
     // One status strip: build > ring claim > shield > the HP of what you're near
     if (me.shield > shieldMax || (me.shield > 0 && lastShield === 0)) shieldMax = me.shield;
     lastShield = me.shield;
@@ -507,7 +478,8 @@ export function start(app: HTMLElement, code: string) {
       me.state !== "alive" ? null :
       me.build >= 0 ? ["Building", me.build] :
       claim >= 0 ? ["Claiming ring", claim] :
-      me.shield > 0 ? [`Shield ${Math.floor(Math.ceil(me.shield) / 60)}:${String(Math.ceil(me.shield) % 60).padStart(2, "0")} · firing drops it`, me.shield / shieldMax] :
+      inRing && me.ring![2] ? ["Ring contested", me.ring![1]] :
+      me.shield > 0 ? [`Shield ${Math.floor(Math.ceil(me.shield) / 60)}:${String(Math.ceil(me.shield) % 60).padStart(2, "0")} · ${inRing ? "can't claim rings" : "firing drops it"}`, me.shield / shieldMax] :
       stn ? [`Station ${stn[6]} HP · shoot to steal`, Math.min(1, stn[6] / BASE.stationHp)] :
       vaultE ? [`Vault ${vaultE[6]}/${T.VAULT_HP} · shoot to crack`, vaultE[6] / T.VAULT_HP] : null;
     tmr.classList.toggle("hidden", !st || !!me.offer);
@@ -518,7 +490,16 @@ export function start(app: HTMLElement, code: string) {
     }
     // The ring we're claiming fills at 10 Hz (the public view only updates at 1 Hz).
     if (me.ring && me.ring[1] > 0) for (const r of rings.values()) if (Math.hypot(r.obj.position.x - me.x, r.obj.position.z - me.z) <= T.RING_R + 1) r.setProg(me.ring[1], colorOf(pid));
-    buildB.classList.toggle("on", !!me.canBuild);
+    // BUILD shows only where it works. Where it doesn't, and only the gap is why, dash the edge you must clear.
+    buildB.classList.toggle("hidden", !me.canBuild);
+    let gap: number[] | null = null, gd = T.STATION_GAP;
+    if (pub && seen.includes("build") && me.state === "alive" && me.build < 0 && !me.canBuild && pub.stations.filter((st) => st[3] === pid).length < T.STATION_MAX)
+      for (const xz of [[0, 0], ...pub.players.map((q) => [q[6], q[7]]), ...pub.rings.map((r) => [r[1], r[2]]), ...pub.stations.map((st) => [st[1], st[2]])]) {
+        const d = Math.hypot(xz[0] - me.x, xz[1] - me.z);
+        if (d < gd) [gap, gd] = [xz, d];
+      }
+    noBuild.visible = !!gap;
+    if (gap) { noBuild.position.x = gap[0]; noBuild.position.z = gap[1]; showHint("gap"); }
     if (me.boostCd > boostMax || me.boostCd === 0) boostMax = Math.max(me.boostCd, 0.1);
     boostB.style.setProperty("--p", `${me.boostCd > 0 ? Math.floor(10 - (10 * me.boostCd) / boostMax) * 10 : 100}%`);
     // Destroyed / stasis card
@@ -541,8 +522,7 @@ export function start(app: HTMLElement, code: string) {
     if (me.held >= me.hold) showHint("full");
     if (me.ring) showHint("ring");
     if (me.state === "alive" && me.hp < me.hpMax * 0.3) showHint("hull");
-    if (me.canBuild && me.level > 0) showHint("build");
-    buildB.classList.toggle("hidden", !seen.includes("build")); // BUILD arrives with its hint, then stays
+    if (me.canBuild) showHint("build");
     drawRadar(me, s);
   }
 
@@ -664,17 +644,28 @@ export function start(app: HTMLElement, code: string) {
   // Cancelling touchend stops it; the perk cards are the only clicks in the game layer.
   game.addEventListener("touchend", (e) => (e.target as Element).closest(".perks") || e.preventDefault(), { passive: false });
   press(fireB, () => { firing = true; showHint("fire"); }, () => (firing = false));
-  press(boostB, () => send({ t: "act", a: "boost" }));
+  press(boostB, dash);
   press(buildB, () => send({ t: "act", a: "build" }));
-  // Keyboard for laptop testing: arrows/WASD, space fire, shift boost, B build, 1/2 perks.
+  // Keyboard for laptop testing: arrows/WASD, space fire, shift dash, B build, 1/2 perks.
   const keys = new Set<string>();
   addEventListener("keydown", (e) => {
     keys.add(e.code);
-    if (e.code === "ShiftLeft") send({ t: "act", a: "boost" });
+    if (e.code === "ShiftLeft") dash();
     if (e.code === "KeyB") send({ t: "act", a: "build" });
     if (e.code === "Digit1" || e.code === "Digit2") send({ t: "act", a: "perk", k: e.code === "Digit1" ? 0 : 1 });
   });
   addEventListener("keyup", (e) => keys.delete(e.code));
+  /** [right, up] in −1..1: the joystick, else arrows/WASD. */
+  function stick() {
+    if (joy.id !== null) return [joy.x, joy.y];
+    const k = (a: string, b: string) => (keys.has(a) || keys.has(b) ? 1 : 0);
+    return [k("ArrowRight", "KeyD") - k("ArrowLeft", "KeyA"), k("ArrowUp", "KeyW") - k("ArrowDown", "KeyS")];
+  }
+  /** Dash where the stick points (up = the nose, as the chase camera shows it); an idle stick dashes straight ahead. */
+  function dash() {
+    const [x, y] = stick();
+    send({ t: "act", a: "boost", h: +(localH + (x || y ? Math.atan2(x, y) : 0)).toFixed(3) });
+  }
 
   // ---------- Render loop (30 fps cap) ----------
   const o3 = new THREE.Object3D(), col = new THREE.Color(), white = new THREE.Color("#ffffff"), camLook = new THREE.Vector3(), want = new THREE.Vector3(), v3 = new THREE.Vector3();
@@ -692,9 +683,7 @@ export function start(app: HTMLElement, code: string) {
     if (now - lastT < 32 || !playing) return;
     const dt = Math.min(0.1, (now - lastT) / 1000);
     lastT = now;
-    const kx = (keys.has("ArrowRight") || keys.has("KeyD") ? 1 : 0) - (keys.has("ArrowLeft") || keys.has("KeyA") ? 1 : 0);
-    const ky = (keys.has("ArrowUp") || keys.has("KeyW") ? 1 : 0) - (keys.has("ArrowDown") || keys.has("KeyS") ? 1 : 0);
-    const jx = joy.id !== null ? joy.x : kx, jy = joy.id !== null ? joy.y : ky;
+    const [jx, jy] = stick();
     const fire = firing || keys.has("Space");
     // Only our own heading is predicted, at the server's turn rate.
     if (me?.state === "alive") localH = wrap(localH + jx * T.TURN * dt);
@@ -851,7 +840,7 @@ export function start(app: HTMLElement, code: string) {
     vaultCore.scale.setScalar(T.VAULT_R * (2.2 + 0.3 * Math.sin(t * 4)));
     crown.rotation.y = t * 2;
 
-    // Chase camera; trauma shake on hits, a short FOV kick on boost
+    // Chase camera; trauma shake on hits, a short FOV kick on a dash
     const fx0 = Math.cos(localH), fz0 = Math.sin(localH);
     want.set(px - fx0 * 80, 40, pz - fz0 * 80);
     if (camera.position.distanceTo(want) > 400) camera.position.copy(want);
@@ -872,7 +861,7 @@ export function start(app: HTMLElement, code: string) {
     backdrop.position.copy(camera.position);
     dust.update(camera.position.x, camera.position.z);
 
-    objective(px, pz, b, t);
+    objective(px, pz, b);
     homeMarker(px, pz);
     for (const q of nums) {
       if (q.t >= 1) continue;
@@ -885,8 +874,8 @@ export function start(app: HTMLElement, code: string) {
     renderer.render(scene, camera);
   }
 
-  /** The tutorial: loot when the hold is under half, HOME when half full or carrying the Crown. */
-  function objective(px: number, pz: number, f: Frame, t: number) {
+  /** The radar's goal ring: loot when the hold is under half, HOME when half full or carrying the Crown. */
+  function objective(px: number, pz: number, f: Frame) {
     let best: [number, number] | null = null, bd = Infinity, home = false;
     const near = (x: number, z: number) => { const d = Math.hypot(x - px, z - pz); if (d < bd) [best, bd] = [[x, z], d]; };
     if (me && pub && me.state === "alive") {
@@ -899,33 +888,17 @@ export function start(app: HTMLElement, code: string) {
         if (!best) for (const fl of pub.fields) near(fl[1], fl[2]);
       }
     }
-    arrow3.obj.visible = !!best && bd > 60;
-    radarGoal = null;
-    obj.classList.toggle("loot", !!best && !home);
-    obj.classList.toggle("home", !!best && home);
-    objSvg.style.display = best ? "" : "none";
-    if (!best) return void (objD.textContent = "");
-    const [x, z] = best as [number, number], ang = Math.atan2(z - pz, x - px), c = home ? M.GOLD_C : M.LOOT_C;
-    radarGoal = [x, z, c];
-    // The 3D arrow hovers over the ship and points where you'd fly; it nudges toward the target to show motion.
-    const rel = wrap(ang - localH), nudge = 4 + Math.sin(t * 5) * 4;
-    arrow3.setColor(c);
-    arrow3.obj.position.set(px, 18, pz);
-    arrow3.obj.rotation.y = -localH;
-    arrow3.mesh.rotation.y = -rel;
-    arrow3.mesh.position.set(Math.cos(rel) * nudge, 0, Math.sin(rel) * nudge);
-    objSvg.style.transform = `rotate(${wrap(ang - localH)}rad)`;
-    objD.textContent = `${Math.round(bd)}`;
+    radarGoal = best ? [...(best as [number, number]), home ? M.GOLD_C : M.LOOT_C] : null;
   }
 
-  /** HOME tag over your HQ while it's on screen. Off screen, the radar rim and the objective arrow already point home. */
+  /** HOME tag over your HQ while it's on screen. Off screen, the radar rim already points home. */
   function homeMarker(px: number, pz: number) {
     const q = playerOf(id?.pid ?? 0);
     const p = q && me && me.state !== "dead" && Math.hypot(q[6] - px, q[7] - pz) >= T.HQ_R ? screen(q[6], 50, q[7]) : null;
     const on = !!p && p[0] > 30 && p[0] < innerWidth - 30 && p[1] > 30 && p[1] < innerHeight - 30;
     homeMk.classList.toggle("hidden", !on);
     if (!p || !on) return;
-    homeAmt.textContent = me!.held || me!.crown ? `+${me!.held}${me!.crown ? " + Crown" : ""}` : "";
+    homeAmt.textContent = [me!.held && `+${me!.held}`, me!.crown && "+ Crown"].filter(Boolean).join(" ");
     homeMk.style.transform = `translate(${p[0]}px, ${p[1]}px) translate(-50%, -11px)`;
   }
 }

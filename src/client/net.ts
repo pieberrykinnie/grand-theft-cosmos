@@ -64,7 +64,7 @@ export function downBanner(el: HTMLElement) {
   };
 }
 
-/** A landscape phone: joystick ring on the left, BUILD / BOOST / FIRE on the right. */
+/** A landscape phone: joystick ring on the left, BUILD / DASH / FIRE on the right. */
 const CONTROLS_SVG = `<svg viewBox="0 0 64 32" aria-hidden="true"><rect x="1" y="1" width="62" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="17" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="17" r="2.5" fill="currentColor"/><circle cx="51" cy="20" r="6.5" fill="#d7261e"/><circle cx="40" cy="23" r="3.5" fill="currentColor"/><circle cx="40" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>`;
 
 export const rulesCard = (target: number) => `
@@ -72,7 +72,7 @@ export const rulesCard = (target: number) => `
 <li><b>Grab loot, bring it home.</b> First to ${target.toLocaleString()} wins.</li>
 <li><b>Shoot ships</b> to make them drop their loot.</li>
 <li><b>Own rings and stations.</b> They pay you over time.</li>
-</ul><div class="ctl">${CONTROLS_SVG}<span>Left thumb steers · right thumb: FIRE, BOOST, BUILD</span></div></div>`;
+</ul><div class="ctl">${CONTROLS_SVG}<span>Left thumb steers · right thumb: FIRE, DASH, BUILD</span></div></div>`;
 
 /** Result headline and reason, shared by the Scanner and the phones. A game ended before anyone banks ties everyone. */
 export function resultCopy(names: string[], reason: string): [string, string] {

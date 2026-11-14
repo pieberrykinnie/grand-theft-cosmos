@@ -12,7 +12,7 @@ const PIN = new Path2D("M0 0C-4-8-14-12-14-24a14 14 0 1 1 28 0C14-12 4-8 0 0z");
 const CROWN = new Path2D("M-13 7h26l3-17-9 7-7-11-7 11-9-7z");
 /** Headline per ping kind. The owner of hit/death pings is the victim. */
 const ACT: Record<string, string> = {
-  fire: "Shots fired", hit: "Ship under fire", death: "Ship down", boost: "Boost spotted",
+  fire: "Shots fired", hit: "Ship under fire", death: "Ship down", boost: "Dash spotted",
   bank: "Loot banked", build: "Station going up", vault: "Vault under attack", capture: "Territory taken",
 };
 const LEGEND = [

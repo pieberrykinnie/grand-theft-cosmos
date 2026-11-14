@@ -367,30 +367,13 @@ export function crown() {
   return g;
 }
 
-// ---------- The objective arrow ----------
-/**
- * A thick 3D arrow (shaft + head) hovering over your ship. obj yaws with the ship; its card is tilted toward the
- * chase camera (a flat arrow seen at the camera's ~15° would be a sliver); mesh yaws within the card to the target.
- */
-export function arrow() {
-  const mat = new THREE.MeshLambertMaterial({ color: GOLD_C, emissive: new THREE.Color(GOLD_C).multiplyScalar(0.6), flatShading: true });
-  const mesh = new THREE.Mesh(slab([-11, -3.2, 2, -3.2, 2, -9, 15, 0, 2, 9, 2, 3.2, -11, 3.2], 3, 0.9), mat);
-  const halo = glow(GOLD_C, 40);
-  halo.material.opacity = 0.3;
-  const card = new THREE.Group().add(mesh, halo);
-  card.rotation.z = 0.7;
-  card.scale.setScalar(0.8);
-  const obj = new THREE.Group().add(card);
-  return {
-    obj, mesh,
-    setColor(c: string) {
-      if (mat.userData.c === c) return;
-      mat.userData.c = c;
-      mat.color.set(c);
-      mat.emissive.set(c).multiplyScalar(0.6);
-      halo.material.color.set(c);
-    },
-  };
+// ---------- The no-build line ----------
+/** 40 white dashes at STATION_GAP: placed on the structure that's stopping you building. */
+export function noBuild() {
+  const m = new THREE.Mesh(merge(around(40, (a) => flat(new THREE.RingGeometry(T.STATION_GAP - 4, T.STATION_GAP, 3, 1, a, TAU / 80)))), unlit("#f4f4f0", 0.5, true));
+  m.position.y = -8.5;
+  m.visible = false;
+  return m;
 }
 
 // ---------- World and backdrop ----------
@@ -509,8 +492,14 @@ export function effects(scene: THREE.Scene) {
   crystals.frustumCulled = false;
   scene.add(crystals);
   const flights: { fx: number; fz: number; tx: number; tz: number; t: number }[] = [];
+  const ghosts = Array.from({ length: 16 }, () => {
+    const m = new THREE.Mesh(SHIP_GEO, unlit("#ffffff", 0.5, true));
+    m.visible = false;
+    scene.add(m);
+    return { m, t: 0, d: 1 };
+  });
   const o = new THREE.Object3D();
-  let ri = 0, fi = 0;
+  let ri = 0, fi = 0, gi = 0;
 
   return {
     /** n sparks from (x, y, z), flying out at up to `speed`, fading over `dur` seconds. */
@@ -545,7 +534,24 @@ export function effects(scene: THREE.Scene) {
     bankFlight(fx: number, fz: number, tx: number, tz: number, n: number) {
       for (let k = 0; k < n && flights.length < 24; k++) flights.push({ fx: fx + (Math.random() - 0.5) * 16, fz: fz + (Math.random() - 0.5) * 16, tx, tz, t: -k * 0.05 });
     },
+    /** Dash afterimages: ship-shaped ghosts along (x0, z0) → (x1, z1) facing h; the oldest, at the start, fade first. */
+    afterimage(x0: number, z0: number, x1: number, z1: number, h: number, color: string) {
+      for (let k = 0; k < 4; k++) {
+        const g = ghosts[gi++ % ghosts.length];
+        (g.m.material as THREE.MeshBasicMaterial).color.set(color);
+        g.m.position.set(x0 + ((x1 - x0) * k) / 4, 0, z0 + ((z1 - z0) * k) / 4);
+        g.m.rotation.y = -h;
+        Object.assign(g, { t: 0, d: 0.25 + 0.1 * k });
+        g.m.visible = true;
+      }
+    },
     tick(dt: number) {
+      for (const g of ghosts) {
+        if (!g.m.visible) continue;
+        g.t += dt;
+        (g.m.material as THREE.MeshBasicMaterial).opacity = 0.5 * Math.max(0, 1 - g.t / g.d);
+        g.m.visible = g.t < g.d;
+      }
       if (live) {
         live = 0;
         for (let i = 0; i < N; i++) {

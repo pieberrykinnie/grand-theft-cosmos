@@ -1,17 +1,17 @@
 import { T } from "./tuning";
 
-export const PROTOCOL_VERSION = 2; // 2: `ev` carries x/z/n (hit markers, hit direction)
+export const PROTOCOL_VERSION = 3; // 2: `ev` carries x/z/n (hit markers, hit direction); 3: boost is a dash toward `h`
 
 // Entity kinds in `s.ents`: [id, kind, x, z, h, owner, aux]
 export const K = { SHIP: 0, BOLT: 1, LOOT: 2, STATION: 3, VAULT: 4 } as const;
-// Ship aux bits (low 4 bits = glow 0..10 from loot carried)
+// Ship aux bits (low 4 bits = glow 0..10 from loot carried; BOOST = dashed within T.DASH_FX)
 export const F = { SHIELD: 16, CROWN: 32, BOOST: 64, STASIS: 128 } as const;
 
 export type ClientMsg =
   | { t: "hello"; v: number; role: "player"; name: string; pid?: number; sec?: string }
   | { t: "hello"; v: number; role: "host"; tok: string }
   | { t: "in"; h: number; th: number; f: 0 | 1 }
-  | { t: "act"; a: "boost" | "build" | "perk"; k?: 0 | 1 }
+  | { t: "act"; a: "boost" | "build" | "perk"; k?: 0 | 1; h?: number }
   | { t: "host"; a: "start" | "pause" | "resume" | "end" | "kick"; pid?: number };
 
 const num = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x);
@@ -47,7 +47,8 @@ export function parseClient(raw: unknown): ClientMsg | null {
       if (!num(m.h) || !num(m.th) || (m.f !== 0 && m.f !== 1)) return null;
       return { t: "in", h: m.h, th: Math.min(1, Math.max(T.TH_MIN, m.th)), f: m.f };
     case "act":
-      if (m.a === "boost" || m.a === "build") return { t: "act", a: m.a };
+      if (m.a === "boost" && (m.h === undefined || num(m.h))) return { t: "act", a: "boost", h: m.h };
+      if (m.a === "build") return { t: "act", a: "build" };
       if (m.a === "perk" && (m.k === 0 || m.k === 1)) return { t: "act", a: "perk", k: m.k };
       return null;
     case "host":
