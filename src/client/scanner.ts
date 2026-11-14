@@ -4,6 +4,7 @@ import { PROTOCOL_VERSION } from "../shared/protocol";
 import { COLORS, GLYPHS, type End, type Pub } from "../shared/sim";
 import { SECTORS, T } from "../shared/tuning";
 import { connect, crawl, downBanner, el, ranks, resultCopy, rulesCard } from "./net";
+import themeUrl from "../../assets/audio/main_theme.mp3?url"; // MP3, not WAV: Cloudflare caps each asset at 25 MiB
 
 const FONT = `"Barlow Condensed", "Arial Narrow", sans-serif`;
 const X_SVG = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="2.5"/></svg>`;
@@ -162,7 +163,10 @@ export function start(app: HTMLElement, code: string) {
   let pub: Pub | null = null, pubAt = 0;
   const conn = connect(code, () => ({ t: "hello", v: PROTOCOL_VERSION, role: "host", tok }), onMsg, downBanner(down));
   const host = (a: string, pid?: number) => conn.send({ t: "host", a, pid });
-  startBtn.onclick = () => host("start");
+  const theme = new Audio(themeUrl);
+  theme.loop = true;
+  // play() inside the click satisfies every browser's autoplay rule; sidebar() restarts it after a mid-game reload where allowed.
+  startBtn.onclick = () => { theme.play().catch(() => {}); host("start"); };
   pauseBtn.onclick = () => host(pub?.st === "paused" ? "resume" : "pause");
   // Two-step confirm in the page: browsers may suppress native confirm() and return false without asking.
   let armed = "", armedT = 0;
@@ -225,6 +229,7 @@ export function start(app: HTMLElement, code: string) {
       preRules.innerHTML = rulesCard(p.target);
     }
     lobby.classList.toggle("hidden", p.st !== "lobby");
+    if (p.st === "play" && theme.paused) theme.play().catch(() => {});
     hush.classList.toggle("hidden", p.st !== "paused");
     pauseBtn.textContent = p.st === "paused" ? "Resume" : "Pause";
     const n = p.players.length;
